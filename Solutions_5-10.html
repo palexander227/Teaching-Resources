@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Advanced Precalculus – Solutions to Problems 5–10</title>
+
+  <!-- MathJax -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$']]
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    body {
+      font-family: Georgia, "Times New Roman", serif;
+      line-height: 1.6;
+      margin: 40px;
+      max-width: 900px;
+    }
+    h1, h2, h3 {
+      margin-top: 1.5em;
+    }
+    .problem {
+      margin-top: 2em;
+    }
+    .boxed {
+      border: 1px solid #000;
+      padding: 10px;
+      margin: 15px 0;
+      display: inline-block;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>Advanced Precalculus<br>Solutions to Problems 5–10</h1>
+
+<hr>
+
+<div class="problem">
+<h2>Problem 5</h2>
+
+<p>
+Let $f$ be a polynomial satisfying
+$$
+f(1)=2,\quad f(2)=5,\quad f(4)=17.
+$$
+When $f(x)$ is divided by $(x-1)(x-2)(x-4)$, the remainder is
+$$
+R(x)=ax^2+bx+c.
+$$
+</p>
+
+<h3>(a) Determine $R(x)$</h3>
+
+<p>
+By the Remainder Theorem,
+$$
+R(1)=2,\quad R(2)=5,\quad R(4)=17.
+$$
+Thus:
+$$
+\begin{cases}
+a+b+c=2\\
+4a+2b+c=5\\
+16a+4b+c=17
+\end{cases}
+$$
+Subtracting gives:
+$$
+3a+b=3,\quad 6a+b=6.
+$$
+Hence $a=1$, $b=0$, $c=1$.
+</p>
+
+<div class="boxed">
+$$
+R(x)=x^2+1
+$$
+</div>
+
+<h3>(b) Why the result does not depend on the degree of $f$</h3>
+
+<p>
+The remainder depends only on the values of $f$ at the roots of the divisor.
+Any higher-degree terms are absorbed into the quotient and vanish at
+$x=1,2,4$.
+</p>
+
+<h3>(c) Compute $R'(2)$</h3>
+
+<p>
+$$
+R'(x)=2x \quad\Rightarrow\quad R'(2)=4.
+$$
+</p>
+</div>
+
+<hr>
+
+<div class="problem">
+<h2>Problem 6</h2>
+
+<p>
+Let
+$$
+F(x)=\sqrt{x^2+ax+b}-\sqrt{x^2+cx+d}.
+$$
+</p>
+
+<h3>(a) Existence of $\displaystyle\lim_{x\to+\infty}F(x)$</h3>
+
+<p>
+As $x\to+\infty$,
+$$
+\sqrt{x^2+ax+b}
+= x\sqrt{1+\frac{a}{x}+\frac{b}{x^2}}
+= x+\frac{a}{2}+O\!\left(\frac1x\right),
+$$
+$$
+\sqrt{x^2+cx+d}
+= x+\frac{c}{2}+O\!\left(\frac1x\right).
+$$
+Thus the limit always exists.
+</p>
+
+<h3>(b) Value of the limit as $x\to+\infty$</h3>
+
+<div class="boxed">
+$$
+\lim_{x\to+\infty}F(x)=\frac{a-c}{2}.
+$$
+</div>
+
+<h3>(c) Behavior as $x\to-\infty$</h3>
+
+<p>
+Since $\sqrt{x^2}=|x|$,
+$$
+\sqrt{x^2+ax+b}=-x-\frac{a}{2}+O\!\left(\frac1x\right),
+$$
+$$
+\sqrt{x^2+cx+d}=-x-\frac{c}{2}+O\!\left(\frac1x\right).
+$$
+</p>
+
+<div class="boxed">
+$$
+\lim_{x\to-\infty}F(x)=\frac{c-a}{2}.
+$$
+</div>
+
+<p>
+The limits differ because $|x|=x$ for $x\to+\infty$ but $|x|=-x$ for
+$x\to-\infty$.
+</p>
+</div>
+
+<hr>
+
+<div class="problem">
+<h2>Problem 7</h2>
+
+<p>
+Suppose $f$ is a polynomial such that
+$$
+\lim_{x\to3}\frac{f(x)}{(x-3)^2}=7.
+$$
+</p>
+
+<h3>(a) Multiplicity</h3>
+
+<p>
+The finiteness of the limit implies
+$$
+f(x)=(x-3)^2g(x),
+$$
+with $g(3)=7\neq0$.
+Thus $x=3$ is a root of multiplicity at least $2$.
+</p>
+
+<h3>(b) Limit involving $f'(x)$</h3>
+
+<p>
+Differentiate:
+$$
+f'(x)=2(x-3)g(x)+(x-3)^2g'(x).
+$$
+Divide by $(x-3)$ and take the limit:
+</p>
+
+<div class="boxed">
+$$
+\lim_{x\to3}\frac{f'(x)}{x-3}=2g(3)=14.
+$$
+</div>
+
+<h3>(c) Why this is algebraic</h3>
+
+<p>
+All conclusions follow from polynomial factorization and differentiation,
+not analytic assumptions.
+</p>
+</div>
+
+<hr>
+
+<div class="problem">
+<h2>Problem 9</h2>
+
+<p>
+Let
+$$
+g(x)=\sqrt{x^2+ax},\qquad h(x)=|x|+\frac{a}{2}.
+$$
+</p>
+
+<h3>(a) Limits of $g(x)-h(x)$</h3>
+
+<p>
+As $x\to+\infty$,
+$$
+g(x)=x+\frac{a}{2}+O\!\left(\frac1x\right),
+$$
+so
+</p>
+
+<div class="boxed">
+$$
+\lim_{x\to+\infty}(g(x)-h(x))=0.
+$$
+</div>
+
+<p>
+As $x\to-\infty$,
+$$
+g(x)=-x-\frac{a}{2}+O\!\left(\frac1x\right),
+$$
+so
+</p>
+
+<div class="boxed">
+$$
+\lim_{x\to-\infty}(g(x)-h(x))=-a.
+$$
+</div>
+
+<h3>(b) Dominant behavior</h3>
+
+<p>
+$h(x)$ captures the leading $|x|$ growth of $g(x)$, but only matches the full
+asymptotic expansion on the right unless $a=0$.
+</p>
+
+<h3>(c) Geometry</h3>
+
+<p>
+$g(x)$ has asymptotes
+$$
+y=x+\frac{a}{2}\quad(x\to+\infty),\qquad
+y=-x-\frac{a}{2}\quad(x\to-\infty),
+$$
+while $h(x)$ shifts the left arm upward by $a$.
+</p>
+</div>
+
+<hr>
+
+<div class="problem">
+<h2>Problem 10</h2>
+
+<p>
+Let $f$ be a polynomial such that
+$$
+\lim_{x\to a}\frac{f(x)}{(x-a)^n}=L,
+\quad L\neq0.
+$$
+</p>
+
+<h3>(a) Exact multiplicity — fully linearized proof</h3>
+
+<p>
+Since the limit exists and is finite, the quotient is bounded near $a$:
+there exist $M>0$ and $\delta>0$ such that
+$$
+0<|x-a|<\delta
+\;\Rightarrow\;
+\left|\frac{f(x)}{(x-a)^n}\right|\le M.
+$$
+</p>
+
+<p>
+Rewrite:
+$$
+f(x)=\left(\frac{f(x)}{(x-a)^n}\right)(x-a)^n.
+$$
+Thus,
+$$
+|f(x)|\le M|x-a|^n.
+$$
+</p>
+
+<p>
+Since $|x-a|^n\to0$, the Squeeze Theorem gives
+$$
+\lim_{x\to a}f(x)=0.
+$$
+By continuity of polynomials, $f(a)=0$.
+</p>
+
+<p>
+If the multiplicity were less than $n$, the quotient would diverge.
+If the multiplicity were greater than $n$, the quotient would tend to $0$.
+Both contradict the hypothesis.
+</p>
+
+<div class="boxed">
+$$
+f(x)=(x-a)^n g(x),\quad g(a)=L\neq0.
+$$
+</div>
+
+<h3>(b) Relation to the Factor Theorem</h3>
+
+<p>
+This is the $n$th-order version of the Factor Theorem, recovered when $n=1$.
+</p>
+
+<h3>(c) Local shape</h3>
+
+<p>
+Near $x=a$,
+$$
+f(x)\approx L(x-a)^n.
+$$
+Parity of $n$ determines crossing vs. touching, and the sign of $L$ determines
+orientation.
+</p>
+
+</div>
+
+</body>
+</html>
