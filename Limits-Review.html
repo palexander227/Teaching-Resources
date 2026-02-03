@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Unit Review: Limits</title>
+
+  <!-- MathJax -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$']]
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    body {
+      font-family: Georgia, "Times New Roman", serif;
+      max-width: 900px;
+      margin: 40px auto;
+      line-height: 1.6;
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    .problem {
+      margin-top: 40px;
+    }
+    .problem p {
+      margin: 12px 0;
+    }
+    .mathblock {
+      margin-left: 30px;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>Unit Review: Limits</h1>
+
+<div class="problem">
+  <h2>Problem 1. Algebraic Limits</h2>
+
+  <p>Evaluate each of the following limits, if they exist.</p>
+
+  <div class="mathblock">
+    $$\text{(i)}\quad \lim_{x \to 1} \frac{x^2 - 1}{x + 1}$$
+    $$\text{(ii)}\quad \lim_{x \to 2} \frac{x^3 - 8}{x - 2}$$
+    $$\text{(iii)}\quad \lim_{x \to 3} \frac{x^3 - 8}{x - 2}$$
+    $$\text{(iv)}\quad \lim_{x \to y} \frac{x^n - y^n}{x - y}$$
+    $$\text{(v)}\quad \lim_{y \to x} \frac{x^n - y^n}{x - y}$$
+    $$\text{(vi)}\quad \lim_{h \to 0} \frac{\sqrt{a+h} - \sqrt{a}}{h}$$
+  </div>
+</div>
+
+<div class="problem">
+  <h2>Problem 2. Limits and the Difference Quotient</h2>
+
+  <p>Let $f(x) = x^{2/3}$. Recall that the derivative of $f$ at $a$ may be defined by</p>
+
+  $$f'(a) = \lim_{x \to a} \frac{f(x)-f(a)}{x-a}.$$
+
+  <p>
+    (a) Find $f'(8)$.  
+    <br>
+    (b) Find $f'(a)$, where $a$ is any nonzero real number.
+  </p>
+</div>
+
+<div class="problem">
+  <h2>Problem 3. Radical Limits</h2>
+
+  <p>Find the following limits, if they exist.</p>
+
+  <div class="mathblock">
+    $$\text{(i)}\quad \lim_{x \to 1} \frac{1-\sqrt{x}}{1-x}$$
+    $$\text{(ii)}\quad \lim_{x \to 0} \frac{1-\sqrt{1-x^2}}{x}$$
+    $$\text{(iii)}\quad \lim_{x \to 0} \frac{1-\sqrt{1-x^2}}{x^2}$$
+  </div>
+</div>
+
+<div class="problem">
+  <h2>Problem 4. Trigonometric Limits</h2>
+
+  <div class="mathblock">
+    $$\text{(i)}\quad \lim_{x \to 0} \frac{\sin(2x)}{x}$$
+    $$\text{(ii)}\quad \lim_{x \to 0} \frac{\sin(ax)}{\sin(bx)}$$
+    $$\text{(iii)}\quad \lim_{x \to 0} \frac{\sin^2(2x)}{x}$$
+    $$\text{(iv)}\quad \lim_{x \to 0} \frac{\sin^2(2x)}{x^2}$$
+    $$\text{(v)}\quad \lim_{x \to 0} \frac{1-\cos x}{x^2}$$
+    $$\text{(vi)}\quad \lim_{x \to 0} \frac{\tan^2 x + 2x}{x + x^2}$$
+    $$\text{(vii)}\quad \lim_{x \to 0} \frac{x\sin x}{1-\cos x}$$
+    $$\text{(viii)}\quad \lim_{h \to 0} \frac{\sin(x+h)-\sin x}{h}$$
+    $$\text{(ix)}\quad \lim_{x \to 1} \frac{\sin(x^2-1)}{x-1}$$
+    $$\text{(x)}\quad \lim_{x \to 0} \frac{x^2(3+\sin x)}{(x+\sin x)^2}$$
+    $$\text{(xi)}\quad \lim_{x \to 1} (x^2-1)^3 \sin\!\left(\frac{1}{x-1}\right)$$
+  </div>
+</div>
+
+<div class="problem">
+  <h2>Problem 5. An Exponential Limit</h2>
+
+  <p>
+    Use the approximation $e^h \approx 1+h$ for small $h$, together with suitable algebra,
+    to evaluate
+  </p>
+
+  $$\lim_{x \to a} \frac{e^x - e^a}{x-a}.$$
+</div>
+
+<div class="problem">
+  <h2>Problem 6. Justifying the Approximation</h2>
+
+  <p>
+    Using the limit definition of the exponential function,
+    verify that
+  </p>
+
+  $$\lim_{h \to 0} \frac{e^h - 1}{h} = 1,$$
+
+  <p>
+    and explain how this justifies the approximation used in Problem 5.
+  </p>
+</div>
+
+<div class="problem">
+  <h2>Problem 7. A Geometric Limit Argument</h2>
+
+  <p>
+    Using a geometric argument involving slices of the unit circle,
+    explain heuristically why
+  </p>
+
+  $$\lim_{x \to 0} \frac{\sin x}{x} = 1.$$
+</div>
+
+<div class="problem">
+  <h2>Problem 8. Trigonometric Limits and Derivatives</h2>
+
+  <p>
+    (a) Argue why
+    $$\lim_{x \to 0} \frac{1-\cos x}{x} = 0.$$
+  </p>
+
+  <p>
+    (b) Using a limit definition of the derivative and results established earlier,
+    prove that
+    $$\frac{d}{dx}(\sin x) = \cos x.$$
+  </p>
+
+  <p>
+    (c) Derive small-angle approximations for $\sin x$ and $\cos x$.
+  </p>
+</div>
+
+<div class="problem">
+  <h2>Challenge Problem</h2>
+
+  <p>
+    Using the small-angle approximations for $\sin x$ and $\cos x$,
+    argue that
+  </p>
+
+  $$\lim_{x \to 0} \frac{x\cos x - \sin x}{x^2} = 0.$$
+</div>
+
+</body>
+</html>
