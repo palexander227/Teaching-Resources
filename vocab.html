@@ -48,8 +48,6 @@
     border-left: 5px solid #3498db;
     display: none;
   }
-  .correct { color: green; font-weight: bold; }
-  .incorrect { color: red; font-weight: bold; }
 </style>
 </head>
 
@@ -60,7 +58,8 @@
 <div class="instructions">
 <strong>Instructions:</strong> This is a diagnostic vocabulary check.
 Answer all questions, then click <em>Submit</em>.
-You will submit a screenshot showing your <strong>name, score, and timestamp</strong>.
+You will submit a screenshot showing your <strong>name, score, timestamp,</strong>
+and whether the page was left during the quiz.
 </div>
 
 <form id="quiz">
@@ -308,18 +307,26 @@ You will submit a screenshot showing your <strong>name, score, and timestamp</st
 <div id="result" class="result"></div>
 
 <script>
-/* Randomize question order */
+/* ---------- PAGE LEAVE DETECTION ---------- */
+let pageLeft = false;
+
+document.addEventListener("visibilitychange", function () {
+  if (document.hidden) {
+    pageLeft = true;
+  }
+});
+
+/* ---------- RANDOMIZE QUESTIONS ---------- */
 window.onload = function () {
   const container = document.getElementById("questionContainer");
   const questions = Array.from(container.children);
-  questions.forEach(q => container.appendChild(q));
   for (let i = questions.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     container.insertBefore(questions[j], questions[i]);
   }
 };
 
-/* Grading */
+/* ---------- GRADING ---------- */
 function gradeQuiz() {
   const name = document.getElementById("studentName").value.trim();
   if (name === "") {
@@ -339,6 +346,7 @@ function gradeQuiz() {
 
   const percent = Math.round((score / total) * 100);
   const time = new Date().toLocaleString();
+  const focusStatus = pageLeft ? "YES" : "NO";
 
   const resultDiv = document.getElementById("result");
   resultDiv.innerHTML = `
@@ -346,7 +354,8 @@ function gradeQuiz() {
     <p><strong>Name:</strong> ${name}</p>
     <p><strong>Score:</strong> ${score} / ${total} (${percent}%)</p>
     <p><strong>Submitted:</strong> ${time}</p>
-    <p><em>Please take a screenshot of this result and submit it as instructed.</em></p>
+    <p><strong>Left page during quiz:</strong> ${focusStatus}</p>
+    <p><em>Please submit a screenshot showing all information above.</em></p>
   `;
   resultDiv.style.display = "block";
 }
