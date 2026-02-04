@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Linear Algebra Vocabulary Check-In</title>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+    max-width: 900px;
+    line-height: 1.5;
+  }
+  h1, h2 {
+    color: #2c3e50;
+  }
+  .instructions {
+    background: #f4f6f8;
+    padding: 15px;
+    border-left: 5px solid #3498db;
+    margin-bottom: 30px;
+  }
+  .question {
+    margin-bottom: 22px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #ddd;
+  }
+  .choices label {
+    display: block;
+    margin: 6px 0;
+    cursor: pointer;
+  }
+  input[type="text"] {
+    padding: 6px;
+    font-size: 14px;
+    width: 320px;
+  }
+  button {
+    margin-top: 30px;
+    padding: 12px 22px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .result {
+    margin-top: 35px;
+    padding: 20px;
+    background: #eef6ff;
+    border-left: 5px solid #3498db;
+    display: none;
+  }
+  .correct { color: green; font-weight: bold; }
+  .incorrect { color: red; font-weight: bold; }
+</style>
+</head>
+
+<body>
+
+<h1>Linear Algebra Vocabulary Check-In</h1>
+
+<div class="instructions">
+<strong>Instructions:</strong> This is a diagnostic vocabulary check.
+Answer all questions, then click <em>Submit</em>.
+You will submit a screenshot showing your <strong>name, score, and timestamp</strong>.
+</div>
+
+<form id="quiz">
+
+<div class="question">
+  <label><strong>Name:</strong>
+    <input type="text" id="studentName" placeholder="First and last name" required>
+  </label>
+</div>
+
+<div id="questionContainer">
+
+<!-- ================= QUESTIONS ================= -->
+
+<div class="question">
+<p>1. A <strong>vector space</strong> is:</p>
+<div class="choices">
+<label><input type="radio" name="q1" value="0"> Any collection of vectors</label>
+<label><input type="radio" name="q1" value="1"> A set closed under addition and scalar multiplication satisfying axioms</label>
+<label><input type="radio" name="q1" value="0"> Any subset of ℝⁿ</label>
+<label><input type="radio" name="q1" value="0"> A space with a dot product</label>
+</div>
+</div>
+
+<div class="question">
+<p>2. A <strong>subspace</strong> must:</p>
+<div class="choices">
+<label><input type="radio" name="q2" value="1"> Be closed under linear combinations</label>
+<label><input type="radio" name="q2" value="0"> Be finite-dimensional</label>
+<label><input type="radio" name="q2" value="0"> Exclude the zero vector</label>
+<label><input type="radio" name="q2" value="0"> Have a basis of unit vectors</label>
+</div>
+</div>
+
+<div class="question">
+<p>3. The <strong>span</strong> of vectors is:</p>
+<div class="choices">
+<label><input type="radio" name="q3" value="1"> The smallest subspace containing them</label>
+<label><input type="radio" name="q3" value="0"> The vectors themselves</label>
+<label><input type="radio" name="q3" value="0"> A basis</label>
+<label><input type="radio" name="q3" value="0"> Always linearly independent</label>
+</div>
+</div>
+
+<div class="question">
+<p>4. A set is <strong>linearly independent</strong> if:</p>
+<div class="choices">
+<label><input type="radio" name="q4" value="1"> No vector is a linear combination of the others</label>
+<label><input type="radio" name="q4" value="0"> It spans the space</label>
+<label><input type="radio" name="q4" value="0"> All vectors are orthogonal</label>
+<label><input type="radio" name="q4" value="0"> It contains the zero vector</label>
+</div>
+</div>
+
+<div class="question">
+<p>5. A <strong>basis</strong> is:</p>
+<div class="choices">
+<label><input type="radio" name="q5" value="1"> A linearly independent spanning set</label>
+<label><input type="radio" name="q5" value="0"> Any spanning set</label>
+<label><input type="radio" name="q5" value="0"> Any independent set</label>
+<label><input type="radio" name="q5" value="0"> A maximal orthogonal set</label>
+</div>
+</div>
+
+<div class="question">
+<p>6. The <strong>dimension</strong> of a vector space is:</p>
+<div class="choices">
+<label><input type="radio" name="q6" value="1"> The number of vectors in any basis</label>
+<label><input type="radio" name="q6" value="0"> The number of vectors in the space</label>
+<label><input type="radio" name="q6" value="0"> The number of spanning vectors</label>
+<label><input type="radio" name="q6" value="0"> The size of ℝⁿ</label>
+</div>
+</div>
+
+<div class="question">
+<p>7. A <strong>linear transformation</strong> must preserve:</p>
+<div class="choices">
+<label><input type="radio" name="q7" value="1"> Addition and scalar multiplication</label>
+<label><input type="radio" name="q7" value="0"> Length and angle</label>
+<label><input type="radio" name="q7" value="0"> Orientation only</label>
+<label><input type="radio" name="q7" value="0"> Basis vectors only</label>
+</div>
+</div>
+
+<div class="question">
+<p>8. The <strong>kernel</strong> of a linear transformation consists of:</p>
+<div class="choices">
+<label><input type="radio" name="q8" value="1"> All vectors mapped to zero</label>
+<label><input type="radio" name="q8" value="0"> All outputs</label>
+<label><input type="radio" name="q8" value="0"> All eigenvectors</label>
+<label><input type="radio" name="q8" value="0"> All pivots</label>
+</div>
+</div>
+
+<div class="question">
+<p>9. The <strong>image</strong> of a linear transformation is:</p>
+<div class="choices">
+<label><input type="radio" name="q9" value="1"> The set of all outputs</label>
+<label><input type="radio" name="q9" value="0"> The domain</label>
+<label><input type="radio" name="q9" value="0"> The kernel</label>
+<label><input type="radio" name="q9" value="0"> The null space</label>
+</div>
+</div>
+
+<div class="question">
+<p>10. A transformation is <strong>injective</strong> if:</p>
+<div class="choices">
+<label><input type="radio" name="q10" value="1"> Its kernel is {0}</label>
+<label><input type="radio" name="q10" value="0"> Its image is the codomain</label>
+<label><input type="radio" name="q10" value="0"> Its matrix is square</label>
+<label><input type="radio" name="q10" value="0"> It is orthogonal</label>
+</div>
+</div>
+
+<!-- TRUE / FALSE -->
+
+<div class="question">
+<p>11. Every spanning set is a basis.</p>
+<div class="choices">
+<label><input type="radio" name="q11" value="0"> True</label>
+<label><input type="radio" name="q11" value="1"> False</label>
+</div>
+</div>
+
+<div class="question">
+<p>12. Every basis has the same number of vectors.</p>
+<div class="choices">
+<label><input type="radio" name="q12" value="1"> True</label>
+<label><input type="radio" name="q12" value="0"> False</label>
+</div>
+</div>
+
+<div class="question">
+<p>13. A linearly independent set may contain the zero vector.</p>
+<div class="choices">
+<label><input type="radio" name="q13" value="0"> True</label>
+<label><input type="radio" name="q13" value="1"> False</label>
+</div>
+</div>
+
+<div class="question">
+<p>14. If a set has more vectors than the dimension, it is dependent.</p>
+<div class="choices">
+<label><input type="radio" name="q14" value="1"> True</label>
+<label><input type="radio" name="q14" value="0"> False</label>
+</div>
+</div>
+
+<div class="question">
+<p>15. The matrix of a linear transformation depends on the chosen bases.</p>
+<div class="choices">
+<label><input type="radio" name="q15" value="1"> True</label>
+<label><input type="radio" name="q15" value="0"> False</label>
+</div>
+</div>
+
+<div class="question">
+<p>16. Two vector spaces with the same dimension are always equal.</p>
+<div class="choices">
+<label><input type="radio" name="q16" value="0"> True</label>
+<label><input type="radio" name="q16" value="1"> False</label>
+</div>
+</div>
+
+<div class="question">
+<p>17. The zero vector can be part of a basis.</p>
+<div class="choices">
+<label><input type="radio" name="q17" value="0"> True</label>
+<label><input type="radio" name="q17" value="1"> False</label>
+</div>
+</div>
+
+<div class="question">
+<p>18. Every linear transformation has a matrix representation.</p>
+<div class="choices">
+<label><input type="radio" name="q18" value="1"> True</label>
+<label><input type="radio" name="q18" value="0"> False</label>
+</div>
+</div>
+
+<div class="question">
+<p>19. Linear independence depends on the choice of basis.</p>
+<div class="choices">
+<label><input type="radio" name="q19" value="0"> True</label>
+<label><input type="radio" name="q19" value="1"> False</label>
+</div>
+</div>
+
+<div class="question">
+<p>20. A linear transformation is determined by its action on a basis.</p>
+<div class="choices">
+<label><input type="radio" name="q20" value="1"> True</label>
+<label><input type="radio" name="q20" value="0"> False</label>
+</div>
+</div>
+
+<div class="question">
+<p>21. The kernel of a linear transformation is a subspace.</p>
+<div class="choices">
+<label><input type="radio" name="q21" value="1"> True</label>
+<label><input type="radio" name="q21" value="0"> False</label>
+</div>
+</div>
+
+<div class="question">
+<p>22. The image of a linear transformation is always the codomain.</p>
+<div class="choices">
+<label><input type="radio" name="q22" value="0"> True</label>
+<label><input type="radio" name="q22" value="1"> False</label>
+</div>
+</div>
+
+<div class="question">
+<p>23. Every vector space has a basis.</p>
+<div class="choices">
+<label><input type="radio" name="q23" value="1"> True</label>
+<label><input type="radio" name="q23" value="0"> False</label>
+</div>
+</div>
+
+<div class="question">
+<p>24. A basis is unique for a given vector space.</p>
+<div class="choices">
+<label><input type="radio" name="q24" value="0"> True</label>
+<label><input type="radio" name="q24" value="1"> False</label>
+</div>
+</div>
+
+<div class="question">
+<p>25. If a linear transformation is invertible, its kernel is trivial.</p>
+<div class="choices">
+<label><input type="radio" name="q25" value="1"> True</label>
+<label><input type="radio" name="q25" value="0"> False</label>
+</div>
+</div>
+
+<!-- ================= END QUESTIONS ================= -->
+
+</div>
+
+<button type="button" onclick="gradeQuiz()">Submit</button>
+
+</form>
+
+<div id="result" class="result"></div>
+
+<script>
+/* Randomize question order */
+window.onload = function () {
+  const container = document.getElementById("questionContainer");
+  const questions = Array.from(container.children);
+  questions.forEach(q => container.appendChild(q));
+  for (let i = questions.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    container.insertBefore(questions[j], questions[i]);
+  }
+};
+
+/* Grading */
+function gradeQuiz() {
+  const name = document.getElementById("studentName").value.trim();
+  if (name === "") {
+    alert("Please enter your name before submitting.");
+    return;
+  }
+
+  let score = 0;
+  let total = 25;
+
+  for (let i = 1; i <= total; i++) {
+    const options = document.getElementsByName("q" + i);
+    for (let opt of options) {
+      if (opt.checked) score += parseInt(opt.value);
+    }
+  }
+
+  const percent = Math.round((score / total) * 100);
+  const time = new Date().toLocaleString();
+
+  const resultDiv = document.getElementById("result");
+  resultDiv.innerHTML = `
+    <h2>Results</h2>
+    <p><strong>Name:</strong> ${name}</p>
+    <p><strong>Score:</strong> ${score} / ${total} (${percent}%)</p>
+    <p><strong>Submitted:</strong> ${time}</p>
+    <p><em>Please take a screenshot of this result and submit it as instructed.</em></p>
+  `;
+  resultDiv.style.display = "block";
+}
+</script>
+
+</body>
+</html>
