@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>DECA Practice Test – Business Administration Core</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f5f7fa;
+    }
+    h1 {
+      color: #003366;
+    }
+    .question {
+      margin-bottom: 20px;
+      padding: 15px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #003366;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0055aa;
+    }
+    #result {
+      margin-top: 30px;
+      padding: 20px;
+      background: #e8f0fe;
+      border-radius: 8px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>DECA Practice Test</h1>
+<p><strong>Business Administration Core – 25 Questions</strong></p>
+
+<label><strong>Student Name:</strong></label>
+<input type="text" id="studentName" style="font-size:16px; padding:5px; margin-bottom:20px; width:300px;"><br><br>
+
+<form id="quizForm">
+
+<div id="questions"></div>
+
+<button type="button" onclick="gradeQuiz()">Submit Test</button>
+
+</form>
+
+<div id="result"></div>
+
+<script>
+
+const questions = [
+{q:"1. Characteristic of a sole proprietorship?", options:["Double taxation","Unlimited liability","Shared decision-making","Government ownership"], answer:1},
+{q:"2. Purpose of a mission statement?", options:["Increase profit","Long-term investments","Define purpose and direction","Outline salaries"], answer:2},
+{q:"3. Economic system based on supply and demand?", options:["Command","Traditional","Market","Socialist"], answer:2},
+{q:"4. Break-even point occurs when:", options:["Revenue exceeds expenses","Fixed = Variable costs","Revenue = Expenses","Profit maximized"], answer:2},
+{q:"5. Example of a fixed cost:", options:["Sales commissions","Raw materials","Rent","Packaging"], answer:2},
+{q:"6. Gross profit equals:", options:["Revenue – Operating Expenses","Revenue – COGS","Assets – Liabilities","Sales – Taxes"], answer:1},
+{q:"7. Law of demand states:", options:["Price ↑ demand ↑","Price ↑ demand ↓","Demand constant","Supply sets price"], answer:1},
+{q:"8. Part of marketing mix:", options:["Profit","Policy","Product","Personnel"], answer:2},
+{q:"9. Market segmentation is used to:", options:["Eliminate competitors","Divide customers","Increase costs","Reduce supply"], answer:1},
+{q:"10. SWOT stands for:", options:["Sales Work Output Time","Strengths Weaknesses Opportunities Threats","Spending Wages Output Taxes","Systems Work Organization Trends"], answer:1},
+{q:"11. Financial statement with assets/liabilities/equity:", options:["Income statement","Cash flow","Balance sheet","Sales report"], answer:2},
+{q:"12. Opportunity cost is:", options:["Money spent","Benefit given up","Tax","Fixed expense"], answer:1},
+{q:"13. Ethical behavior builds:", options:["Marketing","Government control","Stakeholder trust","Lower wages"], answer:2},
+{q:"14. Partnership is:", options:["No profit","Two+ owners","Issues stock","Limited liability always"], answer:1},
+{q:"15. Inflation is:", options:["Unemployment drop","Price level increase","Lower profit","Stable currency"], answer:1},
+{q:"16. Management function:", options:["Consuming","Planning","Borrowing","Selling"], answer:1},
+{q:"17. Target market:", options:["All consumers","Government","Specific group","Competitors"], answer:2},
+{q:"18. Diversification reduces:", options:["Risk","Competition","Quality","Taxes"], answer:0},
+{q:"19. Net income:", options:["Revenue – Expenses","Assets – Liabilities","Sales + Costs","Before taxes only"], answer:0},
+{q:"20. Current asset:", options:["Building","Equipment","Cash","Mortgage"], answer:2},
+{q:"21. Consumer protection laws:", options:["Increase profit","Protect buyers","Eliminate competition","Control wages"], answer:1},
+{q:"22. Branding creates:", options:["Low quality","Confusion","Distinct identity","Avoid advertising"], answer:2},
+{q:"23. Federal Reserve influences:", options:["Advertising","Monetary policy","Branding","Inventory"], answer:1},
+{q:"24. Leadership focuses on:", options:["Budgets","Inspiring people","Reports","Purchasing"], answer:1},
+{q:"25. Competitive advantage is:", options:["Highest price","Outperforming factor","Subsidy","Turnover"], answer:1}
+];
+
+function loadQuestions() {
+  const container = document.getElementById("questions");
+  questions.forEach((item, index) => {
+    const div = document.createElement("div");
+    div.className = "question";
+    div.innerHTML = "<p><strong>" + item.q + "</strong></p>";
+    item.options.forEach((option, i) => {
+      div.innerHTML += `
+        <label>
+          <input type="radio" name="q${index}" value="${i}">
+          ${option}
+        </label><br>`;
+    });
+    container.appendChild(div);
+  });
+}
+
+function gradeQuiz() {
+  let score = 0;
+  questions.forEach((item, index) => {
+    const selected = document.querySelector(`input[name="q${index}"]:checked`);
+    if (selected && parseInt(selected.value) === item.answer) {
+      score++;
+    }
+  });
+
+  const name = document.getElementById("studentName").value;
+  const percent = ((score / questions.length) * 100).toFixed(1);
+  const timestamp = new Date().toLocaleString();
+
+  document.getElementById("result").innerHTML = `
+    <h2>Test Summary</h2>
+    <p><strong>Name:</strong> ${name}</p>
+    <p><strong>Date:</strong> ${timestamp}</p>
+    <p><strong>Score:</strong> ${score} / ${questions.length}</p>
+    <p><strong>Percentage:</strong> ${percent}%</p>
+    <p><em>Please screenshot this result and submit to your advisor.</em></p>
+  `;
+}
+
+loadQuestions();
+
+</script>
+
+</body>
+</html>
