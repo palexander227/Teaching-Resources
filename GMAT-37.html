@@ -100,7 +100,7 @@ margin-top:30px;
 const questions = [
 
 {
-q:"1. Solve for \(x\): \\[2x + 5 = 17\\]",
+q:"1. Solve for \\(x\\): \\[2x + 5 = 17\\]",
 choices:["4","5","6","7","8"],
 answer:2
 },
@@ -118,7 +118,7 @@ answer:0
 },
 
 {
-q:"4. A class ratio boys:girls is \(2:3\) with 25 students. How many boys?",
+q:"4. A class ratio boys:girls is \\(2:3\\) with 25 students. How many boys?",
 choices:["8","10","12","15","18"],
 answer:1
 },
@@ -130,61 +130,61 @@ answer:2
 },
 
 {
-q:"6. If \(x > y\), which must be true?",
-choices:["\(x^2>y^2\)","\(x^3>y^3\)","\(x-y>0\)","\(x/y>1\)","\(x^2-y^2>0\)"],
+q:"6. If \\(x > y\\), which must be true?",
+choices:["\\(x^2>y^2\\)","\\(x^3>y^3\\)","\\(x-y>0\\)","\\(x/y>1\\)","\\(x^2-y^2>0\\)"],
 answer:2
 },
 
 {
 q:"7. What is the probability of rolling a 6 on a fair die?",
-choices:["\(1/3\)","\(1/4\)","\(1/5\)","\(1/6\)","\(1/8\)"],
+choices:["\\(1/3\\)","\\(1/4\\)","\\(1/5\\)","\\(1/6\\)","\\(1/8\\)"],
 answer:3
 },
 
 {
-q:"8. A price rises from \$40 to \$50. What is the percent increase?",
+q:"8. A price rises from \\$40 to \\$50. What is the percent increase?",
 choices:["10%","20%","25%","30%","40%"],
 answer:2
 },
 
 {
-q:"9. If \(n\) is divisible by both 6 and 15, which must be true?",
+q:"9. If \\(n\\) is divisible by both 6 and 15, which must be true?",
 choices:["divisible by 9","divisible by 10","divisible by 30","divisible by 45","divisible by 60"],
 answer:2
 },
 
 {
-q:"10. Solve for \(x\): \\[x + 3 = 2x - 5\\]",
+q:"10. Solve for \\(x\\): \\[x + 3 = 2x - 5\\]",
 choices:["6","7","8","9","10"],
 answer:2
 },
 
 {
-q:"11. DATA SUFFICIENCY: Is \(x>0\)? <br> (1) \(x^2>0\) <br> (2) \(x^3>0\)",
+q:"11. DATA SUFFICIENCY: Is \\(x>0\\)? <br>(1) \\(x^2>0\\)<br>(2) \\(x^3>0\\)",
 choices:["A","B","C","D","E"],
 answer:1
 },
 
 {
-q:"12. DATA SUFFICIENCY: What is \(x\)? <br> (1) \(x^2 = 16\) <br> (2) \(x > 0\)",
+q:"12. DATA SUFFICIENCY: What is \\(x\\)? <br>(1) \\(x^2 = 16\\)<br>(2) \\(x > 0\\)",
 choices:["A","B","C","D","E"],
 answer:2
 },
 
 {
-q:"13. DATA SUFFICIENCY: Is \(n\) even? <br> (1) \(n^2\) is even <br> (2) \(n\) divisible by 4",
+q:"13. DATA SUFFICIENCY: Is \\(n\\) even? <br>(1) \\(n^2\\) even<br>(2) \\(n\\) divisible by 4",
 choices:["A","B","C","D","E"],
 answer:3
 },
 
 {
-q:"14. DATA SUFFICIENCY: Is \(x > y\)? <br> (1) \(x-y>0\) <br> (2) \(y-x<0\)",
+q:"14. DATA SUFFICIENCY: Is \\(x > y\\)? <br>(1) \\(x-y>0\\)<br>(2) \\(y-x<0\\)",
 choices:["A","B","C","D","E"],
 answer:3
 },
 
 {
-q:"15. DATA SUFFICIENCY: Value of \(x\)? <br> (1) \(2x+3=11\) <br> (2) \(x+4=8\)",
+q:"15. DATA SUFFICIENCY: Value of \\(x\\)? <br>(1) \\(2x+3=11\\)<br>(2) \\(x+4=8\\)",
 choices:["A","B","C","D","E"],
 answer:3
 }
@@ -212,7 +212,8 @@ html+="</div>";
 
 document.getElementById("questionArea").innerHTML=html;
 
-MathJax.typeset();
+MathJax.typesetClear();
+MathJax.typesetPromise();
 
 let percent=(current/questions.length)*100;
 document.getElementById("bar").style.width=percent+"%";
