@@ -2,7 +2,9 @@
 <html>
 <head>
 
-<title>GMAT Full Diagnostic</title>
+<title>GMAT Diagnostic Test</title>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 <style>
 
@@ -98,13 +100,13 @@ margin-top:30px;
 const questions = [
 
 {
-q:"1. If 2x + 5 = 17, what is x?",
+q:"1. Solve for \(x\): \\[2x + 5 = 17\\]",
 choices:["4","5","6","7","8"],
 answer:2
 },
 
 {
-q:"2. What is 3^4 * 3^2 / 3^3 ?",
+q:"2. Evaluate \\[3^4 \\cdot 3^2 / 3^3\\]",
 choices:["3","9","27","81","243"],
 answer:2
 },
@@ -116,165 +118,75 @@ answer:0
 },
 
 {
-q:"4. A class ratio boys:girls is 2:3 with 25 students. Boys?",
+q:"4. A class ratio boys:girls is \(2:3\) with 25 students. How many boys?",
 choices:["8","10","12","15","18"],
 answer:1
 },
 
 {
-q:"5. Average of 4 numbers is 10. Fifth number 20. New average?",
+q:"5. The average of four numbers is 10. If a fifth number 20 is added, what is the new average?",
 choices:["10","11","12","13","14"],
 answer:2
 },
 
 {
-q:"6. If x > y which must be true?",
-choices:["x²>y²","x³>y³","x−y>0","x/y>1","x²−y²>0"],
+q:"6. If \(x > y\), which must be true?",
+choices:["\(x^2>y^2\)","\(x^3>y^3\)","\(x-y>0\)","\(x/y>1\)","\(x^2-y^2>0\)"],
 answer:2
 },
 
 {
-q:"7. Probability of rolling a 6 on a die?",
-choices:["1/3","1/4","1/5","1/6","1/8"],
+q:"7. What is the probability of rolling a 6 on a fair die?",
+choices:["\(1/3\)","\(1/4\)","\(1/5\)","\(1/6\)","\(1/8\)"],
 answer:3
 },
 
 {
-q:"8. A price rises from 40 to 50. Percent increase?",
+q:"8. A price rises from \$40 to \$50. What is the percent increase?",
 choices:["10%","20%","25%","30%","40%"],
 answer:2
 },
 
 {
-q:"9. If n divisible by 6 and 15, what must be true?",
+q:"9. If \(n\) is divisible by both 6 and 15, which must be true?",
 choices:["divisible by 9","divisible by 10","divisible by 30","divisible by 45","divisible by 60"],
 answer:2
 },
 
 {
-q:"10. Solve x + 3 = 2x − 5",
+q:"10. Solve for \(x\): \\[x + 3 = 2x - 5\\]",
 choices:["6","7","8","9","10"],
 answer:2
 },
 
 {
-q:"11. DATA SUFFICIENCY: Is x>0? (1) x²>0 (2) x³>0",
+q:"11. DATA SUFFICIENCY: Is \(x>0\)? <br> (1) \(x^2>0\) <br> (2) \(x^3>0\)",
 choices:["A","B","C","D","E"],
 answer:1
 },
 
 {
-q:"12. DATA SUFFICIENCY: Value of x? (1) x²=16 (2) x>0",
+q:"12. DATA SUFFICIENCY: What is \(x\)? <br> (1) \(x^2 = 16\) <br> (2) \(x > 0\)",
 choices:["A","B","C","D","E"],
 answer:2
 },
 
 {
-q:"13. DATA SUFFICIENCY: Is n even? (1) n² even (2) n divisible by 4",
-choices:["A","B","C","D","E"],
-answer:3
-},
-
-{
-q:"14. DATA SUFFICIENCY: Is x>y? (1) x−y>0 (2) y−x<0",
+q:"13. DATA SUFFICIENCY: Is \(n\) even? <br> (1) \(n^2\) is even <br> (2) \(n\) divisible by 4",
 choices:["A","B","C","D","E"],
 answer:3
 },
 
 {
-q:"15. DATA SUFFICIENCY: Value of x? (1) 2x+3=11 (2) x+4=8",
+q:"14. DATA SUFFICIENCY: Is \(x > y\)? <br> (1) \(x-y>0\) <br> (2) \(y-x<0\)",
 choices:["A","B","C","D","E"],
 answer:3
 },
 
 {
-q:"16. If 5 workers finish a job in 10 days, how long for 10 workers?",
-choices:["2","3","4","5","6"],
-answer:3
-},
-
-{
-q:"17. Sum of angles of triangle?",
-choices:["90","120","180","270","360"],
-answer:2
-},
-
-{
-q:"18. If x²=49 what is x?",
-choices:["7","-7","±7","14","0"],
-answer:2
-},
-
-{
-q:"19. Median of 3,5,9,12,15?",
-choices:["5","7","9","10","12"],
-answer:2
-},
-
-{
-q:"20. If price falls 20% then rises 20%, net effect?",
-choices:["same","+4%","-4%","+2%","-2%"],
-answer:2
-},
-
-{
-q:"21. CRITICAL REASONING: Which weakens argument most?",
+q:"15. DATA SUFFICIENCY: Value of \(x\)? <br> (1) \(2x+3=11\) <br> (2) \(x+4=8\)",
 choices:["A","B","C","D","E"],
-answer:2
-},
-
-{
-q:"22. CRITICAL REASONING: Which supports argument?",
-choices:["A","B","C","D","E"],
-answer:1
-},
-
-{
-q:"23. If 2x=10 then x?",
-choices:["2","3","4","5","6"],
 answer:3
-},
-
-{
-q:"24. 20% of 50?",
-choices:["5","8","10","12","15"],
-answer:2
-},
-
-{
-q:"25. Square root of 81?",
-choices:["7","8","9","10","11"],
-answer:2
-},
-
-{
-q:"26. If 4x=20 then x?",
-choices:["4","5","6","7","8"],
-answer:1
-},
-
-{
-q:"27. Probability of heads on coin?",
-choices:["1/3","1/2","2/3","1/4","3/4"],
-answer:1
-},
-
-{
-q:"28. 12²?",
-choices:["124","134","144","154","164"],
-answer:2
-},
-
-{
-q:"29. 15% of 200?",
-choices:["20","25","30","35","40"],
-answer:2
-},
-
-{
-q:"30. Solve 3x=21",
-choices:["5","6","7","8","9"],
-answer:2
 }
 
 ];
@@ -299,6 +211,8 @@ html+="<label><input type='radio' name='choice' value='"+i+"'> "+q.choices[i]+"<
 html+="</div>";
 
 document.getElementById("questionArea").innerHTML=html;
+
+MathJax.typeset();
 
 let percent=(current/questions.length)*100;
 document.getElementById("bar").style.width=percent+"%";
@@ -345,32 +259,11 @@ document.querySelector("button").style.display="none";
 
 document.getElementById("bar").style.width="100%";
 
-document.getElementById("result").innerHTML="Score: "+score+" / 30";
+document.getElementById("result").innerHTML="Score: "+score+" / "+questions.length;
 
 }
 
 showQuestion();
-
-let time=2700;
-
-setInterval(function(){
-
-time--;
-
-let m=Math.floor(time/60);
-let s=time%60;
-
-if(s<10)s="0"+s;
-
-document.getElementById("timer").innerHTML=m+":"+s;
-
-if(time<=0){
-
-finish();
-
-}
-
-},1000);
 
 </script>
 
