@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
 <title>GMAT Diagnostic</title>
@@ -10,17 +11,27 @@
 
 body{
 font-family:Arial;
-max-width:800px;
+max-width:900px;
 margin:auto;
 padding:40px;
-background:#f5f5f5;
+background:#f4f6f8;
 }
 
-#box{
+#panel{
 background:white;
 padding:30px;
 border-radius:8px;
-box-shadow:0 0 8px rgba(0,0,0,0.1);
+box-shadow:0 0 8px rgba(0,0,0,.1);
+}
+
+.question{
+display:none;
+margin-bottom:25px;
+}
+
+.answers label{
+display:block;
+margin:8px 0;
 }
 
 button{
@@ -29,9 +40,12 @@ padding:10px 20px;
 font-size:16px;
 }
 
-label{
-display:block;
-margin:6px 0;
+#dsLegend{
+display:none;
+background:#eef3f9;
+padding:15px;
+border-radius:6px;
+margin-bottom:20px;
 }
 
 </style>
@@ -40,122 +54,148 @@ margin:6px 0;
 
 <body>
 
-<div id="box">
+<div id="panel">
 
 <h2>GMAT Diagnostic</h2>
 
-<div id="dsLegend" style="display:none">
+<div id="dsLegend">
 
 <b>Data Sufficiency Answer Choices</b>
 
 <p>
-A. Statement (1) alone sufficient<br>
-B. Statement (2) alone sufficient<br>
-C. Both together sufficient<br>
-D. Each alone sufficient<br>
-E. Not sufficient
+A. Statement (1) ALONE sufficient<br>
+B. Statement (2) ALONE sufficient<br>
+C. BOTH together sufficient<br>
+D. EACH statement alone sufficient<br>
+E. NOT sufficient
 </p>
 
 </div>
 
-<div id="question"></div>
+<form id="quiz">
 
-<div id="answers"></div>
+<div class="question">
+
+<p>1. Solve \(2x+5=17\)</p>
+
+<div class="answers">
+<label><input type="radio" name="q1" value="0">4</label>
+<label><input type="radio" name="q1" value="1">5</label>
+<label><input type="radio" name="q1" value="2">6</label>
+<label><input type="radio" name="q1" value="3">7</label>
+<label><input type="radio" name="q1" value="4">8</label>
+</div>
+
+</div>
+
+
+<div class="question">
+
+<p>2. Evaluate \(3^4 \cdot 3^2 / 3^3\)</p>
+
+<div class="answers">
+<label><input type="radio" name="q2" value="0">3</label>
+<label><input type="radio" name="q2" value="1">9</label>
+<label><input type="radio" name="q2" value="2">27</label>
+<label><input type="radio" name="q2" value="3">81</label>
+<label><input type="radio" name="q2" value="4">243</label>
+</div>
+
+</div>
+
+
+<div class="question">
+
+<p>3. If \(x>y\), which must be true?</p>
+
+<div class="answers">
+<label><input type="radio" name="q3" value="0">\(x^2>y^2\)</label>
+<label><input type="radio" name="q3" value="1">\(x^3>y^3\)</label>
+<label><input type="radio" name="q3" value="2">\(x-y>0\)</label>
+<label><input type="radio" name="q3" value="3">\(x/y>1\)</label>
+<label><input type="radio" name="q3" value="4">\(x^2-y^2>0\)</label>
+</div>
+
+</div>
+
+
+<div class="question ds">
+
+<p>4. DATA SUFFICIENCY<br><br>
+Is \(x>0\)?<br>
+(1) \(x^2>0\)<br>
+(2) \(x^3>0\)
+</p>
+
+<div class="answers">
+<label><input type="radio" name="q4" value="0">A</label>
+<label><input type="radio" name="q4" value="1">B</label>
+<label><input type="radio" name="q4" value="2">C</label>
+<label><input type="radio" name="q4" value="3">D</label>
+<label><input type="radio" name="q4" value="4">E</label>
+</div>
+
+</div>
+
+</form>
 
 <button onclick="next()">Next</button>
 
-<div id="score"></div>
+<div id="result"></div>
 
 </div>
 
 <script>
 
-const questions = [
+let questions=document.querySelectorAll(".question");
+let index=0;
 
-{
-text:"Solve \\(2x+5=17\\)",
-choices:["4","5","6","7","8"],
-correct:2
-},
-
-{
-text:"Evaluate \\(3^4 \\cdot 3^2 / 3^3\\)",
-choices:["3","9","27","81","243"],
-correct:2
-},
-
-{
-text:"If \\(x>y\\), which must be true?",
-choices:["\\(x^2>y^2\\)","\\(x^3>y^3\\)","\\(x-y>0\\)","\\(x/y>1\\)","\\(x^2-y^2>0\\)"],
-correct:2
-},
-
-{
-text:"DATA SUFFICIENCY<br><br>Is \\(x>0\\)?<br>(1) \\(x^2>0\\)<br>(2) \\(x^3>0\\)",
-choices:["A","B","C","D","E"],
-correct:1,
-ds:true
-}
-
-];
-
-let i=0;
-let score=0;
-
-function render(){
-
-let q = questions[i];
-
-document.getElementById("question").innerHTML=q.text;
-
-let html="";
-
-q.choices.forEach((c,index)=>{
-
-html+=`<label><input type="radio" name="ans" value="${index}"> ${c}</label>`;
-
-});
-
-document.getElementById("answers").innerHTML=html;
-
-if(q.ds){
-document.getElementById("dsLegend").style.display="block";
-}
-
-MathJax.typesetPromise();
-
-}
+questions[0].style.display="block";
 
 function next(){
 
-let selected=document.querySelector('input[name="ans"]:checked');
+questions[index].style.display="none";
 
-if(selected){
+index++;
 
-if(parseInt(selected.value)===questions[i].correct){
+if(index>=questions.length){
+
+grade();
+
+return;
+
+}
+
+questions[index].style.display="block";
+
+if(questions[index].classList.contains("ds")){
+document.getElementById("dsLegend").style.display="block";
+}
+
+}
+
+function grade(){
+
+let answers=[2,2,2,1];
+let score=0;
+
+for(let i=0;i<answers.length;i++){
+
+let q=document.getElementsByName("q"+(i+1));
+
+for(let r of q){
+
+if(r.checked && parseInt(r.value)===answers[i]){
 score++;
 }
 
 }
 
-i++;
-
-if(i>=questions.length){
-
-document.getElementById("question").innerHTML="";
-document.getElementById("answers").innerHTML="";
-document.querySelector("button").style.display="none";
-
-document.getElementById("score").innerHTML="Score: "+score+" / "+questions.length;
-
-return;
 }
 
-render();
+document.getElementById("result").innerHTML="Score: "+score+" / "+answers.length;
 
 }
-
-render();
 
 </script>
 
