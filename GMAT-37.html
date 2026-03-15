@@ -2,7 +2,7 @@
 <html>
 <head>
 
-<title>GMAT Diagnostic Test</title>
+<title>GMAT Diagnostic</title>
 
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
@@ -10,67 +10,28 @@
 
 body{
 font-family:Arial;
-margin:40px;
-background:#f4f6f8;
+max-width:800px;
+margin:auto;
+padding:40px;
+background:#f5f5f5;
 }
 
-#container{
+#box{
 background:white;
 padding:30px;
-border-radius:10px;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
-}
-
-h1{
-text-align:center;
-}
-
-#timer{
-font-size:20px;
-font-weight:bold;
-text-align:right;
-margin-bottom:20px;
-}
-
-#progress{
-height:12px;
-background:#ddd;
-border-radius:6px;
-margin-bottom:25px;
-}
-
-#bar{
-height:12px;
-width:0%;
-background:#1f4e79;
-border-radius:6px;
-}
-
-.question{
-font-size:18px;
-margin-bottom:20px;
-}
-
-.answers label{
-display:block;
-margin:8px 0;
+border-radius:8px;
+box-shadow:0 0 8px rgba(0,0,0,0.1);
 }
 
 button{
 margin-top:20px;
 padding:10px 20px;
 font-size:16px;
-background:#1f4e79;
-color:white;
-border:none;
-border-radius:6px;
 }
 
-#result{
-font-size:22px;
-font-weight:bold;
-text-align:center;
-margin-top:30px;
+label{
+display:block;
+margin:6px 0;
 }
 
 </style>
@@ -79,19 +40,31 @@ margin-top:30px;
 
 <body>
 
-<div id="container">
+<div id="box">
 
-<h1>GMAT Diagnostic Test</h1>
+<h2>GMAT Diagnostic</h2>
 
-<div id="timer">45:00</div>
+<div id="dsLegend" style="display:none">
 
-<div id="progress"><div id="bar"></div></div>
+<b>Data Sufficiency Answer Choices</b>
 
-<div id="questionArea"></div>
+<p>
+A. Statement (1) alone sufficient<br>
+B. Statement (2) alone sufficient<br>
+C. Both together sufficient<br>
+D. Each alone sufficient<br>
+E. Not sufficient
+</p>
 
-<button onclick="nextQuestion()">Next</button>
+</div>
 
-<div id="result"></div>
+<div id="question"></div>
+
+<div id="answers"></div>
+
+<button onclick="next()">Next</button>
+
+<div id="score"></div>
 
 </div>
 
@@ -100,194 +73,92 @@ margin-top:30px;
 const questions = [
 
 {
-q:"1. Solve for \\(x\\): \\[2x + 5 = 17\\]",
+text:"Solve \\(2x+5=17\\)",
 choices:["4","5","6","7","8"],
-answer:2
+correct:2
 },
 
 {
-q:"2. Evaluate \\[3^4 \\cdot 3^2 / 3^3\\]",
+text:"Evaluate \\(3^4 \\cdot 3^2 / 3^3\\)",
 choices:["3","9","27","81","243"],
-answer:2
+correct:2
 },
 
 {
-q:"3. Machine A completes a job in 4 hours and Machine B in 6 hours. Working together how long?",
-choices:["2.4 hrs","3 hrs","4 hrs","5 hrs","6 hrs"],
-answer:0
-},
-
-{
-q:"4. A class ratio boys:girls is \\(2:3\\) with 25 students. How many boys?",
-choices:["8","10","12","15","18"],
-answer:1
-},
-
-{
-q:"5. The average of four numbers is 10. If a fifth number 20 is added, what is the new average?",
-choices:["10","11","12","13","14"],
-answer:2
-},
-
-{
-q:"6. If \\(x > y\\), which must be true?",
+text:"If \\(x>y\\), which must be true?",
 choices:["\\(x^2>y^2\\)","\\(x^3>y^3\\)","\\(x-y>0\\)","\\(x/y>1\\)","\\(x^2-y^2>0\\)"],
-answer:2
+correct:2
 },
 
 {
-q:"7. What is the probability of rolling a 6 on a fair die?",
-choices:["\\(1/3\\)","\\(1/4\\)","\\(1/5\\)","\\(1/6\\)","\\(1/8\\)"],
-answer:3
-},
-
-{
-q:"8. A price rises from \\$40 to \\$50. What is the percent increase?",
-choices:["10%","20%","25%","30%","40%"],
-answer:2
-},
-
-{
-q:"9. If \\(n\\) is divisible by both 6 and 15, which must be true?",
-choices:["divisible by 9","divisible by 10","divisible by 30","divisible by 45","divisible by 60"],
-answer:2
-},
-
-{
-q:"10. Solve for \\(x\\): \\[x + 3 = 2x - 5\\]",
-choices:["6","7","8","9","10"],
-answer:2
-},
-<div style="background:#eef3f9;padding:15px;border-radius:8px;margin-top:20px;margin-bottom:20px;">
-
-<b>Data Sufficiency Instructions</b>
-
-<p>Each Data Sufficiency problem consists of a question and two statements labeled (1) and (2). 
-Determine whether the statements provide enough information to answer the question.</p>
-
-<p>Choose the correct answer using the following rules:</p>
-
-<p>
-A. Statement (1) ALONE is sufficient, but statement (2) alone is not sufficient.<br><br>
-
-B. Statement (2) ALONE is sufficient, but statement (1) alone is not sufficient.<br><br>
-
-C. BOTH statements TOGETHER are sufficient, but NEITHER statement alone is sufficient.<br><br>
-
-D. EACH statement ALONE is sufficient.<br><br>
-
-E. Statements (1) and (2) together are NOT sufficient.
-</p>
-
-</div>
-{
-q:"11. DATA SUFFICIENCY: Is \\(x>0\\)? <br>(1) \\(x^2>0\\)<br>(2) \\(x^3>0\\)",
+text:"DATA SUFFICIENCY<br><br>Is \\(x>0\\)?<br>(1) \\(x^2>0\\)<br>(2) \\(x^3>0\\)",
 choices:["A","B","C","D","E"],
-answer:1
-},
-
-{
-q:"12. DATA SUFFICIENCY: What is \\(x\\)? <br>(1) \\(x^2 = 16\\)<br>(2) \\(x > 0\\)",
-choices:["A","B","C","D","E"],
-answer:2
-},
-
-{
-q:"13. DATA SUFFICIENCY: Is \\(n\\) even? <br>(1) \\(n^2\\) even<br>(2) \\(n\\) divisible by 4",
-choices:["A","B","C","D","E"],
-answer:3
-},
-
-{
-q:"14. DATA SUFFICIENCY: Is \\(x > y\\)? <br>(1) \\(x-y>0\\)<br>(2) \\(y-x<0\\)",
-choices:["A","B","C","D","E"],
-answer:3
-},
-
-{
-q:"15. DATA SUFFICIENCY: Value of \\(x\\)? <br>(1) \\(2x+3=11\\)<br>(2) \\(x+4=8\\)",
-choices:["A","B","C","D","E"],
-answer:3
+correct:1,
+ds:true
 }
 
 ];
 
-let current=0;
+let i=0;
 let score=0;
 
-function showQuestion(){
+function render(){
 
-let q=questions[current];
+let q = questions[i];
 
-let html="<div class='question'>"+q.q+"</div>";
+document.getElementById("question").innerHTML=q.text;
 
-html+="<div class='answers'>";
+let html="";
 
-for(let i=0;i<q.choices.length;i++){
+q.choices.forEach((c,index)=>{
 
-html+="<label><input type='radio' name='choice' value='"+i+"'> "+q.choices[i]+"</label>";
+html+=`<label><input type="radio" name="ans" value="${index}"> ${c}</label>`;
 
+});
+
+document.getElementById("answers").innerHTML=html;
+
+if(q.ds){
+document.getElementById("dsLegend").style.display="block";
 }
 
-html+="</div>";
-
-document.getElementById("questionArea").innerHTML=html;
-
-MathJax.typesetClear();
 MathJax.typesetPromise();
 
-let percent=(current/questions.length)*100;
-document.getElementById("bar").style.width=percent+"%";
-
 }
 
-function nextQuestion(){
+function next(){
 
-let radios=document.getElementsByName("choice");
+let selected=document.querySelector('input[name="ans"]:checked');
 
-for(let r of radios){
+if(selected){
 
-if(r.checked){
-
-if(parseInt(r.value)===questions[current].answer){
-
+if(parseInt(selected.value)===questions[i].correct){
 score++;
-
 }
 
 }
 
-}
+i++;
 
-current++;
+if(i>=questions.length){
 
-if(current>=questions.length){
-
-finish();
-
-}else{
-
-showQuestion();
-
-}
-
-}
-
-function finish(){
-
-document.getElementById("questionArea").innerHTML="";
-
+document.getElementById("question").innerHTML="";
+document.getElementById("answers").innerHTML="";
 document.querySelector("button").style.display="none";
 
-document.getElementById("bar").style.width="100%";
+document.getElementById("score").innerHTML="Score: "+score+" / "+questions.length;
 
-document.getElementById("result").innerHTML="Score: "+score+" / "+questions.length;
+return;
+}
+
+render();
 
 }
 
-showQuestion();
+render();
 
 </script>
 
 </body>
+
 </html>
