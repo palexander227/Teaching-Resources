@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Practice Test A - Solutions</title>
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(','\\)'], ['$', '$']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <style>
+    body {
+      font-family: Georgia, "Times New Roman", serif;
+      line-height: 1.6;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 24px;
+      color: #111;
+      background: #fff;
+    }
+    h1, h2 {
+      margin-top: 1.5em;
+    }
+    h1 {
+      text-align: center;
+      border-bottom: 2px solid #444;
+      padding-bottom: 0.3em;
+    }
+    h2 {
+      border-bottom: 1px solid #bbb;
+      padding-bottom: 0.2em;
+    }
+    .answer-box {
+      background: #f7f7f7;
+      border-left: 4px solid #444;
+      padding: 12px 16px;
+      margin: 16px 0;
+    }
+    .final-answer {
+      background: #eef7ee;
+      border: 1px solid #9ac79a;
+      padding: 12px 16px;
+      margin: 16px 0;
+    }
+    ul {
+      margin-top: 0.4em;
+    }
+    .small {
+      font-size: 0.95em;
+      color: #444;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Practice Test A — Solutions</h1>
+
+  <p class="small">
+    Complete worked solutions to the four problems on Practice Test A.
+  </p>
+
+  <h2>Problem 1</h2>
+
+  <p>Given</p>
+  <p>\[
+    f(x)=-\frac{4}{x^2-3x}=-\frac{4}{x(x-3)}
+  \]</p>
+
+  <p>To find the vertical asymptotes, set the denominator equal to zero:</p>
+  <p>\[
+    x(x-3)=0
+  \]</p>
+  <p>So the function is undefined at</p>
+  <p>\[
+    x=0,\quad x=3
+  \]</p>
+
+  <p>Therefore the vertical asymptotes are</p>
+  <p>\[
+    \boxed{x=0 \text{ and } x=3}
+  \]</p>
+
+  <p>Since the degree of the denominator is greater than the degree of the numerator, the horizontal asymptote is</p>
+  <p>\[
+    \boxed{y=0}
+  \]</p>
+
+  <p>Now find the relative minimum. Differentiate:</p>
+  <p>\[
+    f(x)=-4(x^2-3x)^{-1}
+  \]</p>
+  <p>\[
+    f'(x)= -4(-1)(x^2-3x)^{-2}(2x-3)
+      = \frac{4(2x-3)}{(x^2-3x)^2}
+  \]</p>
+
+  <p>Critical points occur when the numerator is zero:</p>
+  <p>\[
+    2x-3=0 \implies x=\frac{3}{2}
+  \]</p>
+
+  <p>Evaluate the function there:</p>
+  <p>\[
+    f\left(\frac{3}{2}\right)
+    =
+    -\frac{4}{\left(\frac{3}{2}\right)^2-3\left(\frac{3}{2}\right)}
+    =
+    -\frac{4}{\frac{9}{4}-\frac{9}{2}}
+    =
+    -\frac{4}{-\frac{9}{4}}
+    =
+    \frac{16}{9}
+  \]</p>
+
+  <p>So the relative minimum is</p>
+  <p>\[
+    \boxed{\left(\frac{3}{2},\frac{16}{9}\right)}
+  \]</p>
+
+  <p>Now find the range. Let</p>
+  <p>\[
+    y=-\frac{4}{x^2-3x}
+  \]</p>
+
+  <p>Then</p>
+  <p>\[
+    yx^2-3yx+4=0
+  \]</p>
+
+  <p>This is a quadratic in \(x\). For real solutions, its discriminant must be nonnegative:</p>
+  <p>\[
+    (-3y)^2-4(y)(4)\ge 0
+  \]</p>
+  <p>\[
+    9y^2-16y\ge 0
+  \]</p>
+  <p>\[
+    y(9y-16)\ge 0
+  \]</p>
+
+  <p>Thus</p>
+  <p>\[
+    y\le 0 \quad \text{or} \quad y\ge \frac{16}{9}
+  \]</p>
+
+  <p>But \(y=0\) is impossible because the numerator is never zero. Therefore the range is</p>
+  <p>\[
+    \boxed{(-\infty,0)\cup\left[\frac{16}{9},\infty\right)}
+  \]</p>
+
+  <div class="answer-box">
+    <strong>Graph behavior summary:</strong>
+    <ul>
+      <li>As \(x\to -\infty\), \(f(x)\to 0^{-}\)</li>
+      <li>As \(x\to 0^{-}\), \(f(x)\to -\infty\)</li>
+      <li>As \(x\to 0^{+}\), \(f(x)\to +\infty\)</li>
+      <li>On \((0,3)\), the graph is positive and reaches its minimum at \(\left(\frac{3}{2},\frac{16}{9}\right)\)</li>
+      <li>As \(x\to 3^{-}\), \(f(x)\to +\infty\)</li>
+      <li>As \(x\to 3^{+}\), \(f(x)\to -\infty\)</li>
+      <li>As \(x\to \infty\), \(f(x)\to 0^{-}\)</li>
+    </ul>
+  </div>
+
+  <div class="final-answer">
+    <strong>Final answers:</strong><br>
+    Vertical asymptotes: \(\boxed{x=0,\ x=3}\)<br>
+    Horizontal asymptote: \(\boxed{y=0}\)<br>
+    Relative minimum: \(\boxed{\left(\frac{3}{2},\frac{16}{9}\right)}\)<br>
+    Range: \(\boxed{(-\infty,0)\cup\left[\frac{16}{9},\infty\right)}\)
+  </div>
+
+  <h2>Problem 2</h2>
+
+  <p>Given</p>
+  <p>\[
+    y=2+\frac12\cos\left(-4\theta-\frac{\pi}{4}\right)
+  \]</p>
+
+  <p>Since cosine is even, \(\cos(-u)=\cos(u)\), we may rewrite this as</p>
+  <p>\[
+    y=2+\frac12\cos\left(4\theta+\frac{\pi}{4}\right)
+  \]</p>
+
+  <p>Factor the inside:</p>
+  <p>\[
+    4\theta+\frac{\pi}{4}
+    =
+    4\left(\theta+\frac{\pi}{16}\right)
+  \]</p>
+
+  <p>So the equation becomes</p>
+  <p>\[
+    y=2+\frac12\cos\left(4\left(\theta+\frac{\pi}{16}\right)\right)
+  \]</p>
+
+  <p>From this form we obtain:</p>
+  <ul>
+    <li>Amplitude: \(\boxed{\frac12}\)</li>
+    <li>Period: \(\displaystyle \frac{2\pi}{4}=\boxed{\frac{\pi}{2}}\)</li>
+    <li>Phase shift: \(\boxed{\text{left } \frac{\pi}{16}}\)</li>
+    <li>Vertical shift: \(\boxed{2}\)</li>
+    <li>Midline: \(\boxed{y=2}\)</li>
+  </ul>
+
+  <p>The maximum value is</p>
+  <p>\[
+    2+\frac12=\boxed{\frac52}
+  \]</p>
+
+  <p>The minimum value is</p>
+  <p>\[
+    2-\frac12=\boxed{\frac32}
+  \]</p>
+
+  <p>There are no vertical asymptotes for cosine, so</p>
+  <p>\[
+    \boxed{\text{no vertical asymptotes}}
+  \]</p>
+
+  <p>The transformations from the basic graph \(y=\cos\theta\) are:</p>
+  <ol>
+    <li>Horizontal compression by factor \(4\)</li>
+    <li>Shift left by \(\frac{\pi}{16}\)</li>
+    <li>Vertical shrink by factor \(\frac12\)</li>
+    <li>Shift up by \(2\)</li>
+  </ol>
+
+  <p>A convenient cycle starts where the cosine graph begins at a maximum, namely at</p>
+  <p>\[
+    \theta=-\frac{\pi}{16}
+  \]</p>
+
+  <p>The quarter-period is</p>
+  <p>\[
+    \frac14\cdot \frac{\pi}{2}=\frac{\pi}{8}
+  \]</p>
+
+  <p>So one cycle may be plotted with the five key points:</p>
+  <p>\[
+    \left(-\frac{\pi}{16},\frac52\right),\quad
+    \left(\frac{\pi}{16},2\right),\quad
+    \left(\frac{3\pi}{16},\frac32\right),\quad
+    \left(\frac{5\pi}{16},2\right),\quad
+    \left(\frac{7\pi}{16},\frac52\right)
+  \]</p>
+
+  <div class="final-answer">
+    <strong>Final answers:</strong><br>
+    Amplitude: \(\boxed{\frac12}\)<br>
+    Period: \(\boxed{\frac{\pi}{2}}\)<br>
+    Phase shift: \(\boxed{\text{left } \frac{\pi}{16}}\)<br>
+    Vertical shift: \(\boxed{2}\)<br>
+    Minimum value: \(\boxed{\frac32}\)<br>
+    Maximum value: \(\boxed{\frac52}\)<br>
+    Vertical asymptotes: \(\boxed{\text{none}}\)
+  </div>
+
+  <h2>Problem 3</h2>
+
+  <p>Given</p>
+  <p>\[
+    A=30^\circ,\qquad a=7,\qquad b=10
+  \]</p>
+
+  <p>This is the SSA ambiguous case, so we first check how many triangles are possible.</p>
+
+  <p>Compute the altitude:</p>
+  <p>\[
+    h=b\sin A=10\sin 30^\circ=10\cdot \frac12=5
+  \]</p>
+
+  <p>Now compare:</p>
+  <p>\[
+    h=5,\qquad a=7,\qquad b=10
+  \]</p>
+
+  <p>Since</p>
+  <p>\[
+    h<a<b
+  \]</p>
+
+  <p>there are <strong>two possible triangles</strong>.</p>
+
+  <p>Use the Law of Sines:</p>
+  <p>\[
+    \frac{\sin B}{b}=\frac{\sin A}{a}
+  \]</p>
+  <p>\[
+    \frac{\sin B}{10}=\frac{\sin 30^\circ}{7}
+  \]</p>
+  <p>\[
+    \sin B=\frac{10\cdot \frac12}{7}=\frac57
+  \]</p>
+
+  <p>So one possible angle is</p>
+  <p>\[
+    B_1=\sin^{-1}\left(\frac57\right)\approx 45.585^\circ
+  \]</p>
+
+  <p>The second possible angle is</p>
+  <p>\[
+    B_2=180^\circ-45.585^\circ\approx 134.415^\circ
+  \]</p>
+
+  <h3>Case 1</h3>
+
+  <p>\[
+    B\approx 45.585^\circ
+  \]</p>
+
+  <p>Then</p>
+  <p>\[
+    C=180^\circ-30^\circ-45.585^\circ\approx 104.415^\circ
+  \]</p>
+
+  <p>Use the Law of Sines again:</p>
+  <p>\[
+    \frac{c}{\sin C}=\frac{a}{\sin A}=\frac{7}{\sin 30^\circ}=14
+  \]</p>
+
+  <p>Hence</p>
+  <p>\[
+    c=14\sin(104.415^\circ)\approx 13.56
+  \]</p>
+
+  <p>So one triangle is</p>
+  <p>\[
+    \boxed{B\approx 45.585^\circ,\quad C\approx 104.415^\circ,\quad c\approx 13.56}
+  \]</p>
+
+  <h3>Case 2</h3>
+
+  <p>\[
+    B\approx 134.415^\circ
+  \]</p>
+
+  <p>Then</p>
+  <p>\[
+    C=180^\circ-30^\circ-134.415^\circ\approx 15.585^\circ
+  \]</p>
+
+  <p>Again,</p>
+  <p>\[
+    c=14\sin(15.585^\circ)\approx 3.76
+  \]</p>
+
+  <p>So the second triangle is</p>
+  <p>\[
+    \boxed{B\approx 134.415^\circ,\quad C\approx 15.585^\circ,\quad c\approx 3.76}
+  \]</p>
+
+  <div class="final-answer">
+    <strong>Final answer:</strong><br>
+    There are two possible triangles:<br><br>
+    \(\boxed{B\approx 45.585^\circ,\ C\approx 104.415^\circ,\ c\approx 13.56}\)<br><br>
+    or<br><br>
+    \(\boxed{B\approx 134.415^\circ,\ C\approx 15.585^\circ,\ c\approx 3.76}\)
+  </div>
+
+  <h2>Problem 4</h2>
+
+  <p>Let</p>
+  <ul>
+    <li>\(B\) = foot of the tower</li>
+    <li>\(T\) = top of the tower</li>
+    <li>\(P\) = point down the road</li>
+  </ul>
+
+  <p>Then</p>
+  <p>\[
+    BT=23.5\text{ m},\qquad BP=28.2\text{ m},\qquad \angle B=110.2^\circ
+  \]</p>
+
+  <p>We want the angle subtended by the tower at point \(P\), that is, \(\angle P\).</p>
+
+  <p>Use the Law of Cosines to find \(TP\):</p>
+  <p>\[
+    TP^2=BT^2+BP^2-2(BT)(BP)\cos(110.2^\circ)
+  \]</p>
+
+  <p>\[
+    TP^2=23.5^2+28.2^2-2(23.5)(28.2)\cos(110.2^\circ)
+  \]</p>
+
+  <p>\[
+    TP^2\approx 1805.148
+  \]</p>
+
+  <p>\[
+    TP\approx 42.487
+  \]</p>
+
+  <p>Now use the Law of Sines:</p>
+  <p>\[
+    \frac{\sin P}{23.5}=\frac{\sin 110.2^\circ}{42.487}
+  \]</p>
+
+  <p>So</p>
+  <p>\[
+    \sin P=\frac{23.5\sin 110.2^\circ}{42.487}
+  \]</p>
+
+  <p>\[
+    P\approx 31.27^\circ
+  \]</p>
+
+  <div class="final-answer">
+    <strong>Final answer:</strong><br>
+    The angle subtended by the tower is
+    \[
+      \boxed{31.3^\circ}
+    \]
+  </div>
+
+</body>
+</ht
