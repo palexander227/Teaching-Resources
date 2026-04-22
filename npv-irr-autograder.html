@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IRR / NPV Classroom Tool</title>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --ink: #1f2937;
+      --muted: #6b7280;
+      --line: #d1d5db;
+      --accent: #1d4ed8;
+      --good: #166534;
+      --good-bg: #dcfce7;
+      --bad: #991b1b;
+      --bad-bg: #fee2e2;
+      --warn: #92400e;
+      --warn-bg: #fef3c7;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.45;
+    }
+
+    .wrap {
+      max-width: 1150px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    h1, h2, h3 { margin-top: 0; }
+    h1 { font-size: 2rem; margin-bottom: 0.45rem; }
+
+    .subtitle {
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.04);
+      margin-bottom: 20px;
+    }
+
+    .student-shell {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    .teacher-shell {
+      display: none;
+      margin-top: 24px;
+      border-top: 4px solid #c7d2fe;
+      padding-top: 18px;
+    }
+
+    .teacher-shell.visible { display: block; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      font: inherit;
+      background: #fff;
+    }
+
+    textarea { min-height: 86px; resize: vertical; }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .btnrow {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      background: var(--accent);
+      color: white;
+    }
+
+    button.secondary { background: #374151; }
+    button.ghost { background: #e5e7eb; color: #111827; }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px;
+      background: #fafafa;
+    }
+
+    .metric .k { color: var(--muted); font-size: 0.95rem; }
+    .metric .v { font-size: 1.2rem; font-weight: 700; margin-top: 6px; }
+
+    .note, .feedback, .status {
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-top: 12px;
+    }
+
+    .note { background: #eff6ff; color: #1e3a8a; border: 1px solid #bfdbfe; }
+    .feedback.good, .status.good { background: var(--good-bg); color: var(--good); border: 1px solid #86efac; }
+    .feedback.bad, .status.bad { background: var(--bad-bg); color: var(--bad); border: 1px solid #fca5a5; }
+    .feedback.warn, .status.warn { background: var(--warn-bg); color: var(--warn); border: 1px solid #fcd34d; }
+
+    .small { font-size: 0.92rem; color: var(--muted); }
+    .qblock { border-top: 1px solid var(--line); padding-top: 16px; margin-top: 16px; }
+
+    .pill {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 3px 10px;
+      background: #e0e7ff;
+      color: #3730a3;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .scoreline { font-size: 1.05rem; font-weight: 700; margin-top: 14px; }
+    .footer { color: var(--muted); font-size: 0.92rem; margin-top: 14px; }
+    .topbar { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; flex-wrap:wrap; }
+    .hidden { display:none !important; }
+
+    details summary {
+      cursor: pointer;
+      font-weight: 700;
+      color: #374151;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid var(--line);
+      padding: 8px 10px;
+      text-align: right;
+    }
+    th:first-child, td:first-child { text-align: left; }
+
+    @media (max-width: 900px) {
+      .grid, .row, .metric-grid { grid-template-columns: 1fr; }
+      .student-shell { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div>
+        <h1>IRR / NPV Assessment Tool</h1>
+        <p class="subtitle">Student mode appears by default. Teacher tools stay hidden unless unlocked.</p>
+      </div>
+      <div class="card" style="min-width:290px; max-width:360px; margin-bottom:0;">
+        <label for="teacherCode">Teacher unlock code</label>
+        <input id="teacherCode" type="password" placeholder="Enter teacher code" />
+        <div class="btnrow" style="margin-top:10px;">
+          <button id="unlockBtn">Unlock teacher tools</button>
+          <button class="ghost hidden" id="lockBtn">Hide teacher tools</button>
+        </div>
+        <div id="unlockMsg" class="small" style="margin-top:8px;">Students can ignore this.</div>
+      </div>
+    </div>
+
+    <div class="student-shell">
+      <div class="card">
+        <div class="pill">Student View</div>
+        <h2 id="liveQuestionTitle">Project Evaluation Question</h2>
+        <p id="liveQuestionText">Compute the requested quantity or quantities for the cash-flow stream below. Round money to the nearest cent and rates to four decimal places if needed.</p>
+        <div id="studentPrompt" class="note">No question has been published yet. If you are the teacher, unlock the teacher tools below and publish a question.</div>
+
+        <div class="qblock">
+          <div class="row">
+            <div>
+              <label for="studentNpv">Student NPV answer</label>
+              <input id="studentNpv" placeholder="e.g. 245.18" />
+            </div>
+            <div>
+              <label for="studentIrr">Student IRR answer</label>
+              <input id="studentIrr" placeholder="e.g. 12.45% or 0.1245" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label for="studentDecision">Decision</label>
+              <select id="studentDecision">
+                <option value="">Select one</option>
+                <option value="accept">Accept</option>
+                <option value="reject">Reject</option>
+                <option value="neutral">Indifferent / NPV = 0</option>
+              </select>
+            </div>
+            <div>
+              <label for="studentReason">Reasoning (optional)</label>
+              <input id="studentReason" placeholder="Optional note" />
+            </div>
+          </div>
+
+          <div class="btnrow">
+            <button id="gradeBtn">Grade submission</button>
+            <button class="ghost" id="resetStudentBtn">Reset student fields</button>
+          </div>
+
+          <div id="gradeFeedback" class="feedback warn">No submission graded yet.</div>
+          <div class="scoreline" id="scoreOut">Score: —</div>
+        </div>
+
+        <div class="footer">
+          IRR may fail to exist or may not be unique for non-conventional cash flows. This tool reports one numerical IRR when it finds one over a broad search interval.
+        </div>
+      </div>
+    </div>
+
+    <div id="teacherShell" class="teacher-shell">
+      <div class="grid">
+        <section>
+          <div class="card">
+            <div class="pill">Teacher View</div>
+            <h2>Build or revise the published question</h2>
+            <div class="row">
+              <div>
+                <label for="teacherCashflows">Teacher cash flows</label>
+                <textarea id="teacherCashflows">-5000, 1200, 1400, 1800, 2200</textarea>
+              </div>
+              <div>
+                <label for="teacherRate">Teacher discount rate</label>
+                <input id="teacherRate" value="8%" />
+              </div>
+            </div>
+
+            <div class="row">
+              <div>
+                <label for="questionTitle">Question title</label>
+                <input id="questionTitle" value="Project Evaluation Question" />
+              </div>
+              <div>
+                <label for="targetMode">Auto-grade mode</label>
+                <select id="targetMode">
+                  <option value="both">Grade both NPV and IRR</option>
+                  <option value="npv">Grade NPV only</option>
+                  <option value="irr">Grade IRR only</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row">
+              <div>
+                <label for="npvTol">NPV tolerance</label>
+                <input id="npvTol" value="0.05" />
+              </div>
+              <div>
+                <label for="irrTol">IRR tolerance</label>
+                <input id="irrTol" value="0.0005" />
+              </div>
+            </div>
+
+            <div class="btnrow">
+              <button id="publishBtn">Publish question to student view</button>
+              <button class="secondary" id="saveStudentBtn">Save student-only file</button>
+            </div>
+
+            <div class="note">
+              Workflow: unlock teacher tools, enter the official problem, click <strong>Publish</strong>, then optionally click <strong>Save student-only file</strong>. That downloaded file hides teacher tools and contains the published question already loaded.
+            </div>
+          </div>
+
+          <div class="card">
+            <h2>Optional teacher calculator</h2>
+            <details open>
+              <summary>Show calculator</summary>
+              <div class="row" style="margin-top:14px;">
+                <div>
+                  <label for="cashflows">Cash flows</label>
+                  <textarea id="cashflows">-1000, 250, 300, 350, 400</textarea>
+                  <div class="small">Enter comma-separated periodic cash flows: \(CF_0, CF_1, \dots, CF_n\)</div>
+                </div>
+                <div>
+                  <label for="rate">Discount rate (decimal or %)</label>
+                  <input id="rate" value="10%" />
+                  <div class="small">Examples: <code>0.10</code>, <code>10%</code>, <code>7.5%</code></div>
+                </div>
+              </div>
+
+              <div class="btnrow">
+                <button id="calcBtn">Compute NPV / IRR</button>
+                <button class="secondary" id="fillBtn">Load demo problem</button>
+                <button class="ghost" id="clearBtn">Clear</button>
+              </div>
+
+              <div class="metric-grid">
+                <div class="metric"><div class="k">Net Present Value</div><div class="v" id="npvOut">—</div></div>
+                <div class="metric"><div class="k">Internal Rate of Return</div><div class="v" id="irrOut">—</div></div>
+                <div class="metric"><div class="k">Future Value at final period</div><div class="v" id="fvOut">—</div></div>
+                <div class="metric"><div class="k">Decision at chosen rate</div><div class="v" id="decisionOut">—</div></div>
+              </div>
+
+              <div id="calcFeedback" class="note">This computes NPV, FV, and an estimated IRR numerically.</div>
+              <div id="cfTableWrap"></div>
+            </details>
+          </div>
+        </section>
+
+        <section>
+          <div class="card">
+            <h2>Teacher answer key</h2>
+            <div id="keyBox" class="status warn">Publish a question to generate the answer key.</div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const TEACHER_CODE = 'finance2026';
+
+    function parseCashFlows(text) {
+      const raw = text.split(/[\n,;]+/).map(s => s.trim()).filter(Boolean);
+      if (!raw.length) throw new Error('Please enter at least one cash flow.');
+      return raw.map(x => {
+        const v = Number(x.replace(/\$/g, '').replace(/,/g, ''));
+        if (!Number.isFinite(v)) throw new Error('Invalid cash flow entry: ' + x);
+        return v;
+      });
+    }
+
+    function parseRate(text) {
+      const s = String(text).trim();
+      if (!s) throw new Error('Please enter a discount rate.');
+      let v = s.endsWith('%') ? Number(s.slice(0, -1).trim()) / 100 : Number(s);
+      if (!Number.isFinite(v)) throw new Error('Invalid rate: ' + text);
+      return v;
+    }
+
+    function formatMoney(x) {
+      return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(x);
+    }
+
+    function formatPct(x) {
+      if (!Number.isFinite(x)) return 'No IRR found';
+      return (100 * x).toFixed(4).replace(/0+$/, '').replace(/\.$/, '') + '%';
+    }
+
+    function npv(cashflows, rate) {
+      return cashflows.reduce((sum, cf, t) => sum + cf / Math.pow(1 + rate, t), 0);
+    }
+
+    function fv(cashflows, rate) {
+      const n = cashflows.length - 1;
+      return cashflows.reduce((sum, cf, t) => sum + cf * Math.pow(1 + rate, n - t), 0);
+    }
+
+    function irr(cashflows) {
+      const f = r => {
+        if (r <= -0.999999999) return NaN;
+        return npv(cashflows, r);
+      };
+      const min = -0.99, max = 10, steps = 4000;
+      let prevR = min, prevV = f(prevR);
+      for (let i = 1; i <= steps; i++) {
+        const r = min + (max - min) * i / steps;
+        const v = f(r);
+        if (!Number.isFinite(prevV) || !Number.isFinite(v)) { prevR = r; prevV = v; continue; }
+        if (Math.abs(v) < 1e-12) return r;
+        if (prevV === 0) return prevR;
+        if (prevV * v < 0) {
+          let a = prevR, b = r, fa = prevV;
+          for (let k = 0; k < 120; k++) {
+            const m = (a + b) / 2;
+            const fm = f(m);
+            if (!Number.isFinite(fm)) break;
+            if (Math.abs(fm) < 1e-12) return m;
+            if (fa * fm <= 0) b = m; else { a = m; fa = fm; }
+          }
+          return (a + b) / 2;
+        }
+        prevR = r; prevV = v;
+      }
+      return NaN;
+    }
+
+    function buildCashflowTable(cashflows, rate) {
+      const rows = cashflows.map((cf, t) => {
+        const disc = cf / Math.pow(1 + rate, t);
+        return `<tr><td>${t}</td><td>${formatMoney(cf)}</td><td>${(1 / Math.pow(1 + rate, t)).toFixed(6)}</td><td>${formatMoney(disc)}</td></tr>`;
+      }).join('');
+      return `<table><thead><tr><th>Period</th><th>Cash Flow</th><th>Discount Factor</th><th>PV Contribution</th></tr></thead><tbody>${rows}</tbody></table>`;
+    }
+
+    function decisionFromNpv(value, eps = 1e-9) {
+      if (value > eps) return 'Accept';
+      if (value < -eps) return 'Reject';
+      return 'Indifferent';
+    }
+
+    function studentDecisionFromLabel(s) {
+      if (s === 'accept') return 'Accept';
+      if (s === 'reject') return 'Reject';
+      if (s === 'neutral') return 'Indifferent';
+      return '';
+    }
+
+    const els = {
+      teacherCode: document.getElementById('teacherCode'),
+      unlockBtn: document.getElementById('unlockBtn'),
+      lockBtn: document.getElementById('lockBtn'),
+      unlockMsg: document.getElementById('unlockMsg'),
+      teacherShell: document.getElementById('teacherShell'),
+
+      cashflows: document.getElementById('cashflows'),
+      rate: document.getElementById('rate'),
+      npvOut: document.getElementById('npvOut'),
+      irrOut: document.getElementById('irrOut'),
+      fvOut: document.getElementById('fvOut'),
+      decisionOut: document.getElementById('decisionOut'),
+      calcFeedback: document.getElementById('calcFeedback'),
+      cfTableWrap: document.getElementById('cfTableWrap'),
+
+      teacherCashflows: document.getElementById('teacherCashflows'),
+      teacherRate: document.getElementById('teacherRate'),
+      questionTitle: document.getElementById('questionTitle'),
+      targetMode: document.getElementById('targetMode'),
+      npvTol: document.getElementById('npvTol'),
+      irrTol: document.getElementById('irrTol'),
+
+      liveQuestionTitle: document.getElementById('liveQuestionTitle'),
+      studentPrompt: document.getElementById('studentPrompt'),
+      studentNpv: document.getElementById('studentNpv'),
+      studentIrr: document.getElementById('studentIrr'),
+      studentDecision: document.getElementById('studentDecision'),
+      studentReason: document.getElementById('studentReason'),
+      gradeFeedback: document.getElementById('gradeFeedback'),
+      scoreOut: document.getElementById('scoreOut'),
+      keyBox: document.getElementById('keyBox')
+    };
+
+    let activeQuestion = null;
+    let teacherVisible = false;
+
+    function setTeacherVisibility(show) {
+      teacherVisible = show;
+      els.teacherShell.classList.toggle('visible', show);
+      els.lockBtn.classList.toggle('hidden', !show);
+      els.unlockMsg.textContent = show ? 'Teacher tools unlocked.' : 'Students can ignore this.';
+    }
+
+    function renderCalculator() {
+      try {
+        const cashflows = parseCashFlows(els.cashflows.value);
+        const rate = parseRate(els.rate.value);
+        if (rate <= -1) throw new Error('Discount rate must be greater than -100%.');
+        const n = npv(cashflows, rate), i = irr(cashflows), f = fv(cashflows, rate), d = decisionFromNpv(n);
+        els.npvOut.textContent = formatMoney(n);
+        els.irrOut.textContent = Number.isFinite(i) ? formatPct(i) : 'No IRR found';
+        els.fvOut.textContent = formatMoney(f);
+        els.decisionOut.textContent = d;
+        els.calcFeedback.className = 'feedback good';
+        els.calcFeedback.innerHTML = `At discount rate <strong>${formatPct(rate)}</strong>, NPV is <strong>${formatMoney(n)}</strong>, so the NPV rule says <strong>${d.toLowerCase()}</strong>.`;
+        els.cfTableWrap.innerHTML = buildCashflowTable(cashflows, rate);
+      } catch (err) {
+        els.npvOut.textContent = '—'; els.irrOut.textContent = '—'; els.fvOut.textContent = '—'; els.decisionOut.textContent = '—';
+        els.cfTableWrap.innerHTML = '';
+        els.calcFeedback.className = 'feedback bad';
+        els.calcFeedback.textContent = err.message;
+      }
+    }
+
+    function applyPublishedQuestion(q) {
+      if (!q) {
+        els.liveQuestionTitle.textContent = 'Project Evaluation Question';
+        els.studentPrompt.textContent = 'No question has been published yet. If you are the teacher, unlock the teacher tools below and publish a question.';
+        return;
+      }
+      els.liveQuestionTitle.textContent = q.title;
+      els.studentPrompt.innerHTML = `Cash flows: <strong>[${q.cashflows.join(', ')}]</strong><br>Discount rate: <strong>${formatPct(q.rate)}</strong><br>Grade mode: <strong>${q.mode.toUpperCase()}</strong>`;
+    }
+
+    function publishQuestion() {
+      try {
+        const cashflows = parseCashFlows(els.teacherCashflows.value);
+        const rate = parseRate(els.teacherRate.value);
+        const mode = els.targetMode.value;
+        const npvTol = Number(els.npvTol.value), irrTol = Number(els.irrTol.value);
+        if (rate <= -1) throw new Error('Discount rate must be greater than -100%.');
+        if (!Number.isFinite(npvTol) || npvTol < 0) throw new Error('Invalid NPV tolerance.');
+        if (!Number.isFinite(irrTol) || irrTol < 0) throw new Error('Invalid IRR tolerance.');
+
+        const ansNpv = npv(cashflows, rate), ansIrr = irr(cashflows), decision = decisionFromNpv(ansNpv);
+        activeQuestion = { title: els.questionTitle.value.trim() || 'Project Evaluation Question', cashflows, rate, mode, npvTol, irrTol, ansNpv, ansIrr, decision };
+        applyPublishedQuestion(activeQuestion);
+        const irrText = Number.isFinite(ansIrr) ? formatPct(ansIrr) : 'No IRR found in search interval';
+        els.keyBox.className = 'status good';
+        els.keyBox.innerHTML = `<strong>Answer key</strong><br>NPV = <strong>${formatMoney(ansNpv)}</strong><br>IRR = <strong>${irrText}</strong><br>Decision = <strong>${decision}</strong><br>NPV tolerance = ±${npvTol}<br>IRR tolerance = ±${irrTol}`;
+        els.gradeFeedback.className = 'feedback warn';
+        els.gradeFeedback.textContent = 'Question published. Student view now shows the problem.';
+        els.scoreOut.textContent = 'Score: —';
+      } catch (err) {
+        activeQuestion = null;
+        els.keyBox.className = 'status bad';
+        els.keyBox.textContent = err.message;
+      }
+    }
+
+    function gradeSubmission() {
+      if (!activeQuestion) {
+        els.gradeFeedback.className = 'feedback bad';
+        els.gradeFeedback.textContent = 'No question is currently published.';
+        return;
+      }
+      const mode = activeQuestion.mode;
+      let total = 0, earned = 0;
+      const messages = [];
+      if (mode === 'npv' || mode === 'both') {
+        total += 1;
+        const val = Number(String(els.studentNpv.value).replace(/\$/g, '').replace(/,/g, '').trim());
+        if (Number.isFinite(val)) {
+          const ok = Math.abs(val - activeQuestion.ansNpv) <= activeQuestion.npvTol;
+          if (ok) earned += 1;
+          messages.push(`NPV: ${ok ? 'correct' : 'incorrect'} (expected ${formatMoney(activeQuestion.ansNpv)})`);
+        } else messages.push('NPV: no valid numeric response');
+      }
+      if (mode === 'irr' || mode === 'both') {
+        total += 1;
+        let sIrr; try { sIrr = parseRate(els.studentIrr.value); } catch { sIrr = NaN; }
+        if (Number.isFinite(activeQuestion.ansIrr)) {
+          if (Number.isFinite(sIrr)) {
+            const ok = Math.abs(sIrr - activeQuestion.ansIrr) <= activeQuestion.irrTol;
+            if (ok) earned += 1;
+            messages.push(`IRR: ${ok ? 'correct' : 'incorrect'} (expected ${formatPct(activeQuestion.ansIrr)})`);
+          } else messages.push('IRR: no valid numeric response');
+        } else {
+          const ok = /no irr/i.test(els.studentIrr.value.trim());
+          if (ok) earned += 1;
+          messages.push(`IRR: ${ok ? 'correct' : 'incorrect'} (expected no numerical IRR found)`);
+        }
+      }
+      total += 1;
+      const studDecision = studentDecisionFromLabel(els.studentDecision.value);
+      const decisionOk = studDecision === activeQuestion.decision;
+      if (decisionOk) earned += 1;
+      messages.push(`Decision: ${decisionOk ? 'correct' : 'incorrect'} (expected ${activeQuestion.decision})`);
+      const pct = total ? 100 * earned / total : 0;
+      els.gradeFeedback.className = 'feedback ' + (pct >= 80 ? 'good' : 'bad');
+      els.gradeFeedback.innerHTML = messages.join('<br>');
+      els.scoreOut.textContent = `Score: ${earned}/${total} (${pct.toFixed(0)}%)`;
+    }
+
+    function saveStudentVersion() {
+      if (!activeQuestion) {
+        els.keyBox.className = 'status bad';
+        els.keyBox.textContent = 'Publish a question before saving a student-only file.';
+        return;
+      }
+      const clone = document.documentElement.outerHTML
+        .replace("const TEACHER_CODE = 'finance2026';", "const TEACHER_CODE = '__disabled__';")
+        .replace('let activeQuestion = null;', 'let activeQuestion = ' + JSON.stringify(activeQuestion) + ';')
+        .replace('let teacherVisible = false;', 'let teacherVisible = false;')
+        .replace('Students can ignore this.', 'Teacher tools disabled in this student copy.')
+        .replace('id="teacherShell" class="teacher-shell"', 'id="teacherShell" class="teacher-shell hidden"')
+        .replace('id="unlockBtn">Unlock teacher tools<', 'id="unlockBtn" class="hidden">Unlock teacher tools<')
+        .replace('id="teacherCode" type="password"', 'id="teacherCode" type="password" class="hidden"')
+        .replace('id="lockBtn">Hide teacher tools<', 'id="lockBtn" class="hidden">Hide teacher tools<');
+
+      const blob = new Blob([clone], { type: 'text/html' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'irr_npv_student_only.html';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(a.href);
+      els.keyBox.className = 'status good';
+      els.keyBox.textContent = 'Student-only file downloaded.';
+    }
+
+    document.getElementById('unlockBtn').addEventListener('click', () => {
+      if (els.teacherCode.value === TEACHER_CODE) setTeacherVisibility(true);
+      else { setTeacherVisibility(false); els.unlockMsg.textContent = 'Incorrect code.'; }
+    });
+    document.getElementById('lockBtn').addEventListener('click', () => setTeacherVisibility(false));
+    document.getElementById('calcBtn').addEventListener('click', renderCalculator);
+    document.getElementById('fillBtn').addEventListener('click', () => { els.cashflows.value = '-10000, 2500, 3000, 3500, 4200'; els.rate.value = '9%'; renderCalculator(); });
+    document.getElementById('clearBtn').addEventListener('click', () => { els.cashflows.value = ''; els.rate.value = ''; renderCalculator(); });
+    document.getElementById('publishBtn').addEventListener('click', publishQuestion);
+    document.getElementById('gradeBtn').addEventListener('click', gradeSubmission);
+    document.getElementById('resetStudentBtn').addEventListener('click', () => {
+      els.studentNpv.value = ''; els.studentIrr.value = ''; els.studentDecision.value = ''; els.studentReason.value = '';
+      els.gradeFeedback.className = 'feedback warn'; els.gradeFeedback.textContent = 'Student fields reset.'; els.scoreOut.textContent = 'Score: —';
+    });
+    document.getElementById('saveStudentBtn').addEventListener('click', saveStudentVersion);
+
+    renderCalculator();
+    applyPublishedQuestion(activeQuestion);
+  </script>
+</body>
+</html>
