@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Precalculus Practice Test B — Solutions</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(','\\)'], ['$', '$']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root {
+    --bg: #f6f8fb;
+    --card: #ffffff;
+    --ink: #1f2937;
+    --muted: #6b7280;
+    --line: #d6dce5;
+    --accent: #1d4ed8;
+    --accent2: #0f766e;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.55;
+  }
+  .wrap {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 28px 18px 64px;
+  }
+  header {
+    background: linear-gradient(135deg, #eef4ff, #f7fffd);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 24px 26px;
+    margin-bottom: 24px;
+  }
+  h1 {
+    margin: 0 0 8px;
+    font-size: 2rem;
+  }
+  .subtitle {
+    margin: 0;
+    color: var(--muted);
+  }
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(246,248,251,0.92);
+    backdrop-filter: blur(6px);
+    padding: 12px 0 14px;
+    margin-bottom: 10px;
+  }
+  nav .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  nav a {
+    text-decoration: none;
+    color: var(--accent);
+    background: #fff;
+    border: 1px solid var(--line);
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 0.95rem;
+  }
+  section.problem {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 24px;
+    margin: 20px 0;
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.05);
+  }
+  h2 {
+    margin-top: 0;
+    font-size: 1.45rem;
+  }
+  h3 {
+    margin-bottom: 8px;
+    color: var(--accent2);
+  }
+  .label {
+    display: inline-block;
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: white;
+    background: var(--accent);
+    border-radius: 999px;
+    padding: 5px 10px;
+    margin-bottom: 12px;
+  }
+  .prompt {
+    background: #fbfcfe;
+    border-left: 4px solid #93c5fd;
+    padding: 14px 16px;
+    margin: 12px 0 18px;
+  }
+  .answer {
+    background: #f5fffb;
+    border: 1px solid #cceee4;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin: 14px 0;
+  }
+  .work {
+    margin-top: 12px;
+  }
+  ul {
+    margin-top: 8px;
+  }
+  .small {
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  .gridnote {
+    color: var(--muted);
+    font-style: italic;
+  }
+  footer {
+    color: var(--muted);
+    text-align: center;
+    margin-top: 28px;
+    font-size: 0.95rem;
+  }
+  code {
+    background: #f3f4f6;
+    padding: 2px 6px;
+    border-radius: 6px;
+  }
+  @media print {
+    body { background: white; }
+    nav { display: none; }
+    section.problem {
+      box-shadow: none;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    a { color: inherit; text-decoration: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Precalculus Practice Test B — HTML Solution Set</h1>
+    <p class="subtitle">Clean web version for GitHub Pages deployment. Math is rendered with MathJax.</p>
+  </header>
+
+  <nav>
+    <div class="links">
+      <a href="#p1">Problem 1</a>
+      <a href="#p2">Problem 2</a>
+      <a href="#p3">Problem 3</a>
+      <a href="#p4">Problem 4</a>
+    </div>
+  </nav>
+
+  <section class="problem" id="p1">
+    <div class="label">Problem 1</div>
+    <h2>Pendulum model</h2>
+    <div class="prompt">
+      A pendulum is at its highest point of 36 cm at the beginning of the measurement, one second later it is at its lowest point of 12 cm, and one second after that it is back at its highest point.
+    </div>
+
+    <div class="answer">
+      <strong>Key features:</strong>
+      <ul>
+        <li>Maximum height: \(36\)</li>
+        <li>Minimum height: \(12\)</li>
+        <li>Amplitude: \(\dfrac{36-12}{2} = 12\)</li>
+        <li>Midline: \(\dfrac{36+12}{2} = 24\)</li>
+        <li>From max to min takes 1 second, so that is half a period.</li>
+        <li>Therefore the period is \(2\) seconds.</li>
+      </ul>
+    </div>
+
+    <h3>(a) Sketch information</h3>
+    <div class="work">
+      A correct sketch starts at a maximum at \((0,36)\), reaches a minimum at \((1,12)\), and returns to a maximum at \((2,36)\). The sinusoid oscillates about the midline \(y=24\).
+    </div>
+
+    <h3>(b) One suitable equation</h3>
+    <div class="answer">
+      Since the graph starts at a maximum, cosine is the natural choice:
+      \[
+      h(t)=12\cos(\pi t)+24.
+      \]
+    </div>
+    <p class="small">Here \(B=\pi\) because \(\dfrac{2\pi}{B}=2\).</p>
+  </section>
+
+  <section class="problem" id="p2">
+    <div class="label">Problem 2</div>
+    <h2>Polynomial analysis</h2>
+    <div class="prompt">
+      Analyze \(f(x)=x^5+5x^4+7x^3-x^2-8x-4\): maximum possible number of turns, real zeros and multiplicities, x-intercepts where the graph crosses or does not cross, y-intercept, end behavior, and a sketch description.
+    </div>
+
+    <h3>1. Maximum possible number of turns</h3>
+    <div class="answer">
+      The polynomial has degree \(5\), so the maximum possible number of turning points is
+      \[
+      5-1=4.
+      \]
+    </div>
+
+    <h3>2. Factor completely</h3>
+    <div class="answer">
+      Using the hint that \((x-1)\) and \((x-2)\) are factors is helpful, but the complete factorization is
+      \[
+      f(x)=x^5+5x^4+7x^3-x^2-8x-4=(x-1)(x+1)^2(x+2)^2.
+      \]
+    </div>
+
+    <h3>3. Real zeros and multiplicities</h3>
+    <div class="answer">
+      \[
+      x=1 \text{ with multiplicity }1, \qquad
+      x=-1 \text{ with multiplicity }2, \qquad
+      x=-2 \text{ with multiplicity }2.
+      \]
+    </div>
+
+    <h3>4. Crossing behavior at the x-axis</h3>
+    <div class="answer">
+      <ul>
+        <li>At \(x=1\), the multiplicity is odd, so the graph <strong>crosses</strong> the x-axis.</li>
+        <li>At \(x=-1\), the multiplicity is even, so the graph <strong>touches and turns</strong>.</li>
+        <li>At \(x=-2\), the multiplicity is even, so the graph <strong>touches and turns</strong>.</li>
+      </ul>
+    </div>
+
+    <h3>5. y-intercept</h3>
+    <div class="answer">
+      \[
+      f(0)=-4.
+      \]
+      So the y-intercept is \((0,-4)\).
+    </div>
+
+    <h3>6. End behavior</h3>
+    <div class="answer">
+      The leading term is \(x^5\), which has odd degree and positive leading coefficient, so:
+      \[
+      x\to -\infty \Rightarrow f(x)\to -\infty,
+      \qquad
+      x\to \infty \Rightarrow f(x)\to \infty.
+      \]
+      Left end down, right end up.
+    </div>
+
+    <h3>7. Sketch description</h3>
+    <div class="work">
+      Start far down on the left. The graph rises to touch the x-axis at \(x=-2\), turns back, then rises again to touch the x-axis at \(x=-1\), turns back again, passes through \((0,-4)\), and then crosses the x-axis at \(x=1\) before rising to the right.
+    </div>
+  </section>
+
+  <section class="problem" id="p3">
+    <div class="label">Problem 3</div>
+    <h2>Solve the triangle</h2>
+    <div class="prompt">
+      The three side lengths are \(AB=17\), \(BC=15\), and \(AC=28\). Find all angles.
+    </div>
+
+    <div class="work">
+      Let
+      \[
+      a=BC=15, \qquad b=AC=28, \qquad c=AB=17,
+      \]
+      so that \(a\) is opposite \(\angle A\), \(b\) is opposite \(\angle B\), and \(c\) is opposite \(\angle C\).
+    </div>
+
+    <h3>Find \(\angle A\)</h3>
+    <div class="answer">
+      By the Law of Cosines,
+      \[
+      a^2=b^2+c^2-2bc\cos A.
+      \]
+      Hence
+      \[
+      15^2=28^2+17^2-2(28)(17)\cos A.
+      \]
+      So
+      \[
+      \cos A=\frac{28^2+17^2-15^2}{2\cdot 28\cdot 17}
+      =\frac{848}{952}\approx 0.890756,
+      \]
+      and therefore
+      \[
+      A\approx 27.032^\circ.
+      \]
+    </div>
+
+    <h3>Find \(\angle B\)</h3>
+    <div class="answer">
+      \[
+      b^2=a^2+c^2-2ac\cos B
+      \]
+      gives
+      \[
+      28^2=15^2+17^2-2(15)(17)\cos B.
+      \]
+      Thus
+      \[
+      \cos B=\frac{15^2+17^2-28^2}{2\cdot 15\cdot 17}
+      =\frac{-270}{510}\approx -0.529412,
+      \]
+      so
+      \[
+      B\approx 121.966^\circ.
+      \]
+    </div>
+
+    <h3>Find \(\angle C\)</h3>
+    <div class="answer">
+      \[
+      C=180^\circ-A-B
+      \approx 180^\circ-27.032^\circ-121.966^\circ
+      \approx 31.003^\circ.
+      \]
+    </div>
+
+    <div class="answer">
+      <strong>Final answer:</strong>
+      \[
+      \angle A\approx 27.032^\circ,\qquad
+      \angle B\approx 121.966^\circ,\qquad
+      \angle C\approx 31.003^\circ.
+      \]
+    </div>
+  </section>
+
+  <section class="problem" id="p4">
+    <div class="label">Problem 4</div>
+    <h2>Seasonal computer sales model</h2>
+    <div class="prompt">
+      The model is
+      \[
+      s(t)=0.098\sin(0.79t+2.37)+0.387, \qquad 1\le t\le 12,
+      \]
+      where \(t\) is time in quarters and \(s(t)\) is quarterly revenue in millions of dollars.
+    </div>
+
+    <h3>Part A</h3>
+
+    <h3>(a) Amplitude</h3>
+    <div class="answer">
+      The amplitude is
+      \[
+      0.098.
+      \]
+      Interpretation: the revenue fluctuates by about \(0.098\) million dollars above and below the midline. That is about \(\$98{,}000\).
+    </div>
+
+    <h3>(b) Period</h3>
+    <div class="answer">
+      \[
+      P=\frac{2\pi}{0.79}\approx 7.953.
+      \]
+      Interpretation: one full sales cycle takes about <strong>7.953 quarters</strong>.
+    </div>
+
+    <h3>(c) Vertical shift</h3>
+    <div class="answer">
+      The vertical shift is
+      \[
+      0.387.
+      \]
+      Interpretation: the midline is \(s=0.387\), so the average quarterly revenue is about \(0.387\) million dollars, or \(\$387{,}000\).
+    </div>
+
+    <h3>(d) Phase shift</h3>
+    <div class="answer">
+      Rewrite conceptually as \(A\sin(B(t-h))+D\), where
+      \[
+      h=-\frac{2.37}{0.79}=-3.
+      \]
+      So the phase shift is <strong>3 quarters left</strong>.
+    </div>
+
+    <h3>Part B</h3>
+
+    <h3>Useful graph features</h3>
+    <div class="answer">
+      <ul>
+        <li>Midline: \(y=0.387\)</li>
+        <li>Maximum value: \(0.387+0.098=0.485\)</li>
+        <li>Minimum value: \(0.387-0.098=0.289\)</li>
+        <li>At \(t=0\): \(s(0)=0.098\sin(2.37)+0.387\approx 0.455\)</li>
+      </ul>
+    </div>
+
+    <h3>(a) How long until maximum revenue is attained?</h3>
+    <div class="answer">
+      Maximum occurs when
+      \[
+      \sin(0.79t+2.37)=1.
+      \]
+      So
+      \[
+      0.79t+2.37=\frac{\pi}{2}+2\pi k.
+      \]
+      The first solution in the interval \(1\le t\le 12\) is
+      \[
+      t\approx 6.942.
+      \]
+      So maximum revenue is attained at about <strong>6.942 quarters</strong>.
+    </div>
+
+    <h3>(b) How long until \(s(0)\) is again observed?</h3>
+    <div class="answer">
+      We solve
+      \[
+      0.098\sin(0.79t+2.37)+0.387=s(0).
+      \]
+      This means
+      \[
+      \sin(0.79t+2.37)=\sin(2.37).
+      \]
+      The first positive solution after \(t=0\) is
+      \[
+      t\approx 5.930.
+      \]
+      So \(s(0)\) is again observed after about <strong>5.930 quarters</strong>.
+    </div>
+
+    <p class="gridnote">For deployment, you could later add a plotted SVG or Desmos iframe, but this version is already clean and ready for GitHub Pages.</p>
+  </section>
+
+  <footer>
+    Prepared as a single-file HTML solution set for GitHub deployment.
+  </footer>
+</div>
+</body>
+</html>
