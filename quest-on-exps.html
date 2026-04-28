@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Unit 2 Exponentials and Logs — Self-Grading Quiz</title>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+  :root { --bg:#f7f7fb; --card:#fff; --ink:#202124; --muted:#666; --accent:#243b80; --good:#137333; --bad:#b3261e; }
+  body { margin:0; font-family: Georgia, 'Times New Roman', serif; background:var(--bg); color:var(--ink); }
+  header { background:var(--accent); color:white; padding:24px; }
+  main { max-width:980px; margin:0 auto; padding:24px; }
+  .card { background:var(--card); border-radius:14px; padding:20px; margin:18px 0; box-shadow:0 2px 12px rgba(0,0,0,.08); }
+  label { display:block; font-weight:bold; margin-top:12px; }
+  input, select { font-size:16px; padding:9px; border:1px solid #bbb; border-radius:8px; width:100%; max-width:460px; box-sizing:border-box; }
+  .small { color:var(--muted); font-size:14px; }
+  .question-title { font-size:19px; font-weight:bold; margin-bottom:10px; }
+  .choices label { font-weight:normal; display:block; margin:9px 0; padding:8px; border:1px solid #ddd; border-radius:8px; background:#fafafa; }
+  .feedback { margin-top:10px; font-weight:bold; }
+  .correct { color:var(--good); }
+  .incorrect { color:var(--bad); }
+  button { background:var(--accent); color:white; border:0; border-radius:10px; padding:12px 18px; font-size:16px; cursor:pointer; margin:8px 8px 8px 0; }
+  button.secondary { background:#555; }
+  button:disabled { opacity:.55; cursor:not-allowed; }
+  .scorebox { font-size:20px; padding:15px; border-radius:10px; background:#eef2ff; }
+  .pill { display:inline-block; background:#e7e7ef; border-radius:999px; padding:3px 10px; margin-left:6px; font-size:13px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Precalculus A/B — Unit 2 Review Quiz</h1>
+  <p>Exponentials and Logs — 10 Random Questions</p>
+</header>
+<main>
+  <section class="card">
+    <p>This quiz randomly selects 10 questions from the Unit 2 exponential/logarithmic review test. For graph questions, answer using key features rather than drawing freehand.</p>
+    <label for="studentName">Student Name</label>
+    <input id="studentName" autocomplete="name" />
+    <label for="section">Section</label>
+    <input id="section" placeholder="Example: Precalculus A, Period 2" />
+    <button onclick="startQuiz()">Start / New Random Quiz</button>
+  </section>
+
+  <form id="quizForm"></form>
+
+  <section class="card" id="actions" style="display:none;">
+    <button type="button" onclick="gradeQuiz()">Grade Quiz</button>
+    <button type="button" class="secondary" onclick="submitScore()" id="submitBtn" disabled>Submit Score to Sheet</button>
+    <div id="scoreReport" class="scorebox" style="display:none;"></div>
+    <p id="submitStatus" class="small"></p>
+  </section>
+</main>
+<script>
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwVQ2z9QFxSMfMH0-nfMYLYwjM-L2XMkqpqM4XYkWDew7V3fIa3s4c_U-sFj-686KvbJg/exec";
+
+const questionBank = [
+  {id:"1", prompt:"From the graph in Question 1: What is the horizontal asymptote?", choices:["y=0","y=1","y=-1","x=1"], answer:"y=1", note:"The curve increases toward the horizontal line y=1."},
+  {id:"2", prompt:"For \\(y=3\\cdot 2^x\\), what is the y-intercept?", choices:["(0,1)","(0,2)","(0,3)","(3,0)"], answer:"(0,3)", note:"Substitute x=0: y=3·1=3."},
+  {id:"3", prompt:"For \\(y=-2(\\tfrac12)^x+1\\), what is the horizontal asymptote?", choices:["y=0","y=1","y=-2","x=1"], answer:"y=1", note:"The +1 shifts the asymptote from y=0 to y=1."},
+  {id:"4", prompt:"For \\(y=-2\\cdot 2^x\\), what is the range?", choices:["(0,∞)","(-∞,0)","(-∞,2)","all real numbers"], answer:"(-∞,0)", note:"2^x is positive, and multiplying by -2 makes all values negative."},
+  {id:"5", prompt:"From the graph in Question 5: Which description best matches the function?", choices:["Increasing exponential with asymptote y=0","Decreasing exponential with asymptote y=0","Increasing line with no asymptote","Decreasing logarithm"], answer:"Increasing exponential with asymptote y=0", note:"The curve approaches y=0 on the left and rises rapidly to the right."},
+  {id:"6", prompt:"For \\(y=-2(\\tfrac12)^{x-2}\\), what is the horizontal asymptote?", choices:["y=0","y=-2","y=2","x=2"], answer:"y=0", note:"There is no vertical shift, so the asymptote remains y=0."},
+  {id:"7", prompt:"Solve: \\(\\frac19\\cdot 81^{3n}=81^{-2n}\\).", choices:["n=1/10","n=1/14","n=2/7","n=-1/14"], answer:"n=1/14", note:"Write all terms as powers of 3 and equate exponents."},
+  {id:"8", prompt:"From the graph in Question 8: Is the function increasing or decreasing?", choices:["Increasing","Decreasing","Constant","Neither increasing nor decreasing"], answer:"Decreasing", note:"The graph falls as x increases."},
+  {id:"9", prompt:"From the graph in Question 9: What is the horizontal asymptote?", choices:["y=0","y=1","y=2","y=-1"], answer:"y=2", note:"The graph levels off at y=2 to the right."},
+  {id:"10", prompt:"Solve: \\(32^m\\cdot\\frac1{16}=2^6\\).", choices:["m=1","m=2","m=8/5","m=10/3"], answer:"m=2", note:"32^m=2^{5m} and 1/16=2^{-4}, so 5m-4=6."},
+  {id:"11", prompt:"For \\(y=3^x\\), what is the y-intercept?", choices:["(0,0)","(0,1)","(0,3)","(1,0)"], answer:"(0,1)", note:"Any nonzero base to the zero power is 1."},
+  {id:"12", prompt:"For \\(y=\\frac14(\\frac13)^x+2\\), what is the horizontal asymptote?", choices:["y=0","y=1/4","y=2","x=2"], answer:"y=2", note:"The +2 shifts the asymptote to y=2."},
+  {id:"13", prompt:"For \\(y=(\\frac13)^x\\), is the function increasing or decreasing?", choices:["Increasing","Decreasing","Constant","Neither"], answer:"Decreasing", note:"A base between 0 and 1 gives exponential decay."},
+  {id:"14", prompt:"Solve: \\(64^{a+3}\\cdot 16^{2a+2}=16^{-a}\\).", choices:["a=-2","a=-5/7","a=5/7","a=2"], answer:"a=-2", note:"Use 64=2^6 and 16=2^4; then solve 6(a+3)+4(2a+2)=-4a."},
+  {id:"15", prompt:"For \\(y=5(\\frac12)^x\\), what is the y-intercept?", choices:["(0,1)","(0,2)","(0,5)","(5,0)"], answer:"(0,5)", note:"Substitute x=0: y=5."},
+  {id:"16", prompt:"Solve: \\(16\\cdot 64^{2p+2}=16^{3p}\\).", choices:["p=2","p=-7/3","p=7/3","p=-2"], answer:"p=-7/3", note:"Use 16=2^4 and 64=2^6."},
+  {id:"17", prompt:"Solve: \\(\\frac1{243}\\cdot 9^{3-n}=1\\).", choices:["n=1/2","n=3/2","n=5/2","n=-1/2"], answer:"n=1/2", note:"Use 243=3^5 and 9=3^2."},
+  {id:"18", prompt:"For \\(y=-5(\\frac12)^x\\), what is the range?", choices:["(0,∞)","(-∞,0)","(-∞,-5)","all real numbers"], answer:"(-∞,0)", note:"The exponential part is positive, then multiplied by -5."},
+  {id:"19", prompt:"From the graph in Question 19: Which statement best fits the graph?", choices:["Increasing with range below a horizontal asymptote","Decreasing with range above a horizontal asymptote","Constant at y=0","Linear with negative slope"], answer:"Increasing with range below a horizontal asymptote", note:"The graph rises and levels off from below."},
+  {id:"20", prompt:"Solve: \\(64^{-v}(\\tfrac14)^{-3v-3}=32\\).", choices:["v=1","v=11/6","v=-11/6","v=-1"], answer:"v=11/6", note:"Use 64=2^6, 1/4=2^{-2}, and 32=2^5."}
+];
+let selectedQuestions = [];
+let lastScore = null;
+
+function shuffle(array){
+  const a=[...array];
+  for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+
+function startQuiz(){
+  selectedQuestions = shuffle(questionBank).slice(0,10);
+  lastScore = null;
+  document.getElementById('submitBtn').disabled = true;
+  document.getElementById('scoreReport').style.display = 'none';
+  document.getElementById('submitStatus').textContent = '';
+  const form = document.getElementById('quizForm');
+  form.innerHTML = selectedQuestions.map((q,idx)=>`
+    <section class="card" id="card-${q.id}">
+      <div class="question-title">${idx+1}. <span class="pill">Original #${q.id}</span></div>
+      <p>${q.prompt}</p>
+      <div class="choices">
+        ${q.choices.map((c,k)=>`
+          <label><input type="radio" name="q-${q.id}" value="${escapeHtml(c)}" style="width:auto;"> ${c}</label>
+        `).join('')}
+      </div>
+      <div class="feedback" id="fb-${q.id}"></div>
+    </section>
+  `).join('');
+  document.getElementById('actions').style.display = 'block';
+  if (window.MathJax) MathJax.typesetPromise();
+}
+
+function escapeHtml(s){ return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function gradeQuiz(){
+  let score = 0;
+  selectedQuestions.forEach(q=>{
+    const checked = document.querySelector(`input[name="q-${q.id}"]:checked`);
+    const fb = document.getElementById(`fb-${q.id}`);
+    if(checked && checked.value === q.answer){
+      score++;
+      fb.className = 'feedback correct';
+      fb.textContent = 'Correct. ' + q.note;
+    } else {
+      fb.className = 'feedback incorrect';
+      fb.textContent = `Incorrect. Correct answer: ${q.answer}. ${q.note}`;
+    }
+  });
+  const total = selectedQuestions.length;
+  const percent = Math.round((score/total)*100);
+  lastScore = {score,total,percent,questions:selectedQuestions.map(q=>q.id).join(', ')};
+  const report = document.getElementById('scoreReport');
+  report.style.display = 'block';
+  report.innerHTML = `<strong>Score:</strong> ${score}/${total} (${percent}%)<br><span class="small">Questions used: ${lastScore.questions}</span>`;
+  document.getElementById('submitBtn').disabled = false;
+  window.scrollTo({top:document.body.scrollHeight, behavior:'smooth'});
+}
+
+async function submitScore(){
+  const name = document.getElementById('studentName').value.trim();
+  const section = document.getElementById('section').value.trim();
+  const status = document.getElementById('submitStatus');
+  if(!name || !section){ status.textContent = 'Please enter student name and section before submitting.'; return; }
+  if(!lastScore){ status.textContent = 'Please grade the quiz before submitting.'; return; }
+  const payload = { name, section, score:lastScore.score, total:lastScore.total, percent:lastScore.percent, questions:lastScore.questions };
+  status.textContent = 'Submitting...';
+  try {
+    await fetch(WEB_APP_URL, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) });
+    status.textContent = 'Submitted. Check the Google Sheet for the new row.';
+    document.getElementById('submitBtn').disabled = true;
+  } catch(err){
+    status.textContent = 'Submission error. The score is shown above, but it may not have reached the Sheet.';
+  }
+}
+</script>
+</body>
+</html>
