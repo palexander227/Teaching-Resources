@@ -132,6 +132,15 @@ function showStatus(msg, kind) {
 
 async function submitQuiz(e) {
   e.preventDefault();
+
+  const submitBtn = document.getElementById('submitBtn');
+
+  if (submitBtn.disabled) return;
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Submitting...";
+  submitBtn.style.background = "#6b7280";
+  submitBtn.style.cursor = "not-allowed";
   if (!graded) { showStatus('Press Grade / Show Answers before submitting.', 'err'); return; }
   const studentName = document.getElementById('studentName').value.trim();
   const period = document.getElementById('period').value.trim();
@@ -162,8 +171,14 @@ async function submitQuiz(e) {
 
   try {
     await fetch(GOOGLE_SCRIPT_URL, { method:'POST', mode:'no-cors', headers: { 'Content-Type':'text/plain' }, body: JSON.stringify(payload) });
+    submitBtn.textContent = "Submitted ✓";
+    submitBtn.style.background = "#16a34a";
     showStatus('Submitted. Thank you.', 'ok');
   } catch (err) {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Submit";
+    submitBtn.style.background = "#111827";
+    submitBtn.style.cursor = "pointer";
     showStatus('Submission failed. Tell your teacher.', 'err');
   }
 }
