@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Log Equations Self-Grading Sheet</title>
+  <script>
+    function clean(s) {
+      return s.trim().toLowerCase().replace(/\s+/g, "");
+    }
+
+    function check(id, correctAnswers) {
+      const input = clean(document.getElementById(id).value);
+      const feedback = document.getElementById(id + "-feedback");
+
+      if (correctAnswers.map(clean).includes(input)) {
+        feedback.textContent = "Correct.";
+      } else {
+        feedback.textContent = "Not yet. Check your log properties, algebra, and domain.";
+      }
+    }
+  </script>
+</head>
+
+<body>
+
+<h2>Solve each equation.</h2>
+
+<p>
+For rational answers, write the solution as \(x=\frac{a}{b}\), where \(a\) and \(b\) are integers, \(b>0\), and the fraction is in lowest terms. Enter \(a+b\).
+</p>
+
+<p>
+For problems with two solutions, enter the sum of the solutions.
+</p>
+
+<p>
+If there is no solution, type <strong>no solution</strong>.
+</p>
+
+<hr>
+
+<ol>
+  <li>
+    \(\log_7(x+6)-\log_7(x-1)=1\)
+    <br>
+    <input id="q1" type="text">
+    <button onclick="check('q1', ['19'])">Check</button>
+    <span id="q1-feedback"></span>
+  </li>
+
+  <br>
+
+  <li>
+    \(\log_6(-4x-8)-\log_6(2)=2\)
+    <br>
+    <input id="q2" type="text">
+    <button onclick="check('q2', ['-19'])">Check</button>
+    <span id="q2-feedback"></span>
+  </li>
+
+  <br>
+
+  <li>
+    \(\log_7(3)-\log_7(-2x-5)=1\)
+    <br>
+    <input id="q3" type="text">
+    <button onclick="check('q3', ['-12'])">Check</button>
+    <span id="q3-feedback"></span>
+  </li>
+
+  <br>
+
+  <li>
+    \(\log_3(3x^2+6)-\log_3(6)=1\)
+    <br>
+    <input id="q4" type="text">
+    <button onclick="check('q4', ['0'])">Check</button>
+    <span id="q4-feedback"></span>
+  </li>
+
+  <br>
+
+  <li>
+    \(\log_6(5-2x^2)+\log_6(8)=2\)
+    <br>
+    <input id="q5" type="text">
+    <button onclick="check('q5', ['0'])">Check</button>
+    <span id="q5-feedback"></span>
+  </li>
+
+  <br>
+
+  <li>
+    \(\log_8(x-2)-\log_8(x-1)=2\)
+    <br>
+    <input id="q6" type="text">
+    <button onclick="check('q6', ['no solution', 'nosolution'])">Check</button>
+    <span id="q6-feedback"></span>
+  </li>
+
+  <br>
+
+  <li>
+    \(\log_8(4x^2-7)+\log_8(5)=2\)
+    <br>
+    <input id="q7" type="text">
+    <button onclick="check('q7', ['0'])">Check</button>
+    <span id="q7-feedback"></span>
+  </li>
+
+  <br>
+
+  <li>
+    \(\log_4(5)+\log_4(10-4x)=\log_4(38)\)
+    <br>
+    <input id="q8" type="text">
+    <button onclick="check('q8', ['8'])">Check</button>
+    <span id="q8-feedback"></span>
+  </li>
+
+  <br>
+
+  <li>
+    \(\log_5(6-x)-\log_5(6)=1\)
+    <br>
+    <input id="q9" type="text">
+    <button onclick="check('q9', ['-23'])">Check</button>
+    <span id="q9-feedback"></span>
+  </li>
+
+  <br>
+
+  <li>
+    \(\log_7(-x-8)-\log_7(2)=\log_7(74)\)
+    <br>
+    <input id="q10" type="text">
+    <button onclick="check('q10', ['-155'])">Check</button>
+    <span id="q10-feedback"></span>
+  </li>
+</ol>
+
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</body>
+</html>
