@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Quest 4 - Logarithmic and Exponential Equations</title>
+
+  <script>
+    const SCRIPT_URL = "SCRIPT_URL_HERE";
+
+    const answerKey = {
+      q1: ["19"],
+      q2: ["-19"],
+      q3: ["-12"],
+      q4: ["0"],
+      q5: ["0"],
+      q6: ["no solution", "nosolution"],
+      q7: ["0"],
+      q8: ["8"],
+      q9: ["-23"],
+      q10: ["-155"],
+
+      q11: ["55"],
+      q12: ["21"],
+      q13: ["34"],
+      q14: ["69"],
+      q15: ["355"],
+      q16: ["791"],
+      q17: ["1903"],
+      q18: ["21"],
+      q19: ["42"],
+      q20: ["64"],
+      q21: ["44"],
+      q22: ["93"],
+      q23: ["79"],
+      q24: ["33"],
+      q25: ["117"]
+    };
+
+    function clean(s) {
+      return String(s).trim().toLowerCase().replace(/\s+/g, "");
+    }
+
+    function isCorrect(id) {
+      const input = clean(document.getElementById(id).value);
+      return answerKey[id].map(clean).includes(input);
+    }
+
+    function check(id) {
+      const feedback = document.getElementById(id + "-feedback");
+
+      if (isCorrect(id)) {
+        feedback.textContent = " Correct.";
+        feedback.className = "correct";
+      } else {
+        feedback.textContent = " Not yet. Check the algebra, log rules, and domain.";
+        feedback.className = "incorrect";
+      }
+    }
+
+    function calculateScore() {
+      let score = 0;
+      for (let i = 1; i <= 25; i++) {
+        if (isCorrect("q" + i)) score++;
+      }
+      return score;
+    }
+
+    function submitToSheet() {
+      const submitButton = document.getElementById("submit-button");
+      const status = document.getElementById("submit-status");
+      const student = document.getElementById("student").value.trim();
+
+      if (!student) {
+        alert("Please enter your name before submitting.");
+        return;
+      }
+
+      if (!confirm("Are you sure you want to submit?")) {
+        return;
+      }
+
+      submitButton.disabled = true;
+      submitButton.style.opacity = "0.45";
+      submitButton.textContent = "Submitting...";
+
+      const data = { student: student };
+
+      for (let i = 1; i <= 25; i++) {
+        data["q" + i] = document.getElementById("q" + i).value;
+      }
+
+      data.score = calculateScore();
+
+      fetch(SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(result => {
+        status.textContent = "Submitted successfully. Score: " + data.score + "/25";
+        status.className = "correct";
+        submitButton.textContent = "Submitted";
+      })
+      .catch(error => {
+        status.textContent = "Submission failed. Please tell your teacher.";
+        status.className = "incorrect";
+        submitButton.disabled = false;
+        submitButton.style.opacity = "1";
+        submitButton.textContent = "Submit";
+      });
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: Georgia, serif;
+      max-width: 950px;
+      margin: 30px auto;
+      line-height: 1.55;
+      font-size: 18px;
+    }
+
+    h1, h2 {
+      text-align: center;
+    }
+
+    .student-info, .instructions {
+      background: #f4f4f4;
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+    }
+
+    li {
+      margin-bottom: 28px;
+    }
+
+    input {
+      font-size: 18px;
+      padding: 6px 8px;
+      margin-top: 8px;
+      width: 180px;
+    }
+
+    button {
+      font-size: 16px;
+      padding: 7px 12px;
+      margin-left: 8px;
+      cursor: pointer;
+    }
+
+    #submit-button {
+      font-size: 20px;
+      padding: 12px 24px;
+      margin-top: 20px;
+    }
+
+    .correct {
+      color: green;
+      font-weight: bold;
+    }
+
+    .incorrect {
+      color: red;
+      font-weight: bold;
+    }
+
+    .submit-area {
+      margin-top: 36px;
+      padding-top: 20px;
+      border-top: 2px solid #ccc;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>Quest 4: Logarithmic and Exponential Equations</h1>
+
+<div class="student-info">
+  <label>
+    Student Name:
+    <input id="student" type="text" placeholder="First and last name">
+  </label>
+</div>
+
+<div class="instructions">
+  <p><strong>Directions:</strong> Solve each problem and enter the requested encoded value.</p>
+
+  <p>
+    For rational answers, write \(x=\frac{a}{b}\) in lowest terms with \(b>0\).
+    Enter \(a+b\).
+  </p>
+
+  <p>
+    For problems with two solutions, enter the sum of the solutions.
+  </p>
+
+  <p>
+    If there is no solution, type <strong>no solution</strong>.
+  </p>
+
+  <p>
+    Check buttons are available only on problems 5, 10, 15, 20, and 25.
+  </p>
+</div>
+
+<ol>
+  <li>\(\log_7(x+6)-\log_7(x-1)=1\)<br><input id="q1" type="text"></li>
+
+  <li>\(\log_6(-4x-8)-\log_6(2)=2\)<br><input id="q2" type="text"></li>
+
+  <li>\(\log_7(3)-\log_7(-2x-5)=1\)<br><input id="q3" type="text"></li>
+
+  <li>\(\log_3(3x^2+6)-\log_3(6)=1\)<br><input id="q4" type="text"></li>
+
+  <li>
+    \(\log_6(5-2x^2)+\log_6(8)=2\)
+    <br>
+    <input id="q5" type="text">
+    <button onclick="check('q5')">Check</button>
+    <span id="q5-feedback"></span>
+  </li>
+
+  <li>\(\log_8(x-2)-\log_8(x-1)=2\)<br><input id="q6" type="text"></li>
+
+  <li>\(\log_8(4x^2-7)+\log_8(5)=2\)<br><input id="q7" type="text"></li>
+
+  <li>\(\log_4(5)+\log_4(10-4x)=\log_4(38)\)<br><input id="q8" type="text"></li>
+
+  <li>\(\log_5(6-x)-\log_5(6)=1\)<br><input id="q9" type="text"></li>
+
+  <li>
+    \(\log_7(-x-8)-\log_7(2)=\log_7(74)\)
+    <br>
+    <input id="q10" type="text">
+    <button onclick="check('q10')">Check</button>
+    <span id="q10-feedback"></span>
+  </li>
+
+  <li>
+    Consider \(f(x)=\ln(x-5)+11\). The inverse of \(f\) can be written as
+    \(e^{x-a}+b\), where \(a\) and \(b\) are prime numbers. Find \(ab\).
+    <br><input id="q11" type="text">
+  </li>
+
+  <li>
+    Consider \(f(x)=\ln(x-7)+3\). The inverse of \(f\) can be written as
+    \(e^{x-a}+b\), where \(a\) and \(b\) are prime numbers. Find \(ab\).
+    <br><input id="q12" type="text">
+  </li>
+
+  <li>
+    Consider \(f(x)=\ln(x-2)+17\). The inverse of \(f\) can be written as
+    \(e^{x-a}+b\), where \(a\) and \(b\) are prime numbers. Find \(ab\).
+    <br><input id="q13" type="text">
+  </li>
+
+  <li>
+    Consider the equation \(e^{2x}+6e^x=14\). The solution can be written as
+    \(\ln(\sqrt{a}-b)\), where \(a\) and \(b\) are prime numbers. Find \(ab\).
+    <br><input id="q14" type="text">
+  </li>
+
+  <li>
+    Consider the equation \(e^{2x}+10e^x=46\). The solution can be written as
+    \(\ln(\sqrt{a}-b)\), where \(a\) and \(b\) are prime numbers. Find \(ab\).
+    <br>
+    <input id="q15" type="text">
+    <button onclick="check('q15')">Check</button>
+    <span id="q15-feedback"></span>
+  </li>
+
+  <li>
+    Consider the equation \(e^{2x}+14e^x=64\). The solution can be written as
+    \(\ln(\sqrt{a}-b)\), where \(a\) and \(b\) are prime numbers. Find \(ab\).
+    <br><input id="q16" type="text">
+  </li>
+
+  <li>
+    Consider the equation \(e^{2x}+22e^x=52\). The solution can be written as
+    \(\ln(\sqrt{a}-b)\), where \(a\) and \(b\) are prime numbers. Find \(ab\).
+    <br><input id="q17" type="text">
+  </li>
+
+  <li>
+    Consider the equation \(\ln(x-4)+\ln(x+2)=\ln(10)\). The solution can be written as
+    \(a+b\sqrt{c}\), where \(c\) is square-free. Find \(a+b+c\).
+    <br><input id="q18" type="text">
+  </li>
+
+  <li>
+    Consider the equation \(\ln(x-5)+\ln(x+1)=\ln(30)\). The solution can be written as
+    \(a+b\sqrt{c}\), where \(c\) is square-free. Find \(a+b+c\).
+    <br><input id="q19" type="text">
+  </li>
+
+  <li>
+    Consider the equation \(\ln(x-7)+\ln(x+3)=\ln(36)\). The solution can be written as
+    \(a+b\sqrt{c}\), where \(c\) is square-free. Find \(a+b+c\).
+    <br>
+    <input id="q20" type="text">
+    <button onclick="check('q20')">Check</button>
+    <span id="q20-feedback"></span>
+  </li>
+
+  <li>
+    Consider the equation \(\ln(x-6)+\ln(x+2)=\ln(25)\). The solution can be written as
+    \(a+b\sqrt{c}\), where \(c\) is square-free. Find \(a+b+c\).
+    <br><input id="q21" type="text">
+  </li>
+
+  <li>
+    Consider the equation \(\ln(x-8)+\ln(x+2)=\ln(64)\). The solution can be written as
+    \(a+b\sqrt{c}\), where \(c\) is square-free. Find \(a+b+c\).
+    <br><input id="q22" type="text">
+  </li>
+
+  <li>
+    Consider the equation \(\ln(x-9)+\ln(x+1)=\ln(49)\). The solution can be written as
+    \(a+b\sqrt{c}\), where \(c\) is square-free. Find \(a+b+c\).
+    <br><input id="q23" type="text">
+  </li>
+
+  <li>
+    Consider the equation \(\ln(x-7)+\ln(x+1)=\ln(13)\). The solution can be written as
+    \(a+b\sqrt{c}\), where \(c\) is square-free. Find \(a+b+c\).
+    <br><input id="q24" type="text">
+  </li>
+
+  <li>
+    Consider the equation \(\ln(x-10)+\ln(x+4)=\ln(64)\). The solution can be written as
+    \(a+b\sqrt{c}\), where \(c\) is square-free. Find \(a+b+c\).
+    <br>
+    <input id="q25" type="text">
+    <button onclick="check('q25')">Check</button>
+    <span id="q25-feedback"></span>
+  </li>
+</ol>
+
+<div class="submit-area">
+  <button id="submit-button" onclick="submitToSheet()">Submit</button>
+  <p id="submit-status"></p>
+</div>
+
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']] }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</body>
+</html>
