@@ -3,146 +3,294 @@
 <head>
   <meta charset="UTF-8">
   <title>Log Equations Self-Grading Sheet</title>
+
   <script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxRH5TMv6UZ7yfcPFcKaLGfJx9Cx9Wj44JjeUC-Uz57X-6qENqrn236iddtFh6DzlRMoQ/exec";
+
+    const answerKey = {
+      q1: ["19"],
+      q2: ["-19"],
+      q3: ["-12"],
+      q4: ["0"],
+      q5: ["0"],
+      q6: ["no solution", "nosolution"],
+      q7: ["0"],
+      q8: ["8"],
+      q9: ["-23"],
+      q10: ["-155"]
+    };
+
     function clean(s) {
-      return s.trim().toLowerCase().replace(/\s+/g, "");
+      return String(s).trim().toLowerCase().replace(/\s+/g, "");
     }
 
-    function check(id, correctAnswers) {
+    function isCorrect(id) {
       const input = clean(document.getElementById(id).value);
+      return answerKey[id].map(clean).includes(input);
+    }
+
+    function check(id) {
       const feedback = document.getElementById(id + "-feedback");
 
-      if (correctAnswers.map(clean).includes(input)) {
-        feedback.textContent = "Correct.";
+      if (isCorrect(id)) {
+        feedback.textContent = " Correct.";
+        feedback.className = "correct";
       } else {
-        feedback.textContent = "Not yet. Check your log properties, algebra, and domain.";
+        feedback.textContent = " Not yet. Check log properties, algebra, and domain.";
+        feedback.className = "incorrect";
       }
     }
+
+    function calculateScore() {
+      let score = 0;
+      for (let i = 1; i <= 10; i++) {
+        if (isCorrect("q" + i)) score++;
+      }
+      return score;
+    }
+
+    function submitToSheet() {
+      const submitButton = document.getElementById("submit-button");
+      const status = document.getElementById("submit-status");
+
+      const student = document.getElementById("student").value.trim();
+
+      if (!student) {
+        alert("Please enter your name before submitting.");
+        return;
+      }
+
+      submitButton.disabled = true;
+      submitButton.style.opacity = "0.45";
+      submitButton.textContent = "Submitting...";
+
+      const score = calculateScore();
+
+      const data = {
+        student: student,
+        q1: document.getElementById("q1").value,
+        q2: document.getElementById("q2").value,
+        q3: document.getElementById("q3").value,
+        q4: document.getElementById("q4").value,
+        q5: document.getElementById("q5").value,
+        q6: document.getElementById("q6").value,
+        q7: document.getElementById("q7").value,
+        q8: document.getElementById("q8").value,
+        q9: document.getElementById("q9").value,
+        q10: document.getElementById("q10").value,
+        score: score
+      };
+
+      fetch(SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(result => {
+        status.textContent = "Submitted successfully. Score: " + score + "/10";
+        status.className = "correct";
+        submitButton.textContent = "Submitted";
+      })
+      .catch(error => {
+        status.textContent = "Submission failed. Please tell your teacher.";
+        status.className = "incorrect";
+        submitButton.disabled = false;
+        submitButton.style.opacity = "1";
+        submitButton.textContent = "Submit";
+      });
+    }
   </script>
+
+  <style>
+    body {
+      font-family: Georgia, serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.5;
+      font-size: 18px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .instructions {
+      background: #f4f4f4;
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+    }
+
+    .student-info {
+      margin-bottom: 24px;
+      padding: 14px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    li {
+      margin-bottom: 26px;
+    }
+
+    input {
+      font-size: 18px;
+      padding: 6px 8px;
+      margin-top: 8px;
+      width: 180px;
+    }
+
+    button {
+      font-size: 16px;
+      padding: 7px 12px;
+      margin-left: 8px;
+      cursor: pointer;
+    }
+
+    #submit-button {
+      font-size: 20px;
+      padding: 12px 24px;
+      margin-top: 20px;
+    }
+
+    .correct {
+      color: green;
+      font-weight: bold;
+    }
+
+    .incorrect {
+      color: red;
+      font-weight: bold;
+    }
+
+    .submit-area {
+      margin-top: 36px;
+      padding-top: 20px;
+      border-top: 2px solid #ccc;
+    }
+  </style>
 </head>
 
 <body>
 
-<h2>Solve each equation.</h2>
+<h1>Log Equations Self-Grading Sheet</h1>
 
-<p>
-For rational answers, write the solution as \(x=\frac{a}{b}\), where \(a\) and \(b\) are integers, \(b>0\), and the fraction is in lowest terms. Enter \(a+b\).
-</p>
+<div class="student-info">
+  <label>
+    Student Name:
+    <input id="student" type="text" placeholder="First and last name">
+  </label>
+</div>
 
-<p>
-For problems with two solutions, enter the sum of the solutions.
-</p>
+<div class="instructions">
+  <p><strong>Directions:</strong> Solve each equation.</p>
 
-<p>
-If there is no solution, type <strong>no solution</strong>.
-</p>
+  <p>
+    For rational answers, write the solution as
+    \(x=\frac{a}{b}\), where \(a\) and \(b\) are integers,
+    \(b>0\), and the fraction is in lowest terms.
+    Enter \(a+b\).
+  </p>
 
-<hr>
+  <p>
+    For problems with two solutions, enter the sum of the solutions.
+  </p>
+
+  <p>
+    If there is no solution, type <strong>no solution</strong>.
+  </p>
+</div>
 
 <ol>
   <li>
     \(\log_7(x+6)-\log_7(x-1)=1\)
     <br>
     <input id="q1" type="text">
-    <button onclick="check('q1', ['19'])">Check</button>
+    <button onclick="check('q1')">Check</button>
     <span id="q1-feedback"></span>
   </li>
-
-  <br>
 
   <li>
     \(\log_6(-4x-8)-\log_6(2)=2\)
     <br>
     <input id="q2" type="text">
-    <button onclick="check('q2', ['-19'])">Check</button>
+    <button onclick="check('q2')">Check</button>
     <span id="q2-feedback"></span>
   </li>
-
-  <br>
 
   <li>
     \(\log_7(3)-\log_7(-2x-5)=1\)
     <br>
     <input id="q3" type="text">
-    <button onclick="check('q3', ['-12'])">Check</button>
+    <button onclick="check('q3')">Check</button>
     <span id="q3-feedback"></span>
   </li>
-
-  <br>
 
   <li>
     \(\log_3(3x^2+6)-\log_3(6)=1\)
     <br>
     <input id="q4" type="text">
-    <button onclick="check('q4', ['0'])">Check</button>
+    <button onclick="check('q4')">Check</button>
     <span id="q4-feedback"></span>
   </li>
-
-  <br>
 
   <li>
     \(\log_6(5-2x^2)+\log_6(8)=2\)
     <br>
     <input id="q5" type="text">
-    <button onclick="check('q5', ['0'])">Check</button>
+    <button onclick="check('q5')">Check</button>
     <span id="q5-feedback"></span>
   </li>
-
-  <br>
 
   <li>
     \(\log_8(x-2)-\log_8(x-1)=2\)
     <br>
     <input id="q6" type="text">
-    <button onclick="check('q6', ['no solution', 'nosolution'])">Check</button>
+    <button onclick="check('q6')">Check</button>
     <span id="q6-feedback"></span>
   </li>
-
-  <br>
 
   <li>
     \(\log_8(4x^2-7)+\log_8(5)=2\)
     <br>
     <input id="q7" type="text">
-    <button onclick="check('q7', ['0'])">Check</button>
+    <button onclick="check('q7')">Check</button>
     <span id="q7-feedback"></span>
   </li>
-
-  <br>
 
   <li>
     \(\log_4(5)+\log_4(10-4x)=\log_4(38)\)
     <br>
     <input id="q8" type="text">
-    <button onclick="check('q8', ['8'])">Check</button>
+    <button onclick="check('q8')">Check</button>
     <span id="q8-feedback"></span>
   </li>
-
-  <br>
 
   <li>
     \(\log_5(6-x)-\log_5(6)=1\)
     <br>
     <input id="q9" type="text">
-    <button onclick="check('q9', ['-23'])">Check</button>
+    <button onclick="check('q9')">Check</button>
     <span id="q9-feedback"></span>
   </li>
-
-  <br>
 
   <li>
     \(\log_7(-x-8)-\log_7(2)=\log_7(74)\)
     <br>
     <input id="q10" type="text">
-    <button onclick="check('q10', ['-155'])">Check</button>
+    <button onclick="check('q10')">Check</button>
     <span id="q10-feedback"></span>
   </li>
 </ol>
 
+<div class="submit-area">
+  <button id="submit-button" onclick="submitToSheet()">Submit</button>
+  <p id="submit-status"></p>
+</div>
+
 <script>
-window.MathJax = {
-  tex: { inlineMath: [['\\(', '\\)']] }
-};
+  window.MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']] }
+  };
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
