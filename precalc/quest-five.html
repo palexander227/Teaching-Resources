@@ -55,6 +55,7 @@
 
 <body>
   <h1>Quest 5 Answer Portal</h1>
+  <p><strong>Version:</strong> Problem 1 answer key = B; Google Sheets fetch updated.</p>
 
   <form id="answerForm">
     <div class="name-field">
@@ -98,7 +99,7 @@
   <div id="status"></div>
 
   <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzKAEJP1CZkaUjYl80yAonplsa55LVk4HejaikLFu9vjDMHnKcRrok4jvSW0HwrPBdl/exec";
+    const SCRIPT_URL = "PASTE_YOUR_APPS_SCRIPT_EXEC_URL_HERE";
 
     const answerKey = {
       problem1: "B",
@@ -115,14 +116,16 @@
     document.getElementById("answerForm").addEventListener("submit", function(event) {
       event.preventDefault();
 
+      const form = document.getElementById("answerForm");
       const status = document.getElementById("status");
+
       status.textContent = "Submitting...";
 
       const problem1 = document.querySelector('input[name="problem1"]:checked').value;
-      const problem2 = document.getElementById("problem2").value;
-      const problem3 = document.getElementById("problem3").value;
-      const problem4 = document.getElementById("problem4").value;
-      const problem5 = document.getElementById("problem5").value;
+      const problem2 = document.getElementById("problem2").value.trim();
+      const problem3 = document.getElementById("problem3").value.trim();
+      const problem4 = document.getElementById("problem4").value.trim();
+      const problem5 = document.getElementById("problem5").value.trim();
 
       const score =
         Number(clean(problem1) === clean(answerKey.problem1)) +
@@ -134,21 +137,28 @@
       const data = {
         studentName: document.getElementById("studentName").value.trim(),
         problem1: problem1,
-        problem2: problem2.trim(),
-        problem3: problem3.trim(),
-        problem4: problem4.trim(),
-        problem5: problem5.trim(),
+        problem2: problem2,
+        problem3: problem3,
+        problem4: problem4,
+        problem5: problem5,
         score: score
       };
 
       fetch(SCRIPT_URL, {
         method: "POST",
         mode: "no-cors",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
         body: JSON.stringify(data)
+      })
+      .then(() => {
+        status.textContent = "Submitted. Score: " + score + "/5";
+        form.reset();
+      })
+      .catch(() => {
+        status.textContent = "Submission failed. Please tell your teacher.";
       });
-
-      status.textContent = "Submitted. Score: " + score + "/5";
-      document.getElementById("answerForm").reset();
     });
   </script>
 </body>
