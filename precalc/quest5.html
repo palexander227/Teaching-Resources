@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Problem Set Portal</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 760px;
+      margin: 40px auto;
+      padding: 20px;
+      line-height: 1.5;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .field, .problem {
+      margin-bottom: 24px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    input[type="text"] {
+      padding: 8px;
+      font-size: 1rem;
+      width: 220px;
+    }
+
+    .radio-group label {
+      font-weight: normal;
+      display: inline-block;
+      margin-right: 20px;
+    }
+
+    button {
+      padding: 10px 18px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    #status {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Problem Set Portal</h1>
+
+  <form id="quizForm">
+    <div class="field">
+      <label for="studentName">Name</label>
+      <input type="text" id="studentName" name="studentName" required />
+    </div>
+
+    <div class="problem">
+      <label>Problem 1</label>
+      <div class="radio-group">
+        <label><input type="radio" name="problem1" value="A" required /> A</label>
+        <label><input type="radio" name="problem1" value="B" /> B</label>
+        <label><input type="radio" name="problem1" value="C" /> C</label>
+        <label><input type="radio" name="problem1" value="D" /> D</label>
+      </div>
+    </div>
+
+    <div class="problem">
+      <label for="problem2">Problem 2</label>
+      <input type="text" id="problem2" name="problem2" required />
+    </div>
+
+    <div class="problem">
+      <label for="problem3">Problem 3</label>
+      <input type="text" id="problem3" name="problem3" required />
+    </div>
+
+    <div class="problem">
+      <label for="problem4">Problem 4</label>
+      <input type="text" id="problem4" name="problem4" required /> %
+    </div>
+
+    <div class="problem">
+      <label for="problem5">Problem 5</label>
+      <input type="text" id="problem5" name="problem5" required /> years
+    </div>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <div id="status"></div>
+
+  <script>
+    const SCRIPT_URL = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
+
+    const answerKey = {
+      problem1: "B",
+      problem2: "11",
+      problem3: "-336",
+      problem4: "6",
+      problem5: "12"
+    };
+
+    function normalize(value) {
+      return String(value).trim().toLowerCase();
+    }
+
+    document.getElementById("quizForm").addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      const form = event.target;
+
+      const data = {
+        timestamp: new Date().toISOString(),
+        studentName: form.studentName.value.trim(),
+
+        problem1: form.problem1.value,
+        problem2: form.problem2.value.trim(),
+        problem3: form.problem3.value.trim(),
+        problem4: form.problem4.value.trim(),
+        problem5: form.problem5.value.trim()
+      };
+
+      data.problem1_correct = normalize(data.problem1) === normalize(answerKey.problem1);
+      data.problem2_correct = normalize(data.problem2) === normalize(answerKey.problem2);
+      data.problem3_correct = normalize(data.problem3) === normalize(answerKey.problem3);
+      data.problem4_correct = normalize(data.problem4) === normalize(answerKey.problem4);
+      data.problem5_correct = normalize(data.problem5) === normalize(answerKey.problem5);
+
+      data.score =
+        Number(data.problem1_correct) +
+        Number(data.problem2_correct) +
+        Number(data.problem3_correct) +
+        Number(data.problem4_correct) +
+        Number(data.problem5_correct);
+
+      document.getElementById("status").textContent = "Submitting...";
+
+      try {
+        await fetch(SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(data)
+        });
+
+        document.getElementById("status").textContent =
+          "Submitted successfully. Score: " + data.score + "/5";
+
+        form.reset();
+      } catch (error) {
+        document.getElementById("status").textContent =
+          "Submission failed. Please tell your teacher.";
+      }
+    });
+  </script>
+</body>
+</html>
