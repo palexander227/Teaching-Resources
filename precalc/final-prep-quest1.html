@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Precalculus Final Practice Quest</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)'], ['$', '$']],
+    displayMath: [['\\[','\\]']]
+  },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+body{
+  margin:0;
+  background:#f5f7fb;
+  color:#111827;
+  font-family:Georgia, "Times New Roman", serif;
+  line-height:1.55;
+}
+header{
+  background:linear-gradient(135deg,#0f172a,#1d4ed8);
+  color:white;
+  padding:2.4rem 1rem;
+  text-align:center;
+}
+header h1{margin:0 0 .35rem;font-size:clamp(2rem,4vw,3rem);}
+header p{margin:0 auto;max-width:850px;color:#dbeafe;}
+main{max-width:980px;margin:2rem auto;padding:0 1rem 4rem;}
+.card,.problem,.summary{
+  background:white;
+  border:1px solid #d8dee9;
+  border-radius:16px;
+  box-shadow:0 8px 20px rgba(15,23,42,.06);
+}
+.card{padding:1.2rem;margin-bottom:1rem;}
+.problem{padding:1.2rem;margin:1rem 0;}
+.tag{
+  display:inline-block;
+  background:#e0ecff;
+  color:#1e3a8a;
+  font-weight:700;
+  padding:.2rem .55rem;
+  border-radius:999px;
+  font-size:.85rem;
+}
+.answer-row{display:flex;gap:.7rem;flex-wrap:wrap;align-items:center;margin-top:1rem;}
+input[type=text]{
+  padding:.7rem .8rem;
+  border:1px solid #d8dee9;
+  border-radius:10px;
+  font-size:1rem;
+  font-family:inherit;
+}
+button{
+  border:none;
+  background:#1d4ed8;
+  color:white;
+  font-weight:700;
+  padding:.75rem 1.1rem;
+  border-radius:999px;
+  cursor:pointer;
+  font-family:inherit;
+}
+button.secondary{background:white;color:#1d4ed8;border:1px solid #1d4ed8;}
+button:disabled{opacity:.6;cursor:not-allowed;}
+.summary{display:none;padding:1rem;margin-top:1rem;}
+.summary.show{display:block;}
+.summary.good{background:#ecfdf5;border-color:#86efac;}
+.summary.bad{background:#fff1f2;border-color:#fda4af;}
+.small{color:#6b7280;font-size:.95rem;}
+.formula{overflow-x:auto;}
+.required{color:#b91c1c;font-weight:bold;}
+@media print{
+  button{display:none;}
+  body{background:white;}
+  .card,.problem,.summary{box-shadow:none;}
+}
+</style>
+</head>
+<body>
+<header>
+<h1>Precalculus Final Practice Quest</h1>
+<p>Five mixed-topic practice problems. Submit your responses when complete.</p>
+</header>
+
+<main>
+<section class="card">
+<h2>Student Information</h2>
+<div class="answer-row">
+<input id="studentName" type="text" placeholder="Student Name" style="width:320px;" autocomplete="name">
+<input id="studentPeriod" type="text" placeholder="Period" style="width:140px;">
+</div>
+
+<h2 style="margin-top:1.5rem;">Instructions</h2>
+<p>Enter one numerical answer for each problem. All answers should be encoded as integers unless otherwise specified.</p>
+<p class="small">Your answers will be graded upon receipt after submission.</p>
+<div class="answer-row">
+<button id="submitBtn" onclick="submitQuest()">Submit Quest</button>
+<button class="secondary" onclick="clearAll()">Clear Answers</button>
+</div>
+<p class="small"><span class="required">Required:</span> Student name and all five answers must be entered before submission.</p>
+</section>
+
+<section class="problem">
+<span class="tag">Rational Functions / Removable Discontinuity</span>
+<h3>Problem 1</h3>
+<p>Let</p>
+<div class="formula">\[
+f(x)=\frac{x^2-36}{x-6}.
+\]</div>
+<p>The function has a value \(k\), omitted from its domain, such that for all \(x\neq k\), \(f(x)\) agrees with a linear function</p>
+<div class="formula">\[
+ax+b.
+\]</div>
+<p>Find</p>
+<div class="formula">\[
+k+a+b.
+\]</div>
+<div class="answer-row"><input id="a1" type="text" placeholder="Answer"></div>
+</section>
+
+<section class="problem">
+<span class="tag">Piecewise Continuity</span>
+<h3>Problem 2</h3>
+<div class="formula">\[
+f(x)=\begin{cases}
+5x-4,&x<2\\
+ax+3,&x\ge2
+\end{cases}
+\]</div>
+<p>The function is continuous at \(x=2\) for exactly one value of \(a\).</p>
+<p>If</p>
+<div class="formula">\[
+a=\frac{m}{n}
+\]</div>
+<p>in lowest terms, find</p>
+<div class="formula">\[
+m+n.
+\]</div>
+<div class="answer-row"><input id="a2" type="text" placeholder="Answer"></div>
+</section>
+
+<section class="problem">
+<span class="tag">Logarithm Expansion</span>
+<h3>Problem 3</h3>
+<p>Suppose</p>
+<div class="formula">\[
+\log_3(81x^5y^{-2})=a+b\log_3x+c\log_3y.
+\]</div>
+<p>Find</p>
+<div class="formula">\[
+a+b+c.
+\]</div>
+<div class="answer-row"><input id="a3" type="text" placeholder="Answer"></div>
+</section>
+
+<section class="problem">
+<span class="tag">Average Rate of Change</span>
+<h3>Problem 4</h3>
+<p>Let</p>
+<div class="formula">\[
+f(x)=4x^2-7x+1.
+\]</div>
+<p>The average rate of change of \(f\) on the interval</p>
+<div class="formula">\[
+[a,a+3]
+\]</div>
+<p>is \(41\).</p>
+<p>If</p>
+<div class="formula">\[
+a=\frac{m}{n}
+\]</div>
+<p>in lowest terms, find</p>
+<div class="formula">\[
+m+n.
+\]</div>
+<div class="answer-row"><input id="a4" type="text" placeholder="Answer"></div>
+</section>
+
+<section class="problem">
+<span class="tag">Geometric Series</span>
+<h3>Problem 5</h3>
+<p>The infinite geometric series</p>
+<div class="formula">\[
+18+12+8+\frac{16}{3}+\cdots
+\]</div>
+<p>has sum \(S\). Find \(S\).</p>
+<div class="answer-row"><input id="a5" type="text" placeholder="Answer"></div>
+</section>
+
+<section id="summary" class="summary"></section>
+</main>
+
+<script>
+// Paste your deployed Google Apps Script Web App URL below.
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxnP25TMvgjSvNWXhKCo0grWP7QvSfO5hgqUXyDDX9cz0fVfGWcoUizx6-ckIKmVkrpcA/exec";
+const QUEST_ID = "Precalc Final Review Quest 1";
+
+function clean(x){
+  return String(x || "").trim();
+}
+
+function collectPayload(){
+  return {
+    questId: QUEST_ID,
+    studentName: clean(document.getElementById('studentName').value),
+    studentPeriod: clean(document.getElementById('studentPeriod').value),
+    answers: {
+      q1: clean(document.getElementById('a1').value),
+      q2: clean(document.getElementById('a2').value),
+      q3: clean(document.getElementById('a3').value),
+      q4: clean(document.getElementById('a4').value),
+      q5: clean(document.getElementById('a5').value)
+    }
+  };
+}
+
+function validatePayload(payload){
+  if(!payload.studentName){
+    return "Please enter your student name before submitting.";
+  }
+  for(let i=1;i<=5;i++){
+    if(!payload.answers['q'+i]){
+      return "Please answer Problem " + i + " before submitting.";
+    }
+  }
+  if(SCRIPT_URL.includes("PASTE_YOUR")){
+    return "Teacher setup needed: paste the deployed Google Apps Script Web App URL into SCRIPT_URL.";
+  }
+  return "";
+}
+
+async function submitQuest(){
+  const submitBtn = document.getElementById('submitBtn');
+  const summary = document.getElementById('summary');
+  const payload = collectPayload();
+  const validationError = validatePayload(payload);
+
+  if(validationError){
+    summary.className = 'summary show bad';
+    summary.innerHTML = `<h2>Submission Not Sent</h2><p>${validationError}</p>`;
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Submitting...";
+  summary.className = 'summary show';
+  summary.innerHTML = `<h2>Submitting...</h2><p>Please do not close this page.</p>`;
+
+  try{
+    const response = await fetch(SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    });
+
+    const result = await response.json();
+
+    if(result.ok){
+      summary.className = 'summary show good';
+      summary.innerHTML = `
+        <h2>Quest Submitted</h2>
+        <p><strong>Student:</strong> ${result.studentName}</p>
+        <p><strong>Period:</strong> ${result.studentPeriod || '(not entered)'}</p>
+        <p><strong>Score:</strong> ${result.score} / ${result.possible}</p>
+        <p><strong>Percent:</strong> ${result.percent}%</p>
+        <p class="small">Timestamp recorded by the server: ${result.timestamp}</p>
+      `;
+    } else {
+      throw new Error(result.error || 'Unknown server error.');
+    }
+  } catch(err){
+    summary.className = 'summary show bad';
+    summary.innerHTML = `
+      <h2>Submission Error</h2>
+      <p>Your submission was not confirmed.</p>
+      <p class="small">${err.message}</p>
+    `;
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Submit Quest";
+  }
+}
+
+function clearAll(){
+  document.getElementById('studentName').value='';
+  document.getElementById('studentPeriod').value='';
+  for(let i=1;i<=5;i++){
+    document.getElementById('a'+i).value='';
+  }
+  const summary = document.getElementById('summary');
+  summary.className='summary';
+  summary.innerHTML='';
+}
+</script>
+</body>
+</html>
