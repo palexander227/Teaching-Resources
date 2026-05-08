@@ -86,6 +86,14 @@
         .replace("years", "")
         .replace("year", "");
     }
+    
+    function formatNumber(x) {
+      if (Number.isInteger(x)) {
+        return String(x);
+     }
+
+     return Number(x.toFixed(2)).toString();
+    }
 
     const problemTemplates = [
       {
