@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Precalculus Final Examination Study Guide</title>
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <style>
+    :root {
+      --bg: #f6f7fb;
+      --paper: #ffffff;
+      --ink: #1f2937;
+      --muted: #6b7280;
+      --line: #d8dee9;
+      --accent: #1d4ed8;
+      --accent-soft: #e0ecff;
+      --warning: #fff7ed;
+      --warning-line: #fed7aa;
+      --success: #ecfdf5;
+      --success-line: #a7f3d0;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.55;
+    }
+
+    header {
+      background: linear-gradient(135deg, #0f172a, #1d4ed8);
+      color: white;
+      padding: 3rem 1.25rem;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0 0 0.5rem;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      letter-spacing: 0.02em;
+    }
+
+    header p {
+      margin: 0 auto;
+      max-width: 850px;
+      font-size: 1.1rem;
+      color: #dbeafe;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(255,255,255,0.96);
+      border-bottom: 1px solid var(--line);
+      padding: 0.65rem 1rem;
+      display: flex;
+      gap: 0.6rem;
+      overflow-x: auto;
+      box-shadow: 0 2px 8px rgba(15,23,42,0.06);
+    }
+
+    nav a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 700;
+      white-space: nowrap;
+      border: 1px solid var(--line);
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+      background: white;
+    }
+
+    nav a:hover { background: var(--accent-soft); }
+
+    main {
+      max-width: 1050px;
+      margin: 2rem auto;
+      padding: 0 1rem 4rem;
+    }
+
+    section, .card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 1.4rem;
+      margin: 1rem 0;
+      box-shadow: 0 8px 20px rgba(15,23,42,0.05);
+    }
+
+    h2 {
+      font-size: 1.9rem;
+      margin: 0 0 1rem;
+      border-bottom: 2px solid var(--line);
+      padding-bottom: 0.35rem;
+    }
+
+    h3 {
+      font-size: 1.35rem;
+      margin-top: 1.4rem;
+      color: #111827;
+    }
+
+    h4 {
+      font-size: 1.1rem;
+      margin-bottom: 0.3rem;
+      color: #374151;
+    }
+
+    .intro {
+      border-left: 6px solid var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+
+    .topic {
+      padding: 1rem;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fbfdff;
+    }
+
+    .example {
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 1rem;
+      margin: 0.8rem 0;
+    }
+
+    .warning {
+      background: var(--warning);
+      border: 1px solid var(--warning-line);
+      border-radius: 14px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    .success {
+      background: var(--success);
+      border: 1px solid var(--success-line);
+      border-radius: 14px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    ul, ol { padding-left: 1.4rem; }
+
+    li { margin: 0.25rem 0; }
+
+    .checklist li {
+      list-style: none;
+      margin: 0.45rem 0;
+    }
+
+    .checklist li::before {
+      content: "□";
+      font-weight: bold;
+      margin-right: 0.45rem;
+      color: var(--accent);
+    }
+
+    .small-note {
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .two-col {
+      columns: 2 280px;
+      column-gap: 2rem;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      margin-top: 2rem;
+      font-size: 0.95rem;
+    }
+
+    @media print {
+      body { background: white; }
+      nav { display: none; }
+      main { max-width: none; margin: 0; }
+      section, .card { box-shadow: none; break-inside: avoid; }
+      header { background: white; color: black; padding: 1rem; }
+      header p { color: black; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Precalculus Final Examination Study Guide</h1>
+    <p>Use this guide to review the kinds of ideas, techniques, and traps that matter most. The examples below are similar in spirit to the final, but use different functions and numbers.</p>
+  </header>
+
+  <nav>
+    <a href="#overview">Overview</a>
+    <a href="#part1">Part I</a>
+    <a href="#part2">Part II</a>
+    <a href="#part3">Part III</a>
+    <a href="#essay">Essay</a>
+    <a href="#strategy">Strategy</a>
+  </nav>
+
+  <main>
+    <section id="overview" class="intro">
+      <h2>How to Use This Guide</h2>
+      <p>The strongest preparation strategy is not memorization alone. You should practice understanding definitions precisely, recognizing hidden domain restrictions, identifying when a theorem does or does not apply, and developing fluency with algebraic structure.</p>
+      <div class="grid">
+        <div class="topic"><strong>Part I:</strong> numeric response, algebraic fluency, exact integer answers.</div>
+        <div class="topic"><strong>Part II:</strong> multiple choice, structural recognition, interpretation.</div>
+        <div class="topic"><strong>Part III:</strong> select all that apply, conceptual precision and counterexamples.</div>
+        <div class="topic"><strong>Essay:</strong> theorem statements, explanation, and mathematical communication.</div>
+      </div>
+    </section>
+
+    <section id="part1">
+      <h2>Part I — Numeric Response</h2>
+
+      <div class="topic">
+        <h3>1. Rational Functions and Removable Discontinuities</h3>
+        <p>You should be able to factor polynomials, simplify rational expressions, identify holes, and determine excluded domain values.</p>
+        <div class="example">
+          <h4>Practice-Type Example</h4>
+          <p>If \[ f(x)=\frac{x^2-16}{x-4}, \] then factor first: \[x^2-16=(x-4)(x+4).\] Thus \[f(x)=x+4\] for all \(x\neq4\). The graph behaves like a line with a hole.</p>
+        </div>
+        <ul class="checklist">
+          <li>Can I identify the excluded value from the original denominator?</li>
+          <li>Can I distinguish a hole from a vertical asymptote?</li>
+          <li>Can I simplify only after stating the domain restriction?</li>
+        </ul>
+      </div>
+
+      <div class="topic">
+        <h3>2. Continuity of Piecewise Functions</h3>
+        <p>A piecewise function is continuous at a transition point only when the left-hand value, right-hand value, and function value agree.</p>
+        <div class="example">
+          <h4>Practice-Type Example</h4>
+          <p>Suppose \[ f(x)=\begin{cases}5x-2,&x<1\\ ax+6,&x\ge 1.\end{cases} \] To make \(f\) continuous at \(x=1\), set the two pieces equal at the transition point.</p>
+        </div>
+      </div>
+
+      <div class="topic">
+        <h3>3. Tangent Function and Interval Structure</h3>
+        <p>Know where tangent is undefined and how transformations change those locations.</p>
+        <div class="example">
+          <p>For \(f(x)=\tan(2x)\), solve \[2x=\frac{\pi}{2}+k\pi.\] Then count the resulting discontinuities or intervals carefully.</p>
+        </div>
+      </div>
+
+      <div class="topic">
+        <h3>4. Polynomial Roots and Vieta’s Formulas</h3>
+        <p>For a cubic \(ax^3+bx^2+cx+d\), the sum of roots is \(-b/a\).</p>
+        <div class="example">
+          <p>For \[x^3+4x^2-7x+9,\] if the roots are \(r_1,r_2,r_3\), then \[r_1+r_2+r_3=-4.\]</p>
+        </div>
+      </div>
+
+      <div class="topic">
+        <h3>5. Quadratic and Quartic Optimization</h3>
+        <p>Quartics in \(x^2\) can often be treated like quadratics by substitution.</p>
+        <div class="example">
+          <p>For \[x^4-6x^2+8,\] let \(u=x^2\). Then analyze \[u^2-6u+8.\]</p>
+        </div>
+      </div>
+
+      <div class="topic">
+        <h3>6. Profit Functions and Quadratics</h3>
+        <p>For \(ax^2+bx+c\), the vertex occurs at \[x=-\frac{b}{2a}.\]</p>
+        <div class="example">
+          <p>Analyze \[P(x)=-3x^2+72x-180.\] Find the maximizing production level, break-even points, and useful root relationships.</p>
+        </div>
+      </div>
+
+      <div class="topic">
+        <h3>7. Exponents and Logarithms</h3>
+        <p>This is one of the heaviest themes on the final. Practice exponent laws, log laws, change of base, and domain restrictions.</p>
+        <div class="example">
+          <p>Simplify: \[(32x^4y^{-2})^{3/5}.\]</p>
+          <p>Expand: \[\log_3(27x^2y^{-5}).\]</p>
+          <p>Rewrite: \[\ln(e^5x^{-2}y^4).\]</p>
+        </div>
+        <div class="warning"><strong>Warning:</strong> The power rule \(\log_b(x^r)=r\log_b(x)\) requires appropriate positivity conditions in the real-number system.</div>
+      </div>
+
+      <div class="topic">
+        <h3>8. Exponential Equations</h3>
+        <p>Rewrite both sides using common bases whenever possible.</p>
+        <div class="example">
+          <p>Solve \[27^{x+1}=9^{2x-1}.\] Rewrite everything using powers of \(3\).</p>
+        </div>
+      </div>
+
+      <div class="topic">
+        <h3>9. Rational Inequalities and Sign Charts</h3>
+        <p>Factor the numerator and denominator, locate zeros and undefined points, then test intervals.</p>
+        <div class="example">
+          <p>Analyze \[\frac{x^2-9}{x^2-x-6}>0.\]</p>
+        </div>
+        <div class="warning"><strong>Critical distinction:</strong> zeros of the denominator are never included.</div>
+      </div>
+
+      <div class="topic">
+        <h3>10. Average Rate of Change and Secant Lines</h3>
+        <p>Average rate of change is \[\frac{f(b)-f(a)}{b-a}.\]</p>
+        <div class="example">
+          <p>For \[f(x)=4x^2-7x+2,\] compute the average rate of change on \([a,a+2]\). Also practice writing secant-line equations.</p>
+        </div>
+      </div>
+
+      <div class="topic">
+        <h3>11. Radical Equations</h3>
+        <p>Isolate radicals first, square carefully, and check for extraneous solutions.</p>
+        <div class="example">
+          <p>Solve \[\sqrt{x+7}=11-x.\]</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="part2">
+      <h2>Part II — Multiple Choice</h2>
+      <p>Part II emphasizes structural reasoning, recognition, equivalent forms, and interpretation.</p>
+
+      <div class="grid">
+        <div class="topic">
+          <h3>Coordinate Geometry</h3>
+          <p>If slope is \(m\), perpendicular slope is \(-1/m\). Practice identifying points on perpendicular lines through a given point.</p>
+        </div>
+        <div class="topic">
+          <h3>Algebraic Structure</h3>
+          <p>Recognize perfect squares, differences of squares, and hidden substitutions such as \((x-k)^2=x^2-2kx+k^2\).</p>
+        </div>
+        <div class="topic">
+          <h3>Exponential Models</h3>
+          <p>Interpret expressions such as \[A(t)=12000(1.04)^{12t}.\] What does the exponent scaling mean?</p>
+        </div>
+        <div class="topic">
+          <h3>Polynomial Factor Theorem</h3>
+          <p>If \(x-a\) is a factor, then \(f(a)=0\). Use this to test possible factors quickly.</p>
+        </div>
+        <div class="topic">
+          <h3>Systems and Tangency</h3>
+          <p>When a line intersects a parabola at exactly one point, the discriminant is zero. For \(ax^2+bx+c\), \[\Delta=b^2-4ac.\]</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="part3">
+      <h2>Part III — Conceptual Questions</h2>
+      <p>This section rewards precision. Memorized slogans are dangerous. Always ask: is this statement always true, sometimes true, or false?</p>
+
+      <div class="topic">
+        <h3>Complex Numbers</h3>
+        <p>For \(z=a+bi\), \(\overline z=a-bi\), and \(|z|=\sqrt{a^2+b^2}\).</p>
+        <div class="example">
+          <p>Practice with \(z=2-3i\): compute its modulus, conjugate, reciprocal, and powers.</p>
+        </div>
+      </div>
+
+      <div class="topic">
+        <h3>Roots of Unity</h3>
+        <p>Know the geometric picture: roots of unity lie on a circle and often form regular polygons.</p>
+        <div class="example"><p>Analyze \[z^4=16.\] Identify modulus, real roots, imaginary roots, sum, product, and geometry.</p></div>
+      </div>
+
+      <div class="topic">
+        <h3>Logarithms</h3>
+        <p>Know domains, continuity, asymptotic behavior, growth behavior, and legal vs illegal simplifications.</p>
+        <div class="warning">Common trap: \[\log(x+y)\neq\log x+\log y.\]</div>
+        <div class="example"><p>Analyze \[f(x)=\log_5(x^2-1).\] Find domain, continuity intervals, asymptotic behavior, and zeros.</p></div>
+      </div>
+
+      <div class="topic">
+        <h3>Continuity and IVT</h3>
+        <p>The Intermediate Value Theorem requires continuity on \([a,b]\).</p>
+        <div class="warning">The converse is false: a function can have the intermediate value property without being continuous.</div>
+      </div>
+
+      <div class="topic">
+        <h3>Polynomial Theory</h3>
+        <p>Review the Fundamental Theorem of Algebra, conjugate roots, multiplicity, and odd/even degree behavior.</p>
+        <div class="example"><p>If a real-coefficient polynomial has root \(4-7i\), what other root must it have?</p></div>
+      </div>
+
+      <div class="topic">
+        <h3>Rational Functions and Asymptotes</h3>
+        <p>Know how to identify holes, vertical asymptotes, horizontal asymptotes, and slant asymptotes.</p>
+        <div class="example"><p>Analyze \[f(x)=\frac{x^3-8}{x^2-4}.\] Determine discontinuities, asymptotes, and whether the graph can intersect an asymptote.</p></div>
+        <div class="warning">A graph may intersect a horizontal or slant asymptote.</div>
+      </div>
+
+      <div class="topic">
+        <h3>Sequences and Series</h3>
+        <p>Know boundedness, monotonicity, oscillation, convergence, divergence tests, geometric series, arithmetic series, harmonic series, and telescoping series.</p>
+        <div class="example">
+          <p>Determine convergence of \[\left(1-\frac1n\right)^n\] and \[\frac{\cos n}{n}.\]</p>
+        </div>
+        <div class="success"><strong>Divergence Test:</strong> If \(\sum a_n\) converges, then \(a_n\to0\). But \(a_n\to0\) does not guarantee that \(\sum a_n\) converges.</div>
+        <div class="success"><strong>Geometric Series:</strong> \(\sum ar^n\) converges iff \(|r|<1\).</div>
+        <div class="warning"><strong>Oscillation:</strong> oscillating does not necessarily mean bounded. For example, \((-1)^nn\) oscillates and is unbounded.</div>
+      </div>
+    </section>
+
+    <section id="essay">
+      <h2>Essay Questions</h2>
+      <p>The essay questions test mathematical communication, theorem precision, conceptual explanation, and logical structure. Practice writing complete sentences.</p>
+
+      <div class="topic">
+        <h3>Essay Topic 1 — Fundamental Theorem of Algebra</h3>
+        <p>You should be able to state:</p>
+        <div class="success">Every nonconstant polynomial with complex coefficients has at least one complex root. Equivalently, every degree \(n\) polynomial over \(\mathbb C\) factors completely into linear factors over \(\mathbb C\).</div>
+        <h4>Irreducible Quadratics</h4>
+        <p>Over the real numbers, irreducible means the quadratic cannot factor into real linear factors. Equivalently, its discriminant is negative.</p>
+        <div class="example"><p>Practice factoring \[x^4+16\] into irreducible real quadratics.</p></div>
+      </div>
+
+      <div class="topic">
+        <h3>Essay Topic 2 — Logarithm Laws and Domain Issues</h3>
+        <p>Understand why a quotient inside one logarithm may exist even when the two separate logarithms do not.</p>
+        <div class="example">
+          <p>Explain why \[\log\left(\frac{x+3}{x-5}\right)\] may exist even when \[\log(x+3)-\log(x-5)\] does not.</p>
+        </div>
+        <div class="warning">The quotient rule \[\log\left(\frac ab\right)=\log a-\log b\] requires \(a>0\) and \(b>0\) individually. But \(a/b>0\) can occur when both \(a\) and \(b\) are negative.</div>
+      </div>
+    </section>
+
+    <section id="strategy">
+      <h2>Final Preparation Strategy</h2>
+      <div class="grid">
+        <div class="topic">
+          <h3>Most Important Skills</h3>
+          <ol>
+            <li>Factor aggressively.</li>
+            <li>Watch domains constantly.</li>
+            <li>Distinguish equations from identities.</li>
+            <li>Know theorem hypotheses.</li>
+            <li>Check whether statements are always true or only sometimes true.</li>
+            <li>Use counterexamples.</li>
+            <li>Avoid memorized slogans without conditions.</li>
+          </ol>
+        </div>
+        <div class="topic">
+          <h3>Highest Priority Topics</h3>
+          <ul>
+            <li>Logarithms and exponentials</li>
+            <li>Rational functions</li>
+            <li>Polynomial theory</li>
+            <li>Continuity and IVT</li>
+            <li>Sequences and series</li>
+            <li>Roots of unity</li>
+            <li>Asymptotic behavior</li>
+          </ul>
+        </div>
+      </div>
+      <div class="success">
+        <strong>Best study method:</strong> redo old quests and reviews, build your own counterexamples, explain concepts aloud, and practice recognizing when a theorem does not apply.
+      </div>
+    </section>
+
+    <footer>
+      The final rewards conceptual understanding more than memorized procedures. Good luck.
+    </footer>
+  </main>
+</body>
+</html>
