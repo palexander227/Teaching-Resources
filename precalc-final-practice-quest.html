@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Precalculus Final Practice Quest</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 850px;
+      margin: 40px auto;
+      padding: 24px;
+      line-height: 1.5;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .problem {
+      border: 1px solid #ccc;
+      padding: 16px;
+      margin-bottom: 18px;
+      border-radius: 8px;
+    }
+
+    input[type="text"] {
+      padding: 8px;
+      font-size: 1rem;
+      width: 220px;
+    }
+
+    button {
+      padding: 10px 16px;
+      font-size: 1rem;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+
+    .feedback {
+      font-weight: bold;
+      margin-top: 8px;
+    }
+
+    #score {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Precalculus Final Practice Quest</h1>
+
+  <p>
+    Complete the five problems below. Click <strong>Check Answers</strong> when finished,
+    or generate a new random quest.
+  </p>
+
+  <div id="quest"></div>
+
+  <button onclick="checkAnswers()">Check Answers</button>
+  <button onclick="newQuest()">Generate New Quest</button>
+
+  <div id="score"></div>
+
+  <script>
+    function randInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function choice(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function shuffle(arr) {
+      return [...arr].sort(() => Math.random() - 0.5);
+    }
+
+    function clean(value) {
+      return String(value)
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, "")
+        .replace("%", "")
+        .replace("years", "")
+        .replace("year", "");
+    }
+
+    const problemTemplates = [
+      {
+        topic: "Exponential Models",
+        type: "multipleChoice",
+        generate() {
+          const factor = choice([2, 3, 4, 5, 6, 7, 8, 9]);
+          const A = randInt(12, 80);
+          const base = factor ** 2;
+
+          return {
+            prompt: `Which form shows that the function is multiplied by ${factor} whenever x increases by 1/2?`,
+            choices: {
+              A: `f(x) = ${A}(${factor})^x`,
+              B: `f(x) = ${A}(${base})^x`,
+              C: `f(x) = ${A}(${factor})^(2x)`,
+              D: `f(x) = ${A}(${base})^(x/2)`
+            },
+            answer: "B"
+          };
+        }
+      },
+
+      {
+        topic: "Exponential Models",
+        type: "text",
+        generate() {
+          const rate = choice([4, 5, 6, 8, 10, 12, 15, 20, 25]);
+          const initial = choice([100, 200, 250, 400, 500, 800]);
+          const final = initial * (1 + rate / 100);
+
+          return {
+            prompt: `A quantity grows from ${initial} to ${final} in one year. What is the percent growth rate? Enter the percent only.`,
+            answer: String(rate)
+          };
+        }
+      },
+
+      {
+        topic: "Exponential Models",
+        type: "text",
+        generate() {
+          const doublingTime = choice([2, 3, 4, 5, 6, 8, 10]);
+          const power = choice([2, 3, 4, 5]);
+          const factor = 2 ** power;
+          const years = doublingTime * power;
+
+          return {
+            prompt: `A population doubles every ${doublingTime} years. How many years does it take to grow by a factor of ${factor}?`,
+            answer: String(years)
+          };
+        }
+      },
+
+      {
+        topic: "Logarithms",
+        type: "text",
+        generate() {
+          const base = choice([2, 3, 4, 5, 10]);
+          const exponent = choice([2, 3, 4]);
+          const answer = base ** exponent;
+
+          return {
+            prompt: `Solve log_${base}(x) = ${exponent}.`,
+            answer: String(answer)
+          };
+        }
+      },
+
+      {
+        topic: "Logarithms",
+        type: "text",
+        generate() {
+          const base = choice([2, 3, 5]);
+          const exponent = choice([2, 3, 4]);
+          const shift = randInt(2, 12);
+          const answer = base ** exponent + shift;
+
+          return {
+            prompt: `Solve log_${base}(x - ${shift}) = ${exponent}.`,
+            answer: String(answer)
+          };
+        }
+      },
+
+      {
+        topic: "Polynomials",
+        type: "text",
+        generate() {
+          let r1 = choice([-9, -8, -7, -6, -5, -4, -3, 2, 3, 4, 5, 6, 7, 8, 9]);
+          let r2 = choice([-9, -8, -7, -6, -5, -4, -3, 2, 3, 4, 5, 6, 7, 8, 9]);
+
+          while (r2 === r1) {
+            r2 = choice([-9, -8, -7, -6, -5, -4, -3, 2, 3, 4, 5, 6, 7, 8, 9]);
+          }
+
+          return {
+            prompt: `A monic quadratic has roots ${r1} and ${r2}. What is its constant term?`,
+            answer: String(r1 * r2)
+          };
+        }
+      },
+
+      {
+        topic: "Polynomials",
+        type: "text",
+        generate() {
+          const r1 = choice([-8, -7, -6, -5, -4, -3, 2, 3, 4, 5, 6, 7, 8]);
+          const r2 = choice([-9, -6, -4, -2, 2, 4, 6, 9]);
+          const r3 = choice([-10, -5, -2, 2, 5, 10]);
+
+          return {
+            prompt: `A monic cubic has roots ${r1}, ${r2}, and ${r3}. What is its constant term?`,
+            answer: String(-r1 * r2 * r3)
+          };
+        }
+      },
+
+      {
+        topic: "Rational Functions",
+        type: "text",
+        generate() {
+          const a = randInt(-10, 10);
+          const asymptote = -a;
+
+          return {
+            prompt: `For f(x) = (x + 3)/(x + ${a}), what is the vertical asymptote? Enter the x-value only.`,
+            answer: String(asymptote)
+          };
+        }
+      },
+
+      {
+        topic: "Rational Functions",
+        type: "text",
+        generate() {
+          const hole = choice([-8, -6, -5, -3, 2, 4, 7, 9]);
+
+          return {
+            prompt: `For f(x) = (x^2 - ${hole ** 2})/(x - ${hole}), what x-value gives the removable discontinuity?`,
+            answer: String(hole)
+          };
+        }
+      },
+
+      {
+        topic: "Trigonometry",
+        type: "text",
+        generate() {
+          const b = choice([2, 3, 4, 5, 6]);
+
+          return {
+            prompt: `What is the period of y = sin(${b}x)? Enter your answer using pi, such as 2pi/3.`,
+            answer: `2pi/${b}`
+          };
+        }
+      },
+
+      {
+        topic: "Trigonometry",
+        type: "text",
+        generate() {
+          const denominator = choice([3, 4, 5, 6, 8, 10, 12]);
+
+          return {
+            prompt: `For y = cos((pi/${denominator})x), what is the period?`,
+            answer: String(2 * denominator)
+          };
+        }
+      }
+    ];
+
+    let currentQuest = [];
+
+    function generateQuest() {
+      return shuffle(problemTemplates).slice(0, 5).map(template => {
+        const generated = template.generate();
+        return {
+          topic: template.topic,
+          type: template.type,
+          ...generated
+        };
+      });
+    }
+
+    function renderQuest() {
+      const questDiv = document.getElementById("quest");
+      questDiv.innerHTML = "";
+
+      currentQuest.forEach((problem, index) => {
+        const problemDiv = document.createElement("div");
+        problemDiv.className = "problem";
+
+        let html = `<h3>Problem ${index + 1}</h3>`;
+        html += `<p><em>${problem.topic}</em></p>`;
+        html += `<p>${problem.prompt}</p>`;
+
+        if (problem.type === "multipleChoice") {
+          for (const key in problem.choices) {
+            html += `
+              <label>
+                <input type="radio" name="answer${index}" value="${key}">
+                ${key}. ${problem.choices[key]}
+              </label><br>
+            `;
+          }
+        } else {
+          html += `<input type="text" id="answer${index}" />`;
+        }
+
+        html += `<div class="feedback" id="feedback${index}"></div>`;
+
+        problemDiv.innerHTML = html;
+        questDiv.appendChild(problemDiv);
+      });
+
+      document.getElementById("score").textContent = "";
+    }
+
+    function checkAnswers() {
+      let score = 0;
+
+      currentQuest.forEach((problem, index) => {
+        let studentAnswer = "";
+
+        if (problem.type === "multipleChoice") {
+          const selected = document.querySelector(`input[name="answer${index}"]:checked`);
+          studentAnswer = selected ? selected.value : "";
+        } else {
+          studentAnswer = document.getElementById(`answer${index}`).value;
+        }
+
+        const correct = clean(studentAnswer) === clean(problem.answer);
+        const feedback = document.getElementById(`feedback${index}`);
+
+        if (correct) {
+          score++;
+          feedback.textContent = "Correct.";
+          feedback.style.color = "green";
+        } else {
+          feedback.textContent = `Incorrect. Correct answer: ${problem.answer}`;
+          feedback.style.color = "red";
+        }
+      });
+
+      document.getElementById("score").textContent = `Score: ${score}/5`;
+    }
+
+    function newQuest() {
+      currentQuest = generateQuest();
+      renderQuest();
+    }
+
+    newQuest();
+  </script>
+</body>
+</html>
