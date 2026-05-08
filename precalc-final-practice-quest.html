@@ -118,19 +118,23 @@
       },
 
       {
-        topic: "Exponential Models",
-        type: "text",
-        generate() {
-          const rate = choice([4, 5, 6, 8, 10, 12, 15, 20, 25]);
-          const initial = choice([100, 200, 250, 400, 500, 800]);
-          const final = initial * (1 + rate / 100);
+  topic: "Exponential Models",
+  type: "text",
 
-          return {
-            prompt: `A quantity grows from ${initial} to ${final} in one year. What is the percent growth rate? Enter the percent only.`,
-            answer: String(rate)
-          };
-        }
-      },
+  generate() {
+    const rate = choice([4, 5, 6, 8, 10, 12, 15, 20, 25]);
+    const initial = choice([100, 200, 250, 400, 500, 800]);
+
+    const final = formatNumber(
+      initial * (1 + rate / 100)
+    );
+
+    return {
+      prompt: `A quantity grows from ${initial} to ${final} in one year. What is the percent growth rate? Enter the percent only.`,
+      answer: String(rate)
+    };
+  }
+},
 
       {
         topic: "Exponential Models",
