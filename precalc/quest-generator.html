@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Precalculus Final Practice Quests</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  body { margin:0; font-family: Georgia, 'Times New Roman', serif; background:#f5f7fb; color:#111827; line-height:1.55; }
+  header { background:linear-gradient(135deg,#0f172a,#1d4ed8); color:white; padding:2.25rem 1rem; text-align:center; }
+  header h1 { margin:0 0 .5rem; font-size:clamp(2rem,4vw,3rem); }
+  header p { max-width:850px; margin:0 auto; color:#dbeafe; }
+  main { max-width:1000px; margin:2rem auto; padding:0 1rem 4rem; }
+  .panel, .problem, .summary { background:white; border:1px solid #d8dee9; border-radius:16px; box-shadow:0 8px 20px rgba(15,23,42,.06); }
+  .panel { padding:1rem; margin-bottom:1rem; }
+  .controls { display:flex; gap:.7rem; flex-wrap:wrap; align-items:center; }
+  button { border:none; background:#1d4ed8; color:white; font-weight:700; padding:.65rem 1rem; border-radius:999px; cursor:pointer; font-family:inherit; font-size:1rem; }
+  button.secondary { background:white; color:#1d4ed8; border:1px solid #1d4ed8; }
+  select, input[type=text] { padding:.6rem .75rem; border-radius:10px; border:1px solid #d8dee9; font-family:inherit; font-size:1rem; }
+  select { border-radius:999px; }
+  .quest-title { display:flex; justify-content:space-between; gap:1rem; align-items:baseline; flex-wrap:wrap; margin:1rem 0; }
+  .quest-title h2 { margin:0; }
+  .problem { padding:1.2rem; margin:1rem 0; }
+  .tag { display:inline-block; background:#e0ecff; color:#1e3a8a; font-weight:700; padding:.2rem .55rem; border-radius:999px; font-size:.85rem; }
+  .choices { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:.6rem; margin-top:.8rem; }
+  label.choice { display:flex; gap:.5rem; align-items:flex-start; border:1px solid #d8dee9; border-radius:12px; padding:.7rem; background:#fbfdff; }
+  .answer-row { display:flex; gap:.7rem; flex-wrap:wrap; align-items:center; margin-top:1rem; }
+  .feedback { display:none; margin-top:.85rem; padding:.8rem; border-radius:12px; }
+  .good { display:block; background:#ecfdf5; border:1px solid #86efac; }
+  .bad { display:block; background:#fff1f2; border:1px solid #fda4af; }
+  .warn { display:block; background:#fff7ed; border:1px solid #fed7aa; }
+  .summary { display:none; padding:1rem; margin-top:1rem; }
+  .summary.show { display:block; }
+  .small { color:#6b7280; font-size:.95rem; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Precalculus Final Practice Quests</h1>
+  <p>Each quest gives 5 random practice problems. These are similar in spirit to the final, but use different functions and numbers.</p>
+</header>
+
+<main>
+  <section class="panel">
+    <div class="controls">
+      <button onclick="generateQuest()">Generate New Quest</button>
+      <button class="secondary" onclick="checkAll()">Check Quest</button>
+      <button class="secondary" onclick="clearAnswers()">Clear Answers</button>
+      <select id="mode" onchange="generateQuest()">
+        <option value="mixed">Mixed Topics</option>
+        <option value="algebra">Algebra / Functions</option>
+        <option value="logs">Logs / Exponentials</option>
+        <option value="conceptual">Conceptual</option>
+        <option value="sequences">Sequences / Series</option>
+      </select>
+    </div>
+    <p class="small">For select-all-that-apply, choose every correct statement. Use feedback to identify what to review.</p>
+  </section>
+
+  <div class="quest-title">
+    <h2 id="questTitle">Quest</h2>
+    <span id="questInfo" class="small"></span>
+  </div>
+
+  <section id="quest"></section>
+  <section id="summary" class="summary"></section>
+</main>
+
+<script>
+var questNumber = 0;
+var currentQuest = [];
+
+var bank = [
+  {
+    type:'input', topic:'algebra', tag:'Rational Function / Hole',
+    prompt:'Let \\(f(x)=\\dfrac{x^2-25}{x-5}\\). The omitted domain value is \\(k\\), and for \\(x\\ne k\\), the function agrees with \\(ax+b\\). Find \\(k+a+b\\).',
+    answer:'11',
+    solution:'Factor: \\(x^2-25=(x-5)(x+5)\\), so \\(f(x)=x+5\\) for \\(x\\ne5\\). Thus \\(k=5,a=1,b=5\\), so the answer is \\(11\\).'
+  },
+  {
+    type:'input', topic:'algebra', tag:'Piecewise Continuity',
+    prompt:'Define \\(f(x)=\\begin{cases}4x-1,&x<2\\\\ ax+5,&x\\ge2.\\end{cases}\\) Find \\(a\\) so that \\(f\\) is continuous at \\(x=2\\).',
+    answer:'1',
+    solution:'Left value: \\(4(2)-1=7\\). Right piece at 2: \\(2a+5\\). Set \\(2a+5=7\\), so \\(a=1\\).'
+  },
+  {
+    type:'input', topic:'algebra', tag:'Vieta',
+    prompt:'Suppose \\(x^3+6x^2-2x+10=(x-r)(x-s)(x-t)\\). Find \\(r+s+t\\).',
+    answer:'-6',
+    solution:'For a monic cubic, the sum of roots is the opposite of the \\(x^2\\)-coefficient. Thus \\(r+s+t=-6\\).'
+  },
+  {
+    type:'input', topic:'algebra', tag:'Quartic Optimization',
+    prompt:'Let \\(f(x)=x^4-10x^2+7\\). Find the minimum value of \\(f(x)\\).',
+    answer:'-18',
+    solution:'Let \\(u=x^2\\). Then \\(f=u^2-10u+7=(u-5)^2-18\\). Since \\(u=5\\) is possible, the minimum is \\(-18\\).'
+  },
+  {
+    type:'input', topic:'logs', tag:'Exponent Rules',
+    prompt:'Simplify \\((64x^6y^{-3})^{1/3}=ax^by^c\\). Find \\(a+b+c\\).',
+    answer:'5',
+    solution:'\\(64^{1/3}=4\\), \\(x^{6/3}=x^2\\), and \\(y^{-3/3}=y^{-1}\\). Thus \\(a=4,b=2,c=-1\\), so the sum is \\(5\\).'
+  },
+  {
+    type:'input', topic:'logs', tag:'Log Expansion',
+    prompt:'If \\(\\log_2(32x^4y^{-7})=a+b\\log_2x+c\\log_2y\\), find \\(a+b+c\\).',
+    answer:'2',
+    solution:'The expression is \\(5+4\\log_2x-7\\log_2y\\). Thus \\(a+b+c=5+4-7=2\\).'
+  },
+  {
+    type:'input', topic:'logs', tag:'Exponential Equation',
+    prompt:'Solve \\(25^{x-1}=125^{2x+1}\\). If \\(x=a/b\\) in lowest terms with \\(b>0\\), find \\(a+b\\).',
+    answer:'-1',
+    solution:'Rewrite as \\((5^2)^{x-1}=(5^3)^{2x+1}\\). Then \\(2x-2=6x+3\\), so \\(x=-5/4\\). Thus \\(a+b=-5+4=-1\\).'
+  },
+  {
+    type:'input', topic:'algebra', tag:'Average Rate of Change',
+    prompt:'Let \\(f(x)=5x^2-3x+1\\). The average rate of change of \\(f\\) on \\([a,a+2]\\) is \\(37\\). Find \\(a\\).',
+    answer:'3',
+    solution:'The average rate from \\(a\\) to \\(a+2\\) is \\(10a+7\\). Set \\(10a+7=37\\), so \\(a=3\\).'
+  },
+  {
+    type:'mc', topic:'conceptual', tag:'Complex Numbers',
+    prompt:'Let \\(z=3-4i\\). Which statement is true?',
+    choices:['\\(|z|=5\\)','\\(z+\\overline z=-8i\\)','\\(z\\overline z=7\\)','\\(1/z=(3-4i)/25\\)'],
+    answer:0,
+    solution:'\\(|3-4i|=\\sqrt{9+16}=5\\).'
+  },
+  {
+    type:'mc', topic:'conceptual', tag:'Roots of Unity',
+    prompt:'The solutions of \\(z^4=16\\) form which shape in the complex plane?',
+    choices:['A line segment','A square centered at the origin','A regular pentagon','A circle with infinitely many points'],
+    answer:1,
+    solution:'There are four roots with modulus 2, equally spaced by \\(\\pi/2\\), forming a square.'
+  },
+  {
+    type:'mc', topic:'conceptual', tag:'IVT',
+    prompt:'Which condition is sufficient for the Intermediate Value Theorem on \\([a,b]\\)?',
+    choices:['\\(f\\) is continuous on \\((a,b)\\) only','\\(f(a)<0<f(b)\\) only','\\(f\\) is continuous on \\([a,b]\\)','\\(f\\) has a root in \\((a,b)\\)'],
+    answer:2,
+    solution:'IVT requires continuity on the closed interval \\([a,b]\\).'
+  },
+  {
+    type:'multi', topic:'conceptual', tag:'Log Domains',
+    prompt:'Select all statements that are always true for real logarithms.',
+    choices:['\\(\\log_b(xy)=\\log_bx+\\log_by\\) when \\(x,y>0\\)','\\(\\log_b(x+y)=\\log_bx+\\log_by\\) when \\(x,y>0\\)','\\(b^{\\log_bx}=x\\) when \\(b>0,b\\ne1,x>0\\)','\\(\\log_b(x^2)=2\\log_bx\\) for all \\(x\\ne0\\)'],
+    answer:[0,2],
+    solution:'The product law and inverse property are true with proper domains. The sum law is false. The power rule form shown requires \\(x>0\\).'
+  },
+  {
+    type:'tf', topic:'sequences', tag:'Sequences',
+    prompt:'Every bounded sequence converges.',
+    answer:false,
+    solution:'False. For example, \\((-1)^n\\) is bounded but does not converge.'
+  },
+  {
+    type:'tf', topic:'sequences', tag:'Sequences',
+    prompt:'Every convergent sequence is bounded.',
+    answer:true,
+    solution:'True. A convergent sequence cannot eventually wander arbitrarily far away.'
+  },
+  {
+    type:'tf', topic:'sequences', tag:'Series',
+    prompt:'If \\(\\sum a_n\\) converges, then \\(a_n\\to0\\).',
+    answer:true,
+    solution:'True. This is the necessary condition behind the divergence test.'
+  },
+  {
+    type:'tf', topic:'sequences', tag:'Series',
+    prompt:'If \\(a_n\\to0\\), then \\(\\sum a_n\\) must converge.',
+    answer:false,
+    solution:'False. The harmonic series has terms going to 0 but diverges.'
+  },
+  {
+    type:'tf', topic:'sequences', tag:'Oscillation',
+    prompt:'Every oscillating sequence is bounded.',
+    answer:false,
+    solution:'False. \\((-1)^n n\\) oscillates and is unbounded.'
+  },
+  {
+    type:'mc', topic:'sequences', tag:'Geometric Series',
+    prompt:'Which geometric series converges?',
+    choices:['\\(\\sum 3(2)^n\\)','\\(\\sum 4(-1.2)^n\\)','\\(\\sum 5(2/3)^n\\)','\\(\\sum 7(-3)^n\\)'],
+    answer:2,
+    solution:'A geometric series converges when \\(|r|<1\\). Only \\(2/3\\) satisfies this.'
+  }
+];
+
+function shuffle(arr) {
+  var a = arr.slice();
+  for (var i = a.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = a[i]; a[i] = a[j]; a[j] = temp;
+  }
+  return a;
+}
+
+function generateQuest() {
+  questNumber++;
+  var mode = document.getElementById('mode').value;
+  var pool = bank.filter(function(p) { return mode === 'mixed' || p.topic === mode; });
+  if (pool.length < 5) pool = bank.slice();
+  currentQuest = shuffle(pool).slice(0, 5);
+  document.getElementById('questTitle').textContent = 'Quest ' + questNumber;
+  document.getElementById('questInfo').textContent = mode + ' • 5 problems';
+  renderQuest();
+  document.getElementById('summary').className = 'summary';
+  document.getElementById('summary').innerHTML = '';
+}
+
+function renderQuest() {
+  var html = '';
+  for (var i = 0; i < currentQuest.length; i++) html += renderProblem(currentQuest[i], i);
+  document.getElementById('quest').innerHTML = html;
+  if (window.MathJax) MathJax.typesetPromise();
+}
+
+function renderProblem(p, i) {
+  var body = '<article class="problem"><span class="tag">' + p.tag + '</span><h3>Problem ' + (i+1) + '</h3><p>' + p.prompt + '</p>';
+  if (p.type === 'input') {
+    body += '<div class="answer-row"><input type="text" id="ans-' + i + '" placeholder="Enter answer"><button onclick="checkProblem(' + i + ')">Check</button></div>';
+  }
+  if (p.type === 'mc') {
+    body += '<div class="choices">';
+    for (var j = 0; j < p.choices.length; j++) body += '<label class="choice"><input type="radio" name="ans-' + i + '" value="' + j + '"><span>' + p.choices[j] + '</span></label>';
+    body += '</div><div class="answer-row"><button onclick="checkProblem(' + i + ')">Check</button></div>';
+  }
+  if (p.type === 'multi') {
+    body += '<div class="choices">';
+    for (var k = 0; k < p.choices.length; k++) body += '<label class="choice"><input type="checkbox" name="ans-' + i + '" value="' + k + '"><span>' + p.choices[k] + '</span></label>';
+    body += '</div><div class="answer-row"><button onclick="checkProblem(' + i + ')">Check</button></div>';
+  }
+  if (p.type === 'tf') {
+    body += '<div class="choices"><label class="choice"><input type="radio" name="ans-' + i + '" value="true">True</label><label class="choice"><input type="radio" name="ans-' + i + '" value="false">False</label></div><div class="answer-row"><button onclick="checkProblem(' + i + ')">Check</button></div>';
+  }
+  body += '<div class="feedback" id="fb-' + i + '"></div></article>';
+  return body;
+}
+
+function normalize(s) { return String(s).trim().replace(/\s+/g,'').toLowerCase(); }
+
+function getAnswer(p, i) {
+  if (p.type === 'input') return document.getElementById('ans-' + i).value;
+  if (p.type === 'mc') {
+    var picked = document.querySelector('input[name="ans-' + i + '"]:checked');
+    return picked ? Number(picked.value) : null;
+  }
+  if (p.type === 'tf') {
+    var tf = document.querySelector('input[name="ans-' + i + '"]:checked');
+    return tf ? tf.value === 'true' : null;
+  }
+  if (p.type === 'multi') {
+    var boxes = document.querySelectorAll('input[name="ans-' + i + '"]:checked');
+    var out = [];
+    for (var b = 0; b < boxes.length; b++) out.push(Number(boxes[b].value));
+    out.sort(function(a,b){ return a-b; });
+    return out;
+  }
+}
+
+function arraysEqual(a,b) {
+  if (a.length !== b.length) return false;
+  for (var i=0;i<a.length;i++) if (a[i] !== b[i]) return false;
+  return true;
+}
+
+function isCorrect(p, ans) {
+  if (p.type === 'input') return normalize(ans) === normalize(p.answer);
+  if (p.type === 'mc' || p.type === 'tf') return ans === p.answer;
+  if (p.type === 'multi') return arraysEqual(ans, p.answer.slice().sort(function(a,b){return a-b;}));
+  return false;
+}
+
+function answerText(p) {
+  if (p.type === 'input') return p.answer;
+  if (p.type === 'mc') return p.choices[p.answer];
+  if (p.type === 'tf') return p.answer ? 'True' : 'False';
+  if (p.type === 'multi') {
+    var parts = [];
+    for (var i=0;i<p.answer.length;i++) parts.push(p.choices[p.answer[i]]);
+    return parts.join('; ');
+  }
+}
+
+function checkProblem(i) {
+  var p = currentQuest[i];
+  var ans = getAnswer(p, i);
+  var fb = document.getElementById('fb-' + i);
+  if (ans === null || ans === '' || (Array.isArray(ans) && ans.length === 0)) {
+    fb.className = 'feedback warn';
+    fb.innerHTML = '<strong>Blank.</strong> Try the problem first.';
+    return false;
+  }
+  var ok = isCorrect(p, ans);
+  fb.className = ok ? 'feedback good' : 'feedback bad';
+  fb.innerHTML = ok ? '<strong>Correct.</strong> ' + p.solution : '<strong>Not quite.</strong> Correct answer: ' + answerText(p) + '<br>' + p.solution;
+  if (window.MathJax) MathJax.typesetPromise([fb]);
+  return ok;
+}
+
+function checkAll() {
+  var correct = 0;
+  for (var i=0;i<currentQuest.length;i++) if (checkProblem(i)) correct++;
+  var summary = document.getElementById('summary');
+  summary.className = 'summary show';
+  summary.innerHTML = '<h3>Quest Score</h3><p>You got <strong>' + correct + ' out of ' + currentQuest.length + '</strong> correct.</p>';
+}
+
+function clearAnswers() {
+  for (var i=0;i<currentQuest.length;i++) {
+    var p = currentQuest[i];
+    var fb = document.getElementById('fb-' + i);
+    if (fb) { fb.className = 'feedback'; fb.innerHTML = ''; }
+    if (p.type === 'input') document.getElementById('ans-' + i).value = '';
+    else {
+      var inputs = document.querySelectorAll('input[name="ans-' + i + '"]');
+      for (var j=0;j<inputs.length;j++) inputs[j].checked = false;
+    }
+  }
+  document.getElementById('summary').className = 'summary';
+  document.getElementById('summary').innerHTML = '';
+}
+
+generateQuest();
+</script>
+</body>
+</html>
