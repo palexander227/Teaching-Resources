@@ -270,6 +270,167 @@
       }
     ];
 
+{
+  topic: "Function Transformations",
+  type: "text",
+
+  generate() {
+    const shift = randInt(2, 9);
+
+    return {
+      prompt: `Relative to y=x^2, what is the horizontal shift of y=(x-${shift})^2?`,
+      answer: String(shift)
+    };
+  }
+},
+
+{
+  topic: "Function Transformations",
+  type: "text",
+
+  generate() {
+    const shift = randInt(2, 9);
+
+    return {
+      prompt: `Relative to y=x^2, what is the vertical shift of y=x^2+${shift}?`,
+      answer: String(shift)
+    };
+  }
+},
+
+{
+  topic: "Inverse Functions",
+  type: "text",
+
+  generate() {
+    const a = choice([2,3,4,5,6]);
+    const b = randInt(1,9);
+
+    return {
+      prompt: `If f(x)=${a}x+${b}, find f^{-1}(0).`,
+      answer: String(-b/a)
+    };
+  }
+},
+
+{
+  topic: "Composition",
+  type: "text",
+
+  generate() {
+    const a = randInt(2,6);
+    const b = randInt(1,8);
+    const x = randInt(1,5);
+
+    const answer = a*(x+b);
+
+    return {
+      prompt: `Let f(x)=${a}x and g(x)=x+${b}. Find (f∘g)(${x}).`,
+      answer: String(answer)
+    };
+  }
+},
+
+{
+  topic: "Composition",
+  type: "text",
+
+  generate() {
+    const a = randInt(2,5);
+    const b = randInt(1,5);
+    const x = randInt(1,4);
+
+    const answer = a*x + b;
+
+    return {
+      prompt: `Let f(x)=x+${b} and g(x)=${a}x. Find (f∘g)(${x}).`,
+      answer: String(answer)
+    };
+  }
+},
+
+{
+  topic: "Trigonometry",
+  type: "text",
+
+  generate() {
+    const denom = choice([2,3,4,5]);
+
+    return {
+      prompt: `Find sin(pi/${denom}) as an exact value.`,
+      answer: choice({
+        2:"1",
+        3:"sqrt(3)/2",
+        4:"sqrt(2)/2",
+        5:"unsupported"
+      }[denom])
+    };
+  }
+},
+
+{
+  topic: "Quadratics",
+  type: "text",
+
+  generate() {
+    const r1 = randInt(-8,-1);
+    const r2 = randInt(1,8);
+
+    return {
+      prompt: `A quadratic has x-intercepts ${r1} and ${r2}. What is the axis of symmetry?`,
+      answer: String((r1+r2)/2)
+    };
+  }
+},
+
+{
+  topic: "Exponential Equations",
+  type: "text",
+
+  generate() {
+    const base = choice([2,3,5]);
+    const exponent = randInt(2,5);
+
+    return {
+      prompt: `Solve ${base}^{x}=${base**exponent}.`,
+      answer: String(exponent)
+    };
+  }
+},
+
+{
+  topic: "Logarithmic Equations",
+  type: "text",
+
+  generate() {
+    const base = choice([2,3,5]);
+    const exponent = randInt(2,4);
+
+    return {
+      prompt: `Solve log_${base}(x)=${exponent}.`,
+      answer: String(base**exponent)
+    };
+  }
+},
+
+{
+  topic: "Rational Functions",
+  type: "text",
+
+  generate() {
+    const a = randInt(2,9);
+
+    return {
+      prompt: `For f(x)=1/(x-${a}), what is the vertical asymptote?`,
+      answer: String(a)
+    };
+  }
+}
+
+
+
+    
+
     let currentQuest = [];
 
     function generateQuest() {
