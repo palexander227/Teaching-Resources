@@ -91,55 +91,51 @@
   <div id="status"></div>
 
   <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxKPFurJlGBHJOOipygtJG9eWUlBZku_DRtoNuIL8ruDPt8GhSH1KRF_zcI2qOhkYOiug/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby3gotiF7leDdU-PsLHhuiyrT-z0UYSzSEMzkovMsvYDXufprj_ghXtnz3NIRqsjQLwhA/exec";
+async function submitQuest() {
+  const submitBtn = document.getElementById("submitBtn");
+  const status = document.getElementById("status");
 
-    async function submitQuest() {
-      const submitBtn = document.getElementById("submitBtn");
-      const status = document.getElementById("status");
+  const studentName = document.getElementById("studentName").value.trim();
+  const q1 = document.getElementById("q1").value.trim();
+  const q2 = document.getElementById("q2").value.trim();
+  const q3 = document.getElementById("q3").value.trim();
 
-      const studentName = document.getElementById("studentName").value.trim();
-      const q1 = document.getElementById("q1").value.trim();
-      const q2 = document.getElementById("q2").value.trim();
-      const q3 = document.getElementById("q3").value.trim();
+  if (!studentName) {
+    status.textContent = "Please enter your name.";
+    return;
+  }
 
-      if (!studentName) {
-        status.textContent = "Please enter your name.";
-        return;
-      }
+  if (q1 === "" || q2 === "" || q3 === "") {
+    status.textContent = "Please answer all three problems before submitting.";
+    return;
+  }
 
-      if (q1 === "" || q2 === "" || q3 === "") {
-        status.textContent = "Please answer all three problems before submitting.";
-        return;
-      }
+  submitBtn.disabled = true;
+  status.textContent = "Submitting...";
 
-      submitBtn.disabled = true;
-      status.textContent = "Submitting...";
+  const formData = new FormData();
+  formData.append("studentName", studentName);
+  formData.append("q1", q1);
+  formData.append("q2", q2);
+  formData.append("q3", q3);
+  formData.append("submittedAtClient", new Date().toISOString());
 
-      const payload = {
-        studentName: studentName,
-        q1: q1,
-        q2: q2,
-        q3: q3,
-        submittedAtClient: new Date().toISOString()
-      };
+  try {
+    await fetch(SCRIPT_URL, {
+      method: "POST",
+      mode: "no-cors",
+      body: formData
+    });
 
-      try {
-        const response = await fetch(SCRIPT_URL, {
-          method: "POST",
-          mode: "no-cors",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(payload)
-        });
-
-        status.textContent = "Submitted successfully. You may close this page.";
-      } catch (error) {
-        submitBtn.disabled = false;
-        status.textContent = "Submission failed. Please notify your teacher.";
-        console.error(error);
-      }
-    }
+    status.textContent = "Submitted successfully. You may close this page.";
+  } catch (error) {
+    submitBtn.disabled = false;
+    status.textContent = "Submission failed. Please notify your teacher.";
+    console.error(error);
+  }
+}
+    
   </script>
 </body>
 </html>
