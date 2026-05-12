@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Quest 7 Response Portal</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 760px; margin: 40px auto; padding: 20px; }
+    h1 { text-align: center; }
+    label { display: block; margin-top: 16px; font-weight: bold; }
+    input { width: 100%; padding: 10px; font-size: 16px; margin-top: 5px; }
+    button { margin-top: 24px; padding: 12px 18px; font-size: 16px; cursor: pointer; }
+    .result { margin-top: 24px; padding: 16px; border: 1px solid #ccc; background: #f7f7f7; }
+  </style>
+</head>
+<body>
+
+<h1>Quest 7 Response Portal</h1>
+
+<form id="questForm">
+  <label>Name</label>
+  <input type="text" name="name" required>
+
+  <label>Email</label>
+  <input type="email" name="email" required>
+
+  <label>Problem 1</label>
+  <input type="text" name="q1" required>
+
+  <label>Problem 2</label>
+  <input type="text" name="q2" required>
+
+  <label>Problem 3</label>
+  <input type="text" name="q3" required>
+
+  <label>Problem 4</label>
+  <input type="text" name="q4" required>
+
+  <label>Problem 5</label>
+  <input type="text" name="q5" required>
+
+  <label>Problem 6</label>
+  <input type="text" name="q6" required>
+
+  <label>Problem 7</label>
+  <input type="text" name="q7" required>
+
+  <label>Problem 8</label>
+  <input type="text" name="q8" required>
+
+  <button type="submit">Submit Quest 7</button>
+</form>
+
+<div id="result" class="result" style="display:none;"></div>
+
+<script>
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxNH9YHnLPjAyu2BJrKgvNR7WRUJBGyoGMt6KDLfQnJ6FxhqU4T1lv0BxrfBwLcAtyLTw/exec";
+
+document.getElementById("questForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const formData = new FormData(e.target);
+  const payload = Object.fromEntries(formData.entries());
+
+  document.getElementById("result").style.display = "block";
+  document.getElementById("result").innerHTML = "Submitting...";
+
+  try {
+    const response = await fetch(WEB_APP_URL, {
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: { "Content-Type": "text/plain;charset=utf-8" }
+    });
+
+    const data = await response.json();
+
+    document.getElementById("result").innerHTML = `
+      <h2>Results</h2>
+      <p><strong>Score:</strong> ${data.score} / ${data.total}</p>
+      <p><strong>Percent:</strong> ${data.percent}%</p>
+      <p><strong>Correct:</strong> ${data.correctList}</p>
+      <p><strong>Incorrect:</strong> ${data.incorrectList}</p>
+    `;
+  } catch (err) {
+    document.getElementById("result").innerHTML =
+      "There was an error submitting. Please notify Mr. Alexander.";
+  }
+});
+</script>
+
+</body>
+</html>
