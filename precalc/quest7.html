@@ -3,101 +3,252 @@
 <head>
   <meta charset="UTF-8" />
   <title>Quest 7 Response Portal</title>
+
   <style>
-    body { font-family: Arial, sans-serif; max-width: 760px; margin: 40px auto; padding: 20px; }
-    h1 { text-align: center; }
-    label { display: block; margin-top: 16px; font-weight: bold; }
-    input { width: 100%; padding: 10px; font-size: 16px; margin-top: 5px; }
-    button { margin-top: 24px; padding: 12px 18px; font-size: 16px; cursor: pointer; }
-    .result { margin-top: 24px; padding: 16px; border: 1px solid #ccc; background: #f7f7f7; }
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f3f5f9;
+      font-family: Arial, sans-serif;
+      color: #222;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: 40px auto;
+      background: white;
+      padding: 40px;
+      border-radius: 18px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 8px;
+      color: #1f3c88;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 32px;
+    }
+
+    .student-info,
+    .question-block {
+      margin-bottom: 22px;
+      padding: 18px;
+      border-radius: 12px;
+      background: #f8faff;
+      border: 1px solid #dbe4f0;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    input[type="text"],
+    input[type="email"] {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #c8d1dc;
+      box-sizing: border-box;
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 28px;
+      margin-top: 6px;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: normal;
+    }
+
+    input[type="radio"] {
+      transform: scale(1.15);
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      background: #1f3c88;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #2b52b0;
+    }
+
+    button:disabled {
+      background: #999;
+      cursor: not-allowed;
+    }
+
+    .result {
+      margin-top: 30px;
+      padding: 20px;
+      border-radius: 12px;
+      background: #eef5ff;
+      border: 1px solid #bfd4ff;
+      display: none;
+    }
+
+    .small-note {
+      font-size: 14px;
+      color: #666;
+      margin-top: 18px;
+      text-align: center;
+    }
   </style>
 </head>
+
 <body>
+  <div class="container">
+    <h1>Quest 7 Response Portal</h1>
 
-<h1>Quest 7 Response Portal</h1>
+    <p class="subtitle">
+      Enter your final responses exactly as written on your paper submission.
+    </p>
 
-<form id="questForm">
-  <label>Name</label>
-  <input type="text" name="name" required>
+    <form id="questForm">
+      <div class="student-info">
+        <label>Name</label>
+        <input type="text" name="name" required>
 
-  <label>Email</label>
-  <input type="email" name="email" required>
+        <br><br>
 
-  <label>Problem 1</label>
-  <input type="text" name="q1" required>
+        <label>Email</label>
+        <input type="email" name="email" required>
+      </div>
 
- <label>Problem 2</label>
-<div>
-  <input type="radio" id="q2true" name="q2" value="True" required>
-  <label for="q2true">True</label>
+      <div class="question-block">
+        <label>Problem 1</label>
+        <input type="text" name="q1" required>
+      </div>
 
-  <input type="radio" id="q2false" name="q2" value="False">
-  <label for="q2false">False</label>
-</div>
+      <div class="question-block">
+        <label>Problem 2</label>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="q2" value="True" required>
+            True
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="q2" value="False">
+            False
+          </label>
+        </div>
+      </div>
 
-  <label>Problem 3</label>
-  <input type="text" name="q3" required>
+      <div class="question-block">
+        <label>Problem 3</label>
+        <input type="text" name="q3" required>
+      </div>
 
-  <label>Problem 4</label>
-  <input type="text" name="q4" required>
+      <div class="question-block">
+        <label>Problem 4</label>
+        <input type="text" name="q4" required>
+      </div>
 
-  <label>Problem 5</label>
-  <input type="text" name="q5" required>
+      <div class="question-block">
+        <label>Problem 5</label>
+        <input type="text" name="q5" required>
+      </div>
 
-  <label>Problem 6</label>
-  <input type="text" name="q6" required>
+      <div class="question-block">
+        <label>Problem 6</label>
+        <input type="text" name="q6" required>
+      </div>
 
-  <label>Problem 7</label>
-  <input type="text" name="q7" required>
+      <div class="question-block">
+        <label>Problem 7</label>
+        <input type="text" name="q7" required>
+      </div>
 
- <label>Problem 8</label>
-<div>
-  <input type="radio" id="q8true" name="q8" value="True" required>
-  <label for="q8true">True</label>
+      <div class="question-block">
+        <label>Problem 8</label>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="q8" value="True" required>
+            True
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="q8" value="False">
+            False
+          </label>
+        </div>
+      </div>
 
-  <input type="radio" id="q8false" name="q8" value="False">
-  <label for="q8false">False</label>
-</div>
+      <button type="submit" id="submitBtn">Submit Quest 7</button>
+    </form>
 
-  <button type="submit">Submit Quest 7</button>
-</form>
+    <div id="result" class="result"></div>
 
-<div id="result" class="result" style="display:none;"></div>
+    <p class="small-note">
+      Submit only once after checking that your answers match your paper copy.
+    </p>
+  </div>
 
-<script>
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzvExBB21u7mtWmwOKvMKAARi3P6EJN3KzXW1T2Jod7JPx00busx2B6KvHzj9FhmGQ5Ww/exec";
+  <script>
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzvExBB21u7mtWmwOKvMKAARi3P6EJN3KzXW1T2Jod7JPx00busx2B6KvHzj9FhmGQ5Ww/exec";
 
-document.getElementById("questForm").addEventListener("submit", async function(e) {
-  e.preventDefault();
+    document.getElementById("questForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
 
-  const formData = new FormData(e.target);
-  const payload = Object.fromEntries(formData.entries());
+      const submitBtn = document.getElementById("submitBtn");
+      const resultBox = document.getElementById("result");
 
-  document.getElementById("result").style.display = "block";
-  document.getElementById("result").innerHTML = "Submitting...";
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Submitting...";
 
-  try {
-    const response = await fetch(WEB_APP_URL, {
-      method: "POST",
-      body: JSON.stringify(payload),
-      headers: { "Content-Type": "text/plain;charset=utf-8" }
+      const formData = new FormData(e.target);
+      const payload = Object.fromEntries(formData.entries());
+
+      resultBox.style.display = "block";
+      resultBox.innerHTML = "Submitting your responses...";
+
+      try {
+        const response = await fetch(WEB_APP_URL, {
+          method: "POST",
+          body: JSON.stringify(payload),
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          }
+        });
+
+        const data = await response.json();
+
+        resultBox.innerHTML = `
+          <h2>Results</h2>
+          <p><strong>Score:</strong> ${data.score} / ${data.total}</p>
+          <p><strong>Percent:</strong> ${data.percent}%</p>
+          <p><strong>Correct:</strong> ${data.correctList}</p>
+          <p><strong>Incorrect:</strong> ${data.incorrectList}</p>
+        `;
+
+        submitBtn.textContent = "Submitted";
+      } catch (err) {
+        resultBox.innerHTML =
+          "There was an error submitting. Please notify Mr. Alexander.";
+
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Submit Quest 7";
+      }
     });
-
-    const data = await response.json();
-
-    document.getElementById("result").innerHTML = `
-      <h2>Results</h2>
-      <p><strong>Score:</strong> ${data.score} / ${data.total}</p>
-      <p><strong>Percent:</strong> ${data.percent}%</p>
-      <p><strong>Correct:</strong> ${data.correctList}</p>
-      <p><strong>Incorrect:</strong> ${data.incorrectList}</p>
-    `;
-  } catch (err) {
-    document.getElementById("result").innerHTML =
-      "There was an error submitting. Please notify Mr. Alexander.";
-  }
-});
-</script>
-
+  </script>
 </body>
 </html>
