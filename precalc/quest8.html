@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Quest 8 Response Portal</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f3f5f9;
+      font-family: Arial, sans-serif;
+      color: #222;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: 40px auto;
+      background: white;
+      padding: 40px;
+      border-radius: 18px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 8px;
+      color: #1f3c88;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 32px;
+    }
+
+    .student-info,
+    .question-block {
+      margin-bottom: 22px;
+      padding: 18px;
+      border-radius: 12px;
+      background: #f8faff;
+      border: 1px solid #dbe4f0;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    input[type="text"],
+    input[type="email"] {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #c8d1dc;
+      box-sizing: border-box;
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 28px;
+      margin-top: 6px;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: normal;
+    }
+
+    input[type="radio"] {
+      transform: scale(1.15);
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      background: #1f3c88;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #2b52b0;
+    }
+
+    button:disabled {
+      background: #999;
+      cursor: not-allowed;
+    }
+
+    .result {
+      margin-top: 30px;
+      padding: 20px;
+      border-radius: 12px;
+      background: #eef5ff;
+      border: 1px solid #bfd4ff;
+      display: none;
+    }
+
+    .small-note {
+      font-size: 14px;
+      color: #666;
+      margin-top: 18px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Quest 8 Response Portal</h1>
+
+    <p class="subtitle">
+      Enter your final True/False responses exactly as written on your paper submission.
+    </p>
+
+    <form id="questForm">
+      <div class="student-info">
+        <label>Name</label>
+        <input type="text" name="name" required>
+
+        <br><br>
+
+        <label>Email</label>
+        <input type="email" name="email" required>
+      </div>
+
+      <div id="questions"></div>
+
+      <button type="submit" id="submitBtn">Submit Quest 8</button>
+    </form>
+
+    <div id="result" class="result"></div>
+
+    <p class="small-note">
+      Submit only once after checking that your answers match your paper copy.
+    </p>
+  </div>
+
+  <script>
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxC9-S61G8vJAnarYTpjfBCyTmyyCrTcMAlbz0Sd-ZHfNbt-N-XT-tpRQJt6e_kyU2Zhg/exec";
+
+    const questionsContainer = document.getElementById("questions");
+
+    for (let i = 1; i <= 15; i++) {
+      const block = document.createElement("div");
+      block.className = "question-block";
+
+      block.innerHTML = `
+        <label>Problem ${i}</label>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="q${i}" value="True" required>
+            True
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="q${i}" value="False">
+            False
+          </label>
+        </div>
+      `;
+
+      questionsContainer.appendChild(block);
+    }
+
+    document.getElementById("questForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const submitBtn = document.getElementById("submitBtn");
+      const resultBox = document.getElementById("result");
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Submitting...";
+
+      const formData = new FormData(e.target);
+      const payload = Object.fromEntries(formData.entries());
+
+      resultBox.style.display = "block";
+      resultBox.innerHTML = "Submitting your responses...";
+
+      try {
+        const response = await fetch(WEB_APP_URL, {
+          method: "POST",
+          body: JSON.stringify(payload),
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          }
+        });
+
+        const data = await response.json();
+
+        resultBox.innerHTML = `
+          <h2>Results</h2>
+          <p><strong>Score:</strong> ${data.score} / ${data.total}</p>
+          <p><strong>Percent:</strong> ${data.percent}%</p>
+          <p><strong>Correct:</strong> ${data.correctList}</p>
+          <p><strong>Incorrect:</strong> ${data.incorrectList}</p>
+        `;
+
+        submitBtn.textContent = "Submitted";
+      } catch (err) {
+        resultBox.innerHTML =
+          "There was an error submitting. Please notify Mr. Alexander.";
+
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Submit Quest 8";
+      }
+    });
+  </script>
+</body>
+</html>
