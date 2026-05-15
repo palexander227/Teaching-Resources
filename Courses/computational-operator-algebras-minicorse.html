@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Computational Operator Algebras, Free Probability & Spectral Regularization</title>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <style>
+    :root {
+      --ink:#111827;
+      --muted:#667085;
+      --blue:#1d4ed8;
+      --indigo:#3730a3;
+      --cyan:#06b6d4;
+      --green:#059669;
+      --gold:#d97706;
+      --paper:#ffffff;
+      --soft:#f8fafc;
+      --line:#dbe4f0;
+      --dark:#111827;
+      --shadow:0 20px 55px rgba(15,23,42,.13);
+      --radius:24px;
+    }
+    *{box-sizing:border-box;}
+    body{
+      margin:0;
+      color:var(--ink);
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:radial-gradient(circle at 8% 3%,#dff9ff 0,transparent 28%),linear-gradient(135deg,#f8fbff,#fff 45%,#f6f7ff);
+      line-height:1.52;
+    }
+    code{background:#eef2ff;padding:2px 5px;border-radius:6px;color:#3730a3;}
+    a{color:var(--blue);text-decoration:none;} a:hover{text-decoration:underline;}
+    .page{max-width:1220px;margin:0 auto;padding:34px 22px 78px;}
+    .hero{display:grid;grid-template-columns:340px 1fr;gap:28px;margin-bottom:28px;}
+    .side{background:linear-gradient(180deg,#172554,#111827);color:white;border-radius:var(--radius);padding:30px;box-shadow:var(--shadow);position:sticky;top:22px;align-self:start;height:calc(100vh - 44px);min-height:620px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.35) transparent;} .side::-webkit-scrollbar{width:8px;} .side::-webkit-scrollbar-track{background:transparent;} .side::-webkit-scrollbar-thumb{background:rgba(255,255,255,.28);border-radius:999px;} .side::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.45);}
+    .sigil{width:180px;height:180px;border-radius:42px;margin:0 auto 28px;display:grid;place-items:center;background:radial-gradient(circle at 30% 30%,#fff 0 8%,#93c5fd 9% 36%,#2563eb 37% 64%,#111827 65% 100%);font-size:58px;font-weight:900;letter-spacing:-3px;border:1px solid rgba(255,255,255,.22);}
+    .side h1{font-size:31px;line-height:1.02;letter-spacing:-1.3px;margin:0 0 10px;color:#dff9ff;}
+    .side .code{font-weight:800;color:#93c5fd;margin-bottom:28px;}
+    .side-section{margin-top:28px;}
+    .side-heading{font-size:22px;font-weight:400;margin:0 0 14px;display:flex;gap:10px;align-items:center;}
+    .side-heading:after{content:"";height:1px;flex:1;background:rgba(255,255,255,.28);}
+    .info-row{display:grid;grid-template-columns:28px 1fr;gap:10px;margin:11px 0;font-size:14px;color:rgba(255,255,255,.88);}
+    .icon{width:24px;height:24px;border-radius:999px;background:rgba(255,255,255,.14);display:grid;place-items:center;font-size:12px;font-weight:900;color:#a5f3fc;border:1px solid rgba(255,255,255,.18);}
+    .main{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:32px 36px 44px;}
+    .kicker{display:inline-block;background:#e0f2fe;color:#075985;border:1px solid #bae6fd;border-radius:999px;padding:7px 11px;font-weight:900;font-size:13px;margin-bottom:14px;}
+    .title{font-size:48px;line-height:.98;letter-spacing:-2px;margin:0 0 16px;color:#0f172a;}
+    .lead{font-size:17px;color:#334155;max-width:850px;}
+    .section{margin:34px 0;}
+    .pill-title{display:inline-block;background:linear-gradient(135deg,var(--indigo),var(--blue));color:white;border-radius:10px;padding:5px 12px 6px;font-size:24px;font-weight:850;letter-spacing:-.5px;margin:0 0 14px;}
+    .grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;}
+    .grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;}
+    .card{background:var(--soft);border:1px solid var(--line);border-radius:20px;padding:20px;}
+    .card h3{margin:0 0 8px;font-size:18px;color:#172554;}
+    .card p{margin:0;color:#475569;}
+    ul{margin:8px 0 0;padding-left:20px;} li{margin:6px 0;}
+    .tag-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+    .tag{display:inline-flex;padding:6px 9px;border-radius:999px;background:#eef2ff;color:#3730a3;border:1px solid #d9ddff;font-size:12px;font-weight:850;}
+    .module{display:grid;grid-template-columns:120px 1fr;gap:20px;align-items:center;background:linear-gradient(135deg,#020617,#1d4ed8);color:white;border-radius:var(--radius);padding:22px;margin:42px 0 22px;box-shadow:0 18px 40px rgba(29,78,216,.24);}
+    .module-num{font-size:58px;font-weight:950;text-align:center;border-right:1px solid rgba(255,255,255,.28);}
+    .module h2{margin:0 0 4px;font-size:29px;letter-spacing:-.8px;}.module p{margin:0;color:rgba(255,255,255,.82);}
+    .day{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin-bottom:28px;background:white;}
+    .day-head{display:flex;justify-content:space-between;gap:22px;background:#f1f5ff;border-bottom:1px solid var(--line);padding:21px 24px;}
+    .day-head h2{margin:0;font-size:27px;letter-spacing:-.8px;color:#172554;}.day-head p{margin:4px 0 0;color:var(--muted);}
+    .question{max-width:360px;background:white;border:1px solid #dbeafe;border-radius:15px;padding:13px 15px;font-size:14px;color:#334155;}.question strong{display:block;color:#1d4ed8;margin-bottom:4px;}
+    .timeline{padding:22px 24px 12px;}
+    .slot{display:grid;grid-template-columns:112px 1fr;gap:16px;padding:16px 0;border-bottom:1px dashed #d8e1ef;}.slot:last-child{border-bottom:none;}
+    .time{font-size:14px;color:#1d4ed8;font-weight:900;padding-top:2px;}.slot h3{margin:0 0 5px;font-size:17px;color:#1e293b;}.slot p{margin:0 0 7px;color:#475569;}.micro{font-size:13px;color:#64748b;}
+    .lab,.deliverable,.seminar{display:inline-block;margin-top:6px;padding:6px 9px;border-radius:10px;font-size:12px;font-weight:900;}
+    .lab{background:#ecfdf5;color:#065f46;border:1px solid #bbf7d0;}.deliverable{background:#fff7ed;color:#9a3412;border:1px solid #fed7aa;}.seminar{background:#f5f3ff;color:#5b21b6;border:1px solid #ddd6fe;}
+    table{width:100%;border-collapse:collapse;border:1px solid var(--line);border-radius:16px;overflow:hidden;font-size:14px;} th{background:#eef2ff;color:#3730a3;text-align:left;padding:12px;}td{border-top:1px solid var(--line);padding:12px;vertical-align:top;}
+    .callout{background:linear-gradient(135deg,#ecfeff,#f5f3ff);border-left:7px solid var(--cyan);border-radius:18px;padding:18px 20px;}
+    .footer{margin-top:40px;padding:22px;border-radius:var(--radius);background:#020617;color:white;}
+    @media(max-width:940px){.hero,.grid-2,.grid-3,.module{grid-template-columns:1fr}.side{position:static;height:auto;min-height:auto;overflow:visible}.module-num{border-right:none;border-bottom:1px solid rgba(255,255,255,.28);padding-bottom:10px}.day-head{flex-direction:column}.slot{grid-template-columns:1fr}.title{font-size:38px;}}
+  </style>
+</head>
+<body>
+<div class="page">
+  <div class="hero">
+    <aside class="side">
+      <div class="sigil">\(\sigma(A)\)</div>
+      <h1>Computational Operator Algebras, Free Probability & Spectral Regularization</h1>
+      <div class="code">Advanced Research Mini-Intensive</div>
+      <section class="side-section">
+        <h2 class="side-heading">Instructor Info</h2>
+        <div class="info-row"><span class="icon">P</span><span>Peter Alexander</span></div>
+        <div class="info-row"><span class="icon">@</span><span>peter.alexander@ilumineducation.com</span></div>
+        <div class="info-row"><span class="icon">∫</span><span>Mathematics, computation, finance, and high-dimensional data.</span></div>
+      </section>
+      <section class="side-section">
+        <h2 class="side-heading">Course Info</h2>
+        <div class="info-row"><span class="icon">◷</span><span><strong>Format:</strong> 4 instructional days, 4 hours per day; Day 5 research symposium.</span></div>
+        <div class="info-row"><span class="icon">⚡</span><span><strong>Prereq:</strong> Linear algebra, probability, Python or R, proof maturity. Helpful: abstract algebra, statistics, optimization.</span></div>
+        <div class="info-row"><span class="icon">⌨</span><span><strong>Tools:</strong> Python/Jupyter, NumPy, SciPy, pandas, matplotlib; optional R/tidyverse.</span></div>
+        <div class="info-row"><span class="icon">◇</span><span><strong>Capstone:</strong> computational notebook + research presentation.</span></div>
+      </section>
+      <section class="side-section">
+        <h2 class="side-heading">About</h2>
+        <p style="color:rgba(255,255,255,.84);font-size:14px;">This course explores how operator-theoretic thinking, random matrices, and free probability can be used to regularize noisy spectra in high-dimensional covariance problems, with case studies in portfolio risk and genomic computational biology.</p>
+      </section>
+    </aside>
+
+    <main class="main">
+      <div class="kicker">Advanced Mathematics + Computation + Applied Spectral Geometry</div>
+      <h1 class="title">From Noncommutative Probability to Clean Spectra</h1>
+      <p class="lead">This intensive mini-course introduces students to a computational view of operator algebras and free probability through one central practical problem: when data are high-dimensional and noisy, the observed spectrum of a covariance or correlation matrix is often a distorted image of the underlying signal. Students learn to simulate, visualize, clean, and interpret spectra using random matrix theory and free-probabilistic ideas, then apply those ideas to finance and genomic computational biology.</p>
+
+      <section class="section grid-2">
+        <div class="card"><h3>Central Thesis</h3><p>Eigenvalues are not merely numerical outputs; in high-dimensional data they become a compressed representation of signal, noise, correlation, geometry, and uncertainty. Spectral regularization is the art of deciding which spectral features deserve belief.</p></div>
+        <div class="card"><h3>Research Arc</h3><p>Operator algebras → noncommutative probability → random matrices → Marchenko–Pastur bulk → covariance cleaning → portfolio risk and genomic signal discovery.</p></div>
+      </section>
+
+      <section class="section">
+        <h2 class="pill-title">Learning Objectives</h2>
+        <div class="grid-3">
+          <div class="card"><h3>Operator Viewpoint</h3><p>Interpret matrices as finite-dimensional operators and spectra as objects carrying geometric and probabilistic information.</p></div>
+          <div class="card"><h3>Free Probability</h3><p>Understand noncommutative probability, traces as expectations, asymptotic freeness, and the role of limiting spectral laws.</p></div>
+          <div class="card"><h3>Spectral Regularization</h3><p>Use random matrix intuition to separate signal from noise in covariance and correlation matrices.</p></div>
+          <div class="card"><h3>Finance Application</h3><p>Clean noisy correlation matrices and evaluate implications for portfolio construction and risk estimation.</p></div>
+          <div class="card"><h3>Genomics Application</h3><p>Explore PCA and covariance structure in high-dimensional biological data, where samples and features create unstable spectra.</p></div>
+          <div class="card"><h3>Computation</h3><p>Build simulations, visualizations, and reproducible notebooks in Python or R.</p></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="pill-title">Assessment / Exhibition</h2>
+        <table>
+          <tr><th>Component</th><th>Weight</th><th>Evidence of Learning</th></tr>
+          <tr><td>Daily Computational Labs</td><td>30%</td><td>Working notebooks, clear plots, simulations, and commentary.</td></tr>
+          <tr><td>Mathematical Reflection Notes</td><td>20%</td><td>Short explanations of spectral laws, noise models, and regularization choices.</td></tr>
+          <tr><td>Seminar Participation</td><td>15%</td><td>Technical questions, critique of assumptions, collaborative debugging.</td></tr>
+          <tr><td>Capstone Project</td><td>35%</td><td>Applied notebook + research-style presentation + limitations section.</td></tr>
+        </table>
+      </section>
+
+      <section class="section callout">
+        <h2 style="margin:0 0 8px;">Design Note</h2>
+        <p style="margin:0;color:#334155;">This course is intentionally ambitious. It does not attempt a full graduate treatment of von Neumann algebras, C*-algebras, or free probability. Instead, it uses computational experiments to give advanced students a vivid path into modern spectral thinking: matrices as observables, trace as expectation, eigenvalue distributions as empirical laws, and spectral cleaning as a practical form of mathematical judgment.</p>
+      </section>
+
+      <div class="module"><div class="module-num">1</div><div><h2>Operators, Spectra, and Noncommutative Probability</h2><p>Matrix spectra become objects of probabilistic and geometric investigation.</p></div></div>
+      <section class="day">
+        <div class="day-head"><div><h2>Day 1 — Matrices as Observables, Spectra as Data</h2><p>From finite-dimensional operators to empirical spectral distributions.</p></div><div class="question"><strong>Essential Question</strong>What does an eigenvalue distribution know about a matrix that individual entries hide?</div></div>
+        <div class="timeline">
+          <div class="slot"><div class="time">0:00–0:20</div><div><h3>Opening Demonstration: Same Entries, Different Spectra</h3><p>Students compare random matrices, diagonal matrices, covariance matrices, and adjacency-like matrices with similar scale but radically different spectral shapes.</p><span class="deliverable">Initial conjecture: what spectral shape might mean</span></div></div>
+          <div class="slot"><div class="time">0:20–0:55</div><div><h3>Mini-Lecture: Operator Algebra in Finite Dimensions</h3><p>Matrices as linear operators, multiplication as noncommutative composition, adjoints, self-adjoint matrices, positivity, trace, normalized trace, and states.</p><p class="micro">Key shift: expectation becomes normalized trace, and random variables become operators.</p></div></div>
+          <div class="slot"><div class="time">0:55–1:30</div><div><h3>Lab 1: Empirical Spectral Distributions</h3><p>Students generate symmetric matrices, compute eigenvalues, plot histograms and kernel density estimates, and track how spectra stabilize as dimension grows.</p><span class="lab">Notebook checkpoint: spectral_distribution(A)</span></div></div>
+          <div class="slot"><div class="time">1:30–1:40</div><div><h3>Break</h3><p>Instructor reviews plots and helps debug eigenvalue routines.</p></div></div>
+          <div class="slot"><div class="time">1:40–2:20</div><div><h3>Mini-Lecture: Moments, Traces, and Spectral Laws</h3><p>Moments as normalized traces: \(\tau(A^k)=\frac{1}{n}\mathrm{Tr}(A^k)\). Students connect moments to spectral histograms and see why spectra can be studied through traces.</p></div></div>
+          <div class="slot"><div class="time">2:20–3:05</div><div><h3>Lab 2: Wigner Matrices and the Semicircle Law</h3><p>Students simulate Wigner ensembles under different scalings and observe convergence toward the semicircle distribution.</p><span class="lab">Plot: dimension vs spectral stabilization</span></div></div>
+          <div class="slot"><div class="time">3:05–3:35</div><div><h3>Seminar: Representation and Compression</h3><p>Discussion: what is lost and gained when a high-dimensional matrix is represented only by its spectrum?</p><span class="seminar">Phenomenological theme: spectra as compressed experience of structure</span></div></div>
+          <div class="slot"><div class="time">3:35–4:00</div><div><h3>Capstone Track Preview</h3><p>Students choose preliminary interests: portfolio correlation cleaning, genomic PCA denoising, free convolution simulation, covariance shrinkage comparison, or spectral visualization.</p><span class="deliverable">Exit ticket: one application and one spectral question</span></div></div>
+        </div>
+      </section>
+
+      <div class="module"><div class="module-num">2</div><div><h2>Random Matrices and the Geometry of Noise</h2><p>The Marchenko–Pastur law and the high-dimensional covariance problem.</p></div></div>
+      <section class="day">
+        <div class="day-head"><div><h2>Day 2 — Sample Covariance, Marchenko–Pastur, and Eigenvalue Cleaning</h2><p>Why high-dimensional covariance matrices lie, and how to regularize them.</p></div><div class="question"><strong>Essential Question</strong>When is an eigenvalue a signal, and when is it just the geometry of noise?</div></div>
+        <div class="timeline">
+          <div class="slot"><div class="time">0:00–0:25</div><div><h3>Warm-Up: The Curse of Estimating Correlation</h3><p>Students compute sample covariance matrices when p is comparable to n and observe unstable eigenvalues.</p></div></div>
+          <div class="slot"><div class="time">0:25–1:05</div><div><h3>Mini-Lecture: Wishart Matrices and Marchenko–Pastur Bulk</h3><p>Sample covariance as \(S=\frac{1}{n}X^{T}X\); aspect ratio \(q=p/n\); eigenvalue spread caused by noise; bulk edges \(\lambda_{\pm}=\sigma^2(1\pm\sqrt{q})^2\); and finite-sample interpretation.</p></div></div>
+          <div class="slot"><div class="time">1:05–1:35</div><div><h3>Lab 3: Simulating the MP Bulk</h3><p>Students generate Gaussian data matrices, plot covariance eigenvalues, overlay theoretical bulk edges, and test how \(q=p/n\) changes the spectrum.</p><span class="lab">Notebook checkpoint: mp_edges(q, sigma2)</span></div></div>
+          <div class="slot"><div class="time">1:35–1:45</div><div><h3>Break</h3><p>Quick critique of plotted spectra.</p></div></div>
+          <div class="slot"><div class="time">1:45–2:30</div><div><h3>Mini-Lecture: Cleaning, Shrinkage, and Regularization</h3><p>Eigenvalue clipping, shrinkage toward identity, nonlinear shrinkage intuition, factor/bulk separation, and the dangers of over-interpreting principal components.</p></div></div>
+          <div class="slot"><div class="time">2:30–3:10</div><div><h3>Lab 4: Spectral Cleaning Algorithms</h3><p>Students implement basic eigenvalue clipping: replace eigenvalues in the Marchenko–Pastur noise bulk \([\lambda_-,\lambda_+]\) by a regularized value, then compare raw covariance, diagonal shrinkage, and bulk-averaged covariance estimators.</p><span class="lab">Notebook checkpoint: clean_covariance(S, q)</span></div></div>
+          <div class="slot"><div class="time">3:10–3:35</div><div><h3>Seminar: Statistical Truth vs Spectral Appearance</h3><p>Students discuss why a dominant eigenvector might be meaningful in one setting and misleading in another.</p></div></div>
+          <div class="slot"><div class="time">3:35–4:00</div><div><h3>Capstone Proposal Sprint</h3><p>Teams define a data source, a noise model, a regularization method, and a target comparison.</p><span class="deliverable">Team artifact: project claim + spectral method</span></div></div>
+        </div>
+      </section>
+
+      <div class="module"><div class="module-num">3</div><div><h2>Free Probability and Spectral Deconvolution</h2><p>From independence to freeness; from observed spectra to hidden signal.</p></div></div>
+      <section class="day">
+        <div class="day-head"><div><h2>Day 3 — Freeness, Free Convolution, and Signal Recovery</h2><p>How noncommutative probability helps reason about additive and multiplicative spectral noise.</p></div><div class="question"><strong>Essential Question</strong>Can we infer the spectrum of a hidden signal from the distorted spectrum of noisy data?</div></div>
+        <div class="timeline">
+          <div class="slot"><div class="time">0:00–0:25</div><div><h3>Opening Experiment: Add Two Matrices</h3><p>Students compare eigenvalues of \(A\), \(B\), and \(A+B\). They test why eigenvalues do not simply add entrywise or componentwise.</p></div></div>
+          <div class="slot"><div class="time">0:25–1:05</div><div><h3>Mini-Lecture: From Classical Independence to Freeness</h3><p>Noncommutative probability spaces, states, moments, free independence, asymptotic freeness of large random matrices, and why eigenvalue laws combine nonclassically.</p></div></div>
+          <div class="slot"><div class="time">1:05–1:35</div><div><h3>Lab 5: Additive Free Convolution by Simulation</h3><p>Students create deterministic diagonal signal matrices \(D\), add randomly rotated Wigner noise \(U W U^{T}\), and observe how the spectrum of \(D+U W U^{T}\) changes.</p><span class="lab">Notebook checkpoint: signal_plus_noise_spectrum</span></div></div>
+          <div class="slot"><div class="time">1:35–1:45</div><div><h3>Break</h3><p>Discuss common surprises from additive spectra.</p></div></div>
+          <div class="slot"><div class="time">1:45–2:25</div><div><h3>Mini-Lecture: Multiplicative Noise and Sample Covariance</h3><p>Sample covariance spectra as multiplicatively distorted population spectra: observed law \(\mu_S\) is treated heuristically as a free multiplicative convolution \(\mu_{\Sigma}\boxtimes \mu_{MP}\). Free deconvolution is introduced as the idea of undoing noise at the level of spectral laws.</p></div></div>
+          <div class="slot"><div class="time">2:25–3:05</div><div><h3>Lab 6: Spike Detection and Deformation</h3><p>Students simulate spiked covariance models \(\Sigma=I+\theta vv^{T}\) and detect when a population spike separates from the Marchenko–Pastur bulk.</p><span class="lab">Plot: spike strength vs observed outlier eigenvalue</span></div></div>
+          <div class="slot"><div class="time">3:05–3:30</div><div><h3>Seminar: Inverse Problems and Epistemic Modesty</h3><p>Students discuss what spectral data can justify, what it cannot justify, and why regularization requires explicit assumptions.</p><span class="seminar">Theme: mathematical humility under noisy representation</span></div></div>
+          <div class="slot"><div class="time">3:30–4:00</div><div><h3>Capstone Studio</h3><p>Teams add one free-probability or RMT concept to their project: MP bulk, spike threshold, shrinkage comparison, spectral deconvolution idea, or factor/bulk separation.</p><span class="deliverable">Project checkpoint: method diagram + preliminary plot</span></div></div>
+        </div>
+      </section>
+
+      <div class="module"><div class="module-num">4</div><div><h2>Applications: Finance and Genomic Computational Biology</h2><p>Cleaning spectra where consequences matter: risk, portfolios, cell states, and biological signal.</p></div></div>
+      <section class="day">
+        <div class="day-head"><div><h2>Day 4 — Two Case Studies in Spectral Regularization</h2><p>Portfolio covariance cleaning and high-dimensional genomic PCA.</p></div><div class="question"><strong>Essential Question</strong>How does spectral regularization change decisions in real high-dimensional systems?</div></div>
+        <div class="timeline">
+          <div class="slot"><div class="time">0:00–0:30</div><div><h3>Case Study A: Financial Correlation Matrices</h3><p>Students review why portfolio optimization is hypersensitive to covariance estimation error, and why noisy eigenvalues create unstable allocations.</p></div></div>
+          <div class="slot"><div class="time">0:30–1:20</div><div><h3>Finance Lab: Correlation Cleaning and Minimum-Variance Portfolios</h3><p>Students use synthetic or sample asset-return data to compare raw covariance, shrinkage, and RMT-cleaned covariance in portfolio weights and realized risk.</p><span class="lab">Notebook checkpoint: portfolio_weights_raw_vs_clean</span></div></div>
+          <div class="slot"><div class="time">1:20–1:30</div><div><h3>Break</h3><p>Switch from markets to biological matrices.</p></div></div>
+          <div class="slot"><div class="time">1:30–2:00</div><div><h3>Case Study B: Genomic and Single-Cell Data</h3><p>Students examine why PCA in genomics is powerful but fragile: p large, n limited, hidden batch effects, biological factors, sparse signals, and noisy covariance structure.</p></div></div>
+          <div class="slot"><div class="time">2:00–2:50</div><div><h3>Genomics Lab: PCA, Noise Bulk, and Component Selection</h3><p>Students simulate gene-expression matrices with latent factors and noise, compare PCA components to MP bulk expectations, and test denoised reconstructions.</p><span class="lab">Notebook checkpoint: simulated_expression_pca</span></div></div>
+          <div class="slot"><div class="time">2:50–3:20</div><div><h3>Cross-Domain Seminar</h3><p>Students compare finance and genomics: both use covariance spectra, but the meaning of signal, risk, factor, and noise differs by domain.</p><span class="seminar">Question: when does the same mathematics carry different epistemic weight?</span></div></div>
+          <div class="slot"><div class="time">3:20–4:00</div><div><h3>Capstone Final Build Sprint</h3><p>Teams finalize code, plots, limitations, and a concise argument for why their regularization choice is mathematically justified.</p><span class="deliverable">Presentation skeleton: data → spectrum → cleaning → decision → limitation</span></div></div>
+        </div>
+      </section>
+
+      <div class="module"><div class="module-num">5</div><div><h2>Research Symposium</h2><p>Students defend a spectral regularization method and its consequences.</p></div></div>
+      <section class="day">
+        <div class="day-head"><div><h2>Day 5 — Computational Spectral Research Presentations</h2><p>Notebook demonstration, mathematical explanation, and applied critique.</p></div><div class="question"><strong>Essential Question</strong>What did your spectrum reveal, what did it conceal, and how did regularization change the conclusion?</div></div>
+        <div class="timeline">
+          <div class="slot"><div class="time">0:00–0:20</div><div><h3>Final Demo Check</h3><p>Teams verify notebooks, export plots, and rehearse a one-minute thesis.</p></div></div>
+          <div class="slot"><div class="time">0:20–1:50</div><div><h3>Capstone Presentations I</h3><p>Each team presents a 7-minute computational artifact followed by 4 minutes of mathematical and applied questions.</p><span class="deliverable">Required: raw spectrum, cleaned spectrum, decision comparison</span></div></div>
+          <div class="slot"><div class="time">1:50–2:00</div><div><h3>Break</h3><p>Peer feedback cards collected.</p></div></div>
+          <div class="slot"><div class="time">2:00–3:15</div><div><h3>Capstone Presentations II</h3><p>Remaining teams present and respond to questions about assumptions, robustness, and interpretability.</p></div></div>
+          <div class="slot"><div class="time">3:15–3:40</div><div><h3>Synthesis Seminar</h3><p>Class maps the week: operators, trace, empirical spectral law, MP bulk, freeness, spectral noise, regularization, finance, genomics.</p></div></div>
+          <div class="slot"><div class="time">3:40–4:00</div><div><h3>Final Reflection</h3><p>Students write: “How did this course change my understanding of what high-dimensional data can and cannot tell us?”</p><span class="deliverable">Final artifact: notebook link + reflection paragraph</span></div></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="pill-title">Capstone Project Menu</h2>
+        <div class="grid-2">
+          <div class="card"><h3>Finance Track</h3><ul><li>Compare raw vs cleaned covariance in minimum-variance portfolios.</li><li>Study how MP bulk clipping changes diversification.</li><li>Simulate factor models and recover signal eigenvalues.</li><li>Build a visual explainer of unstable eigenvectors in portfolio risk.</li></ul></div>
+          <div class="card"><h3>Genomics Track</h3><ul><li>Simulate single-cell expression data with latent cell types.</li><li>Use spectral thresholds to decide how many PCs to retain.</li><li>Compare PCA before and after covariance denoising.</li><li>Visualize batch effect as spectral contamination.</li></ul></div>
+          <div class="card"><h3>Free Probability Track</h3><ul><li>Simulate additive free convolution with random rotations.</li><li>Explore spiked covariance phase transitions.</li><li>Create a toy spectral deconvolution visualization.</li><li>Compare classical independence and freeness through matrix experiments.</li></ul></div>
+          <div class="card"><h3>Tool-Building Track</h3><ul><li>Build a spectrum-cleaning dashboard.</li><li>Create a Marchenko–Pastur simulator.</li><li>Develop an interactive covariance shrinkage notebook.</li><li>Produce a pedagogical visualization of trace moments.</li></ul></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="pill-title">Suggested Technical Stack</h2>
+        <div class="tag-row"><span class="tag">Python</span><span class="tag">Jupyter</span><span class="tag">NumPy</span><span class="tag">SciPy</span><span class="tag">pandas</span><span class="tag">matplotlib</span><span class="tag">scikit-learn</span><span class="tag">R</span><span class="tag">tidyverse</span><span class="tag">Portfolio Optimization</span><span class="tag">PCA</span><span class="tag">Random Matrix Simulation</span></div>
+      </section>
+
+      <section class="section">
+        <h2 class="pill-title">Research & Reading Spine</h2>
+        <table>
+          <tr><th>Topic</th><th>Reading Type</th><th>Purpose</th></tr>
+          <tr><td>Operator Algebras / Free Probability</td><td>Instructor notes + selected expository excerpts</td><td>Introduce trace, moments, noncommutative variables, freeness.</td></tr>
+          <tr><td>Random Matrix Theory</td><td>Marchenko–Pastur, Wigner semicircle, spiked covariance notes</td><td>Build spectral intuition for noise and signal separation.</td></tr>
+          <tr><td>Finance</td><td>Correlation cleaning and portfolio construction case readings</td><td>Connect covariance spectra to allocation and risk.</td></tr>
+          <tr><td>Genomics</td><td>High-dimensional PCA and single-cell dimensionality reduction notes</td><td>Connect spectral regularization to biological interpretation.</td></tr>
+        </table>
+      </section>
+
+      <section class="section callout">
+        <h2 style="margin:0 0 8px;">Portfolio Framing</h2>
+        <p style="margin:0;color:#334155;">As a public portfolio artifact, this course signals advanced mathematical imagination, computational fluency, and the ability to build inquiry-based bridges between pure mathematics and current applied research. It is especially suitable as a research-intensive companion to the cryptography mini-course: one course treats number theory as infrastructure for trust; this one treats spectral theory as infrastructure for inference.</p>
+      </section>
+
+      <div class="footer"><strong>Possible GitHub path:</strong> <code>courses/computational-operator-algebras/index.html</code> or <code>courses/free-probability-spectral-regularization.html</code></div>
+    </main>
+  </div>
+</div>
+</body>
+</html>
