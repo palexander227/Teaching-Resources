@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cryptography, Blockchain & Post-Quantum Security | Mini-Course Storyboard</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #5c667a;
+      --blue: #2f80ed;
+      --blue-dark: #185abc;
+      --aqua: #dff8f4;
+      --aqua-2: #bff1ea;
+      --gold: #f6c453;
+      --violet: #6c63ff;
+      --green: #2eb67d;
+      --red: #e05d5d;
+      --paper: #ffffff;
+      --soft: #f6f8fb;
+      --line: #dde5f0;
+      --shadow: 0 18px 50px rgba(24, 39, 75, 0.13);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #eef7ff 0%, #f8fbff 40%, #ffffff 100%);
+      line-height: 1.5;
+    }
+
+    .page {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 32px 22px 80px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 330px 1fr;
+      gap: 28px;
+      margin-bottom: 28px;
+    }
+
+    .side-card {
+      background: linear-gradient(180deg, var(--aqua-2), var(--aqua));
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
+      min-height: 720px;
+      position: sticky;
+      top: 20px;
+      align-self: start;
+    }
+
+    .hero-image {
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #fff 0 10%, #d5ecff 10% 38%, #b3ddff 39% 58%, #2f80ed 59% 100%);
+      display: grid;
+      place-items: center;
+      margin: 4px auto 28px;
+      color: white;
+      font-size: 82px;
+      font-weight: 800;
+      letter-spacing: -6px;
+    }
+
+    .course-title {
+      font-size: 36px;
+      line-height: 1.03;
+      color: var(--blue);
+      margin: 0 0 8px;
+      letter-spacing: -1.5px;
+    }
+
+    .course-code {
+      font-size: 18px;
+      color: var(--blue-dark);
+      font-weight: 700;
+      margin-bottom: 30px;
+    }
+
+    .side-section {
+      margin-top: 28px;
+    }
+
+    .side-heading {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 24px;
+      font-weight: 400;
+      margin: 0 0 14px;
+    }
+
+    .side-heading::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: rgba(23,32,51,.35);
+      margin-left: 4px;
+    }
+
+    .info-row {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 10px;
+      align-items: start;
+      margin: 10px 0;
+      font-size: 14px;
+    }
+
+    .icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: inline-grid;
+      place-items: center;
+      color: white;
+      background: var(--blue);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .about {
+      font-size: 14px;
+      color: #263349;
+    }
+
+    .main {
+      background: var(--paper);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px 34px 40px;
+    }
+
+    .section {
+      margin-bottom: 34px;
+    }
+
+    .pill-title {
+      display: inline-block;
+      background: var(--blue);
+      color: white;
+      padding: 4px 11px 5px;
+      border-radius: 8px;
+      font-size: 23px;
+      font-weight: 700;
+      letter-spacing: -.4px;
+      margin: 0 0 13px;
+    }
+
+    .lead {
+      font-size: 16px;
+      color: #2a3448;
+      max-width: 760px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      color: var(--blue-dark);
+      font-size: 18px;
+    }
+
+    .card ul, .section ul {
+      margin: 8px 0 0;
+      padding-left: 19px;
+    }
+
+    .card li, .section li {
+      margin: 5px 0;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 9px;
+      border-radius: 999px;
+      background: #edf4ff;
+      color: var(--blue-dark);
+      border: 1px solid #d7e7ff;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .module-banner {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 20px;
+      align-items: center;
+      background: linear-gradient(135deg, #14213d, #2f80ed);
+      color: white;
+      border-radius: var(--radius);
+      padding: 22px;
+      margin: 40px 0 20px;
+      box-shadow: 0 12px 35px rgba(47,128,237,.25);
+    }
+
+    .module-number {
+      font-size: 58px;
+      font-weight: 900;
+      opacity: .95;
+      text-align: center;
+      border-right: 1px solid rgba(255,255,255,.35);
+    }
+
+    .module-banner h2 {
+      margin: 0 0 4px;
+      font-size: 28px;
+      letter-spacing: -.7px;
+    }
+
+    .module-banner p { margin: 0; opacity: .9; }
+
+    .day {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 28px;
+      background: white;
+    }
+
+    .day-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      background: #f1f7ff;
+      border-bottom: 1px solid var(--line);
+      padding: 20px 24px;
+    }
+
+    .day-header h2 {
+      margin: 0;
+      font-size: 26px;
+      color: var(--blue-dark);
+      letter-spacing: -.7px;
+    }
+
+    .day-header p {
+      margin: 4px 0 0;
+      color: var(--muted);
+    }
+
+    .essential-question {
+      max-width: 330px;
+      background: white;
+      border: 1px solid #d7e7ff;
+      padding: 12px 14px;
+      border-radius: 14px;
+      font-size: 14px;
+    }
+
+    .essential-question strong {
+      color: var(--blue-dark);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .timeline {
+      padding: 22px 24px 10px;
+    }
+
+    .slot {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px dashed #d7deea;
+    }
+
+    .slot:last-child { border-bottom: none; }
+
+    .time {
+      color: var(--blue-dark);
+      font-weight: 800;
+      font-size: 14px;
+      padding-top: 2px;
+    }
+
+    .slot h3 {
+      margin: 0 0 5px;
+      font-size: 17px;
+      color: #1f2a44;
+    }
+
+    .slot p {
+      margin: 0 0 7px;
+      color: #3c4658;
+    }
+
+    .micro {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 5px;
+    }
+
+    .deliverable {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 6px 9px;
+      background: #fff8e6;
+      color: #7a5600;
+      border: 1px solid #ffe2a3;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    .lab {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 6px 9px;
+      background: #ecfff6;
+      color: #0d6844;
+      border: 1px solid #b8efd7;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    .rubric {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      font-size: 14px;
+    }
+
+    .rubric th {
+      background: #eef6ff;
+      color: var(--blue-dark);
+      text-align: left;
+      padding: 12px;
+    }
+
+    .rubric td {
+      border-top: 1px solid var(--line);
+      padding: 12px;
+      vertical-align: top;
+    }
+
+    .callout {
+      border-left: 6px solid var(--violet);
+      background: #f4f3ff;
+      border-radius: 14px;
+      padding: 16px 18px;
+      color: #2b285c;
+    }
+
+    .footer-note {
+      margin-top: 40px;
+      padding: 20px;
+      border-radius: var(--radius);
+      background: #111827;
+      color: white;
+    }
+
+    @media print {
+      body { background: white; }
+      .page { max-width: none; padding: 0; }
+      .hero { display: block; }
+      .side-card { position: static; min-height: auto; margin-bottom: 20px; box-shadow: none; }
+      .main, .day { box-shadow: none; }
+      .day { break-inside: avoid; }
+    }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .side-card { position: static; min-height: auto; }
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .day-header { flex-direction: column; }
+      .slot { grid-template-columns: 1fr; }
+      .module-banner { grid-template-columns: 1fr; }
+      .module-number { border-right: none; border-bottom: 1px solid rgba(255,255,255,.35); padding-bottom: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="hero">
+      <aside class="side-card">
+        <div class="hero-image">∑</div>
+        <h1 class="course-title">Cryptography, Blockchain & Post-Quantum Security</h1>
+        <div class="course-code">Nueva Advanced Math + Computation Mini-Intensive</div>
+
+        <section class="side-section">
+          <h2 class="side-heading">Instructor Info</h2>
+          <div class="info-row"><span class="icon">P</span><span>Peter Alexander</span></div>
+          <div class="info-row"><span class="icon">@</span><span>peter.alexander@ilumineducation.com</span></div>
+          <div class="info-row"><span class="icon">⌂</span><span>Foster City, CA</span></div>
+          <div class="info-row"><span class="icon">☉</span><span>Office hours / studio help by arrangement</span></div>
+        </section>
+
+        <section class="side-section">
+          <h2 class="side-heading">Course Info</h2>
+          <div class="info-row"><span class="icon">⚡</span><span><strong>Prereq:</strong> Advanced AMC 8/10/12 problem-solving; comfort with proofs; exposure to abstract algebra or discrete mathematics helpful.</span></div>
+          <div class="info-row"><span class="icon">◷</span><span><strong>Format:</strong> 4 instructional days, 4 hours per day; Day 5 capstone symposium.</span></div>
+          <div class="info-row"><span class="icon">⌨</span><span><strong>Tools:</strong> Python / Jupyter preferred; R optional for simulation and visualization.</span></div>
+          <div class="info-row"><span class="icon">◇</span><span><strong>Mode:</strong> Seminar + lab + studio + presentation.</span></div>
+        </section>
+
+        <section class="side-section">
+          <h2 class="side-heading">About</h2>
+          <p class="about">This mini-course treats cryptography as a meeting point of pure mathematics, computation, economics, trust, and civilization-scale infrastructure. Students move from modular arithmetic and number theory into RSA, blockchain, quantum threats, and post-quantum cryptography through hands-on computational labs and a final capstone presentation.</p>
+        </section>
+      </aside>
+
+      <main class="main">
+        <section class="section">
+          <h2 class="pill-title">Overview</h2>
+          <p class="lead">Students begin with the elementary number theory that makes modern encryption possible: divisibility, congruences, modular exponentiation, primes, and computational hardness. From there, they build and attack toy RSA systems, construct a simple blockchain, examine the mathematics of distributed trust, and investigate why quantum computing threatens current public-key systems. The course concludes with a studio-style capstone project in which students design, implement, analyze, or visualize a cryptographic system.</p>
+          <p class="lead">The deeper intellectual arc is representational: students learn how symbolic, graphical, algorithmic, and computational representations each reveal different aspects of mathematical structure. Security is treated not as magic, but as a phenomenon emerging from representation, abstraction, and computational asymmetry.</p>
+        </section>
+
+        <section class="section grid-2">
+          <div class="card">
+            <h3>Central Questions</h3>
+            <ul>
+              <li>How can public information still produce private communication?</li>
+              <li>What makes a mathematical problem computationally hard?</li>
+              <li>How can trust be distributed across a network?</li>
+              <li>Why does quantum computation disrupt classical assumptions?</li>
+              <li>What mathematical structures might secure a post-quantum world?</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Course Materials</h3>
+            <ul>
+              <li>Custom Jupyter notebooks and instructor notes</li>
+              <li>Python standard library: <code>math</code>, <code>random</code>, <code>hashlib</code>, <code>secrets</code></li>
+              <li>Optional: <code>sympy</code>, <code>numpy</code>, <code>matplotlib</code>, R/tidyverse</li>
+              <li>Selected excerpts from Koblitz, Singh, Paar/Pelzl, Nakamoto, and NIST PQC resources</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="section">
+          <h2 class="pill-title">Learning Objectives</h2>
+          <div class="grid-3">
+            <div class="card"><h3>Mathematics</h3><p>Use congruences, gcd algorithms, Euler’s theorem, modular exponentiation, prime structure, and elementary algebraic reasoning to explain cryptographic systems.</p></div>
+            <div class="card"><h3>Computation</h3><p>Implement, test, debug, visualize, and critique cryptographic procedures in Python or R using careful algorithmic reasoning.</p></div>
+            <div class="card"><h3>Inquiry</h3><p>Explain how abstraction, representation, computational hardness, and trust interact in modern security systems.</p></div>
+          </div>
+        </section>
+
+        <section class="section">
+          <h2 class="pill-title">Assessment / Exhibition</h2>
+          <table class="rubric">
+            <tr><th>Component</th><th>Weight</th><th>Evidence of Learning</th></tr>
+            <tr><td>Daily Computational Labs</td><td>30%</td><td>Working notebooks, clear code, tests, interpretation of output.</td></tr>
+            <tr><td>Mathematical Explorations</td><td>20%</td><td>Short written explanations of why algorithms work and where they fail.</td></tr>
+            <tr><td>Participation + Seminar Inquiry</td><td>15%</td><td>Questions, collaboration, critique, responsible experimentation.</td></tr>
+            <tr><td>Capstone Mini-Project</td><td>35%</td><td>Technical artifact, mathematical explanation, presentation, reflection.</td></tr>
+          </table>
+        </section>
+
+        <div class="module-banner">
+          <div class="module-number">1</div>
+          <div><h2>Arithmetic, Abstraction, and Secrecy</h2><p>Number theory becomes a language for secure communication.</p></div>
+        </div>
+
+        <section class="day">
+          <div class="day-header">
+            <div>
+              <h2>Day 1 — Modular Arithmetic and the Birth of Encryption</h2>
+              <p>From Euclid to congruence classes to fast exponentiation.</p>
+            </div>
+            <div class="essential-question"><strong>Essential Question</strong>How can arithmetic wrap around itself and become a system for secrecy?</div>
+          </div>
+          <div class="timeline">
+            <div class="slot"><div class="time">0:00–0:15</div><div><h3>Opening Provocation: Public Rules, Private Meaning</h3><p>Students receive a short encrypted message and try to infer the rule. Discussion introduces the idea that secrecy can arise from a public system plus hidden structure.</p><span class="deliverable">Exit artifact: first conjecture log</span></div></div>
+            <div class="slot"><div class="time">0:15–0:45</div><div><h3>Mini-Lecture: Divisibility, gcd, and Euclid</h3><p>Review divisibility, gcd, Bezout intuition, and Euclid’s algorithm as a model of efficient computation.</p><p class="micro">Board sequence: numerical gcd → recursive algorithm → proof sketch → computational complexity intuition.</p></div></div>
+            <div class="slot"><div class="time">0:45–1:15</div><div><h3>Guided Lab 1: Euclid in Python</h3><p>Students implement iterative and recursive gcd functions, test edge cases, and compare execution behavior on small and large integers.</p><span class="lab">Notebook checkpoint: gcd(a,b), extended_gcd(a,b)</span></div></div>
+            <div class="slot"><div class="time">1:15–1:25</div><div><h3>Break</h3><p>Informal debugging and instructor check-ins.</p></div></div>
+            <div class="slot"><div class="time">1:25–2:05</div><div><h3>Mini-Lecture: Modular Arithmetic as Representation</h3><p>Congruence, residue classes, clocks, modular inverses, and the shift from ordinary arithmetic to structured equivalence.</p><p class="micro">Phenomenological focus: what becomes visible when the same number is represented on a line, a circle, a table, and a code alphabet?</p></div></div>
+            <div class="slot"><div class="time">2:05–2:45</div><div><h3>Guided Lab 2: Modular Calculators and Caesar Systems</h3><p>Students build modular addition/multiplication tables, implement Caesar and affine ciphers, and identify when affine decryption fails.</p><span class="lab">Notebook checkpoint: affine_encrypt, affine_decrypt, invertibility test</span></div></div>
+            <div class="slot"><div class="time">2:45–3:25</div><div><h3>Fast Exponentiation Studio</h3><p>Students discover why repeated multiplication is too slow and implement square-and-multiply modular exponentiation.</p><span class="deliverable">Mini-writeup: why fast exponentiation changes what is feasible</span></div></div>
+            <div class="slot"><div class="time">3:25–4:00</div><div><h3>Seminar: What Makes a Problem Hard?</h3><p>Students distinguish hard for humans, hard for computers, hard in general, and hard only at scale. Closing reflection connects elegance, opacity, and computational asymmetry.</p><span class="deliverable">Exit ticket: one mathematical structure, one computational insight, one question</span></div></div>
+          </div>
+        </section>
+
+        <div class="module-banner">
+          <div class="module-number">2</div>
+          <div><h2>Public-Key Cryptography</h2><p>RSA as a concrete meeting point of primes, exponents, inverses, and hardness.</p></div>
+        </div>
+
+        <section class="day">
+          <div class="day-header">
+            <div>
+              <h2>Day 2 — RSA: Build It, Use It, Break It</h2>
+              <p>Euler’s theorem, public/private keys, and the factorization assumption.</p>
+            </div>
+            <div class="essential-question"><strong>Essential Question</strong>How can a lock be public while the key remains private?</div>
+          </div>
+          <div class="timeline">
+            <div class="slot"><div class="time">0:00–0:20</div><div><h3>Warm-Up: Modular Inverses</h3><p>Students solve inverse puzzles by hand and then verify by code. The extended Euclidean algorithm becomes an engine for decryption.</p></div></div>
+            <div class="slot"><div class="time">0:20–1:00</div><div><h3>Mini-Lecture: Euler, Totients, and RSA Architecture</h3><p>Prime selection, n = pq, phi(n), public exponent e, private exponent d, encryption m^e mod n, decryption c^d mod n.</p><p class="micro">Proof sketch emphasizes why exponentiation cycles return information when the right inverse exponent is used.</p></div></div>
+            <div class="slot"><div class="time">1:00–1:35</div><div><h3>Guided Lab 3: Toy RSA From Scratch</h3><p>Students generate small primes, compute keys, encode short messages, encrypt, and decrypt.</p><span class="lab">Notebook checkpoint: generate_keypair, encrypt, decrypt</span></div></div>
+            <div class="slot"><div class="time">1:35–1:45</div><div><h3>Break</h3><p>Instructor circulates and identifies common implementation errors.</p></div></div>
+            <div class="slot"><div class="time">1:45–2:25</div><div><h3>Attack Lab: When RSA Fails</h3><p>Students factor small n, test poor prime choices, use repeated-message attacks, and observe how implementation choices affect security.</p><span class="lab">Attack notebook: factor_n, recover_private_key</span></div></div>
+            <div class="slot"><div class="time">2:25–3:00</div><div><h3>Seminar: Security Assumptions</h3><p>Class distinguishes theorem, algorithm, implementation, and assumption. Students identify which parts of RSA are proven and which depend on computational limits.</p></div></div>
+            <div class="slot"><div class="time">3:00–3:35</div><div><h3>Capstone Launch Studio</h3><p>Students choose project tracks: RSA attack, blockchain simulator, lattice visualization, quantum threat explainer, ECC concept demo, cryptographic ethics, or original proposal.</p><span class="deliverable">Team artifact: project claim + minimal technical goal</span></div></div>
+            <div class="slot"><div class="time">3:35–4:00</div><div><h3>Lightning Conferences</h3><p>Each team meets briefly with instructor to clarify scope, tool choice, risk level, and presentation format.</p></div></div>
+          </div>
+        </section>
+
+        <div class="module-banner">
+          <div class="module-number">3</div>
+          <div><h2>Blockchain and Distributed Trust</h2><p>Hashing, ledgers, proof-of-work, and the mathematics of tamper evidence.</p></div>
+        </div>
+
+        <section class="day">
+          <div class="day-header">
+            <div>
+              <h2>Day 3 — Hashes, Blocks, Ledgers, and Consensus</h2>
+              <p>How cryptographic primitives become social and economic infrastructure.</p>
+            </div>
+            <div class="essential-question"><strong>Essential Question</strong>Can a community create trust without a central authority?</div>
+          </div>
+          <div class="timeline">
+            <div class="slot"><div class="time">0:00–0:20</div><div><h3>Opening Demonstration: Tamper-Evident Records</h3><p>Instructor alters one transaction in a visible chain and students predict which downstream values must change.</p></div></div>
+            <div class="slot"><div class="time">0:20–0:55</div><div><h3>Mini-Lecture: Hash Functions</h3><p>Determinism, compression, avalanche effect, preimage resistance, collision resistance, and why hash functions are not encryption.</p></div></div>
+            <div class="slot"><div class="time">0:55–1:30</div><div><h3>Guided Lab 4: Hash Experiments</h3><p>Students use hashlib to hash messages, compare small changes, search for toy collisions using truncated hashes, and visualize avalanche behavior.</p><span class="lab">Notebook checkpoint: hash_demo, collision_search</span></div></div>
+            <div class="slot"><div class="time">1:30–1:40</div><div><h3>Break</h3><p>Reset for blockchain construction.</p></div></div>
+            <div class="slot"><div class="time">1:40–2:25</div><div><h3>Build Lab: A Toy Blockchain</h3><p>Students define Block objects with index, timestamp, data, previous hash, nonce, and hash. They add validation rules and test tampering.</p><span class="lab">Notebook checkpoint: Block class + validate_chain</span></div></div>
+            <div class="slot"><div class="time">2:25–3:00</div><div><h3>Proof-of-Work Simulation</h3><p>Students implement mining by searching for hashes with a fixed prefix, then vary difficulty and measure runtime.</p><span class="deliverable">Graph: difficulty vs observed trials/time</span></div></div>
+            <div class="slot"><div class="time">3:00–3:30</div><div><h3>Seminar: Consensus, Incentives, and Limits</h3><p>Discussion of Byzantine agreement, majority assumptions, energy costs, financial incentives, and the difference between mathematical trust and social trust.</p></div></div>
+            <div class="slot"><div class="time">3:30–4:00</div><div><h3>Capstone Studio</h3><p>Teams integrate blockchain/hash ideas where relevant, update project notebooks, and prepare one diagram explaining their system.</p><span class="deliverable">Project checkpoint: one technical diagram + next-day plan</span></div></div>
+          </div>
+        </section>
+
+        <div class="module-banner">
+          <div class="module-number">4</div>
+          <div><h2>Quantum Threats and Post-Quantum Cryptography</h2><p>What changes when the computational universe changes?</p></div>
+        </div>
+
+        <section class="day">
+          <div class="day-header">
+            <div>
+              <h2>Day 4 — Quantum Disruption and New Hard Problems</h2>
+              <p>From Shor’s algorithm to lattice-based security.</p>
+            </div>
+            <div class="essential-question"><strong>Essential Question</strong>What mathematical structures might survive quantum computation?</div>
+          </div>
+          <div class="timeline">
+            <div class="slot"><div class="time">0:00–0:25</div><div><h3>Opening Contrast: Classical Search vs Quantum Speedup</h3><p>Conceptual demonstration of how a change in computational model can turn secure assumptions into fragile assumptions.</p></div></div>
+            <div class="slot"><div class="time">0:25–1:05</div><div><h3>Mini-Lecture: Why Shor Threatens RSA</h3><p>Students learn the high-level structure: factoring becomes tractable through period finding. No quantum mechanics prerequisite; emphasis is on the consequences for number-theoretic security.</p></div></div>
+            <div class="slot"><div class="time">1:05–1:35</div><div><h3>Computational Demonstration: Period Finding Toy Models</h3><p>Students explore periodic modular exponentiation tables and see how hidden periodicity connects to factoring.</p><span class="lab">Notebook checkpoint: period_table(a,n)</span></div></div>
+            <div class="slot"><div class="time">1:35–1:45</div><div><h3>Break</h3><p>Transition from broken assumptions to new assumptions.</p></div></div>
+            <div class="slot"><div class="time">1:45–2:30</div><div><h3>Mini-Lecture: Lattices and Geometry of Hardness</h3><p>Vectors, integer combinations, lattice bases, shortest vector intuition, good and bad bases, and why geometry can support post-quantum cryptography.</p></div></div>
+            <div class="slot"><div class="time">2:30–3:05</div><div><h3>Guided Lab 5: Lattice Visualization</h3><p>Students generate 2D lattices, plot bases, search short vectors by brute force, and compare how representation affects difficulty.</p><span class="lab">Notebook checkpoint: lattice_plot + shortest_vector_bruteforce</span></div></div>
+            <div class="slot"><div class="time">3:05–3:35</div><div><h3>Post-Quantum Survey</h3><p>Brief comparison of lattice-based, hash-based, code-based, and multivariate approaches. Students identify which hard problem each system relies on.</p></div></div>
+            <div class="slot"><div class="time">3:35–4:00</div><div><h3>Capstone Final Build Sprint</h3><p>Teams finalize code, diagrams, claims, limitations, and presentation structure.</p><span class="deliverable">Presentation skeleton due: claim, demo, math, limitation, implication</span></div></div>
+          </div>
+        </section>
+
+        <div class="module-banner">
+          <div class="module-number">5</div>
+          <div><h2>Capstone Symposium</h2><p>Students present a working artifact and defend the mathematical idea behind it.</p></div>
+        </div>
+
+        <section class="day">
+          <div class="day-header">
+            <div>
+              <h2>Day 5 — Exhibition of Cryptographic Inquiry</h2>
+              <p>Presentation, critique, and synthesis.</p>
+            </div>
+            <div class="essential-question"><strong>Essential Question</strong>What does your project reveal about security, representation, and trust?</div>
+          </div>
+          <div class="timeline">
+            <div class="slot"><div class="time">0:00–0:20</div><div><h3>Presentation Warm-Up</h3><p>Teams verify demos, test notebooks, and rehearse the core claim in one minute.</p></div></div>
+            <div class="slot"><div class="time">0:20–1:50</div><div><h3>Capstone Presentations I</h3><p>Each team presents a 7-minute demo followed by 3 minutes of technical questions.</p><span class="deliverable">Required: mathematical explanation + computational artifact</span></div></div>
+            <div class="slot"><div class="time">1:50–2:00</div><div><h3>Break</h3><p>Peer feedback cards collected and sorted.</p></div></div>
+            <div class="slot"><div class="time">2:00–3:10</div><div><h3>Capstone Presentations II</h3><p>Remaining teams present. Audience members ask questions about assumptions, limitations, and possible extensions.</p></div></div>
+            <div class="slot"><div class="time">3:10–3:35</div><div><h3>Synthesis Seminar</h3><p>Class maps the week’s concepts: modular arithmetic, RSA, hashing, blockchain, quantum threat, lattices, and post-quantum security.</p></div></div>
+            <div class="slot"><div class="time">3:35–4:00</div><div><h3>Final Reflection</h3><p>Students write a brief reflection: “What changed in my understanding of mathematics as infrastructure?”</p><span class="deliverable">Final artifact: project link + reflection paragraph</span></div></div>
+          </div>
+        </section>
+
+        <section class="section">
+          <h2 class="pill-title">Capstone Project Menu</h2>
+          <div class="grid-2">
+            <div class="card"><h3>Implementation Projects</h3><ul><li>Build RSA and demonstrate a weak-key attack</li><li>Construct and validate a toy blockchain</li><li>Simulate proof-of-work mining difficulty</li><li>Create a modular arithmetic visualization tool</li><li>Implement a toy digital signature system</li></ul></div>
+            <div class="card"><h3>Investigation Projects</h3><ul><li>Explain Shor’s algorithm as a threat model</li><li>Compare classical and post-quantum assumptions</li><li>Visualize lattice bases and shortest vectors</li><li>Analyze cryptographic trust in voting or finance</li><li>Critique blockchain claims about decentralization</li></ul></div>
+          </div>
+        </section>
+
+        <section class="section">
+          <h2 class="pill-title">Presentation Rubric</h2>
+          <table class="rubric">
+            <tr><th>Dimension</th><th>Distinguished Evidence</th></tr>
+            <tr><td>Mathematical Clarity</td><td>Explains the relevant structure precisely and shows why the method works.</td></tr>
+            <tr><td>Computational Artifact</td><td>Includes working code, meaningful tests, and readable organization.</td></tr>
+            <tr><td>Representation</td><td>Uses diagrams, tables, visualizations, or examples to make an abstract idea visible.</td></tr>
+            <tr><td>Security Reasoning</td><td>Identifies assumptions, vulnerabilities, limits, and scale effects.</td></tr>
+            <tr><td>Communication</td><td>Presents a clear claim, coherent demo, and thoughtful response to questions.</td></tr>
+          </table>
+        </section>
+
+        <section class="section callout">
+          <h2 style="margin:0 0 8px;">Instructor Design Note</h2>
+          <p style="margin:0;">This mini-course is designed for advanced students who can move quickly through formal ideas but benefit from seeing how pure mathematical structures become operational systems. The aim is not merely to teach cryptographic recipes, but to cultivate a deeper sense of mathematics as a representational and infrastructural force: a way of organizing trust, secrecy, identity, and computation in the modern world.</p>
+        </section>
+
+        <div class="footer-note">
+          <strong>Portfolio Note:</strong> This storyboard can be adapted into a GitHub-hosted HTML page, a printable PDF syllabus, or a slide-based curriculum pitch for Nueva. The HTML is intentionally self-contained for easy deployment through GitHub Pages.
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
