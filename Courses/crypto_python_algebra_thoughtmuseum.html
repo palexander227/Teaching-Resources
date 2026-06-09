@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cryptography, Python, and Abstract Algebra | ThoughtMuseum</title>
+  <style>
+    :root {
+      --deep: #073447;
+      --navy: #0b4054;
+      --ocean: #0e7490;
+      --teal: #14b8a6;
+      --aqua: #22d3ee;
+      --aqua-soft: #dcfbff;
+      --foam: #f3fdff;
+      --sky: #e9fbff;
+      --sand: #f6d58f;
+      --coral: #ff8a65;
+      --coral-soft: #fff0eb;
+      --ink: #1f3340;
+      --muted: #617584;
+      --paper: #ffffff;
+      --line: #cceaf1;
+      --soft-line: rgba(14,116,144,.18);
+      --shadow: 0 26px 64px rgba(7, 52, 71, 0.14);
+      --soft-shadow: 0 14px 34px rgba(7, 52, 71, 0.09);
+      --radius-xl: 34px;
+      --radius-lg: 26px;
+      --radius-md: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 0%, rgba(34, 211, 238, .28), transparent 32rem),
+        radial-gradient(circle at 96% 8%, rgba(20, 184, 166, .19), transparent 30rem),
+        radial-gradient(circle at 56% 14%, rgba(246, 213, 143, .20), transparent 28rem),
+        linear-gradient(180deg, #e9fbff 0%, #f6fdff 36%, #ffffff 100%);
+      font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+      line-height: 1.65;
+    }
+
+    a { color: inherit; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(247, 254, 255, .84);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(14, 116, 144, .18);
+      color: var(--navy);
+    }
+
+    .topbar-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 12px 22px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: .78rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-weight: 850;
+      color: var(--deep);
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--aqua), #d8ffff 55%, var(--sand));
+      color: var(--deep);
+      box-shadow: 0 0 0 6px rgba(34, 211, 238, .13);
+      font-weight: 950;
+      letter-spacing: -.05em;
+    }
+
+    .navlinks {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: .82rem;
+      color: rgba(11, 64, 84, .78);
+    }
+
+    .navlinks a {
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+    }
+
+    .navlinks a:hover { border-color: var(--teal); color: var(--deep); }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      min-height: 90vh;
+      background:
+        radial-gradient(circle at 79% 21%, rgba(34,211,238,.36), transparent 22rem),
+        radial-gradient(circle at 23% 86%, rgba(255,138,101,.17), transparent 20rem),
+        linear-gradient(135deg, #edfeff 0%, #d8f7ff 41%, #b8eff7 100%);
+      color: var(--deep);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(7,52,71,.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(7,52,71,.045) 1px, transparent 1px);
+      background-size: 46px 46px;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,.9), rgba(0,0,0,.23));
+    }
+
+    .wave-top {
+      position: absolute;
+      left: -6vw;
+      right: -6vw;
+      bottom: -1px;
+      height: 190px;
+      background:
+        radial-gradient(ellipse at 23% 0%, rgba(255,255,255,.88) 0%, rgba(255,255,255,.88) 35%, transparent 36%),
+        radial-gradient(ellipse at 61% 0%, rgba(255,255,255,.82) 0%, rgba(255,255,255,.82) 33%, transparent 34%),
+        radial-gradient(ellipse at 92% 0%, rgba(255,255,255,.92) 0%, rgba(255,255,255,.92) 31%, transparent 32%),
+        linear-gradient(180deg, rgba(255,255,255,.0), #ffffff 58%);
+      opacity: .98;
+    }
+
+    .hero::after {
+      content: "mod 26 · gcd(a,n)=1 · x ↦ ax+b · e·d ≡ 1 (mod φ(n))";
+      position: absolute;
+      left: 2.5rem;
+      bottom: 6.5rem;
+      color: rgba(7,52,71,.085);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: clamp(2.6rem, 6vw, 5.8rem);
+      line-height: .9;
+      font-weight: 900;
+      letter-spacing: -.06em;
+      white-space: nowrap;
+      transform: rotate(-2deg);
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 1180px;
+      margin: 0 auto;
+      min-height: calc(90vh - 59px);
+      display: grid;
+      grid-template-columns: 1.03fr .97fr;
+      align-items: center;
+      gap: 48px;
+      padding: 74px 24px 130px;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid rgba(14, 116, 144, .18);
+      background: rgba(255, 255, 255, .58);
+      color: var(--ocean);
+      border-radius: 999px;
+      padding: 9px 14px;
+      margin-bottom: 24px;
+      font-size: .78rem;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .13em;
+      font-weight: 850;
+      box-shadow: 0 12px 28px rgba(14, 116, 144, .08);
+    }
+
+    h1, h2, h3 { color: inherit; }
+
+    h1 {
+      font-size: clamp(3.1rem, 7vw, 6.35rem);
+      line-height: .94;
+      letter-spacing: -.058em;
+      margin: 0 0 24px;
+      color: var(--deep);
+      text-wrap: balance;
+    }
+
+    .hero-deck {
+      max-width: 765px;
+      font-size: clamp(1.17rem, 2vw, 1.55rem);
+      color: rgba(7, 52, 71, .78);
+      margin-bottom: 30px;
+    }
+
+    .essential {
+      max-width: 790px;
+      background: rgba(255, 255, 255, .74);
+      border: 1px solid rgba(14, 116, 144, .18);
+      border-left: 6px solid var(--coral);
+      border-radius: 24px;
+      padding: 24px 26px;
+      box-shadow: 0 20px 50px rgba(7, 52, 71, .10);
+      backdrop-filter: blur(10px);
+      font-size: 1.14rem;
+      color: rgba(7,52,71,.86);
+    }
+
+    .essential strong {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--ocean);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-size: .78rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 13px;
+      margin-top: 28px;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: var(--deep);
+      border: 1px solid rgba(14, 116, 144, .16);
+      background: rgba(255, 255, 255, .62);
+      font-size: .88rem;
+      font-weight: 700;
+      box-shadow: 0 10px 22px rgba(14, 116, 144, .07);
+    }
+
+    .visual-card {
+      position: relative;
+      min-height: 570px;
+      border-radius: 34px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 38%, rgba(255,255,255,.95), rgba(255,255,255,.32) 38%, rgba(255,255,255,.18) 60%, rgba(255,255,255,.08)),
+        linear-gradient(145deg, rgba(255,255,255,.72), rgba(255,255,255,.32));
+      border: 1px solid rgba(255,255,255,.72);
+      box-shadow: 0 30px 75px rgba(7,52,71,.18);
+      backdrop-filter: blur(12px);
+      padding: 26px;
+    }
+
+    .visual-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 15% 22%, rgba(255,138,101,.16), transparent 10rem),
+        radial-gradient(circle at 84% 72%, rgba(34,211,238,.26), transparent 15rem),
+        linear-gradient(rgba(7,52,71,.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(7,52,71,.045) 1px, transparent 1px);
+      background-size: auto, auto, 38px 38px, 38px 38px;
+    }
+
+    .flowline {
+      position: absolute;
+      left: 9%;
+      right: 9%;
+      top: 50%;
+      height: 4px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, rgba(14,116,144,.38), rgba(20,184,166,.52), rgba(255,138,101,.42), transparent);
+      box-shadow: 0 0 24px rgba(34,211,238,.45);
+    }
+
+    .flowline::before, .flowline::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 12px;
+      height: 12px;
+      margin-top: -6px;
+      border-radius: 50%;
+      background: var(--coral);
+      box-shadow: 0 0 24px rgba(255,138,101,.8);
+    }
+
+    .flowline::before { left: 22%; }
+    .flowline::after { right: 19%; background: var(--teal); }
+
+    .cipher-wheel {
+      position: absolute;
+      left: 38%;
+      top: 22%;
+      width: 205px;
+      height: 205px;
+      border-radius: 50%;
+      background:
+        conic-gradient(from 10deg, rgba(255,138,101,.94), rgba(246,213,143,.96), rgba(34,211,238,.96), rgba(20,184,166,.95), rgba(255,138,101,.94));
+      box-shadow: 0 26px 60px rgba(7,52,71,.18), inset 0 0 0 18px rgba(255,255,255,.52);
+      display: grid;
+      place-items: center;
+      transform: rotate(-8deg);
+    }
+
+    .cipher-wheel::before {
+      content: "";
+      position: absolute;
+      inset: 34px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.82);
+      border: 1px solid rgba(7,52,71,.10);
+    }
+
+    .cipher-wheel span {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-weight: 950;
+      color: var(--deep);
+      line-height: 1.05;
+      letter-spacing: -.03em;
+    }
+
+    .cipher-wheel small {
+      display: block;
+      color: var(--ocean);
+      font-size: .78rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-top: 6px;
+    }
+
+    .visual-chip {
+      position: absolute;
+      border-radius: 20px;
+      padding: 16px 18px;
+      background: rgba(255,255,255,.78);
+      border: 1px solid rgba(14,116,144,.15);
+      box-shadow: 0 18px 42px rgba(7,52,71,.11);
+      backdrop-filter: blur(12px);
+      z-index: 4;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--deep);
+    }
+
+    .visual-chip strong {
+      display: block;
+      font-size: .75rem;
+      text-transform: uppercase;
+      letter-spacing: .11em;
+      color: var(--ocean);
+      margin-bottom: 6px;
+    }
+
+    .plain { left: 8%; top: 12%; width: 185px; }
+    .key { right: 7%; top: 11%; width: 175px; }
+    .group { left: 8%; bottom: 12%; width: 210px; }
+    .rsa { right: 7%; bottom: 12%; width: 220px; }
+
+    .code-card {
+      position: absolute;
+      left: 23%;
+      bottom: 25%;
+      width: 305px;
+      border-radius: 22px;
+      padding: 20px;
+      z-index: 3;
+      background: rgba(7,52,71,.91);
+      color: #eaffff;
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow: 0 26px 60px rgba(7,52,71,.22);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      font-size: .86rem;
+      line-height: 1.75;
+    }
+
+    .code-card .dots {
+      display: flex;
+      gap: 7px;
+      margin-bottom: 12px;
+    }
+
+    .code-card .dots span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: block;
+      background: var(--coral);
+    }
+    .code-card .dots span:nth-child(2) { background: var(--sand); }
+    .code-card .dots span:nth-child(3) { background: var(--aqua); }
+
+    .code-card b { color: #8ff9ef; font-weight: 700; }
+    .code-card i { color: #ffd2c3; font-style: normal; }
+
+    .binary-rain {
+      position: absolute;
+      right: 1.6rem;
+      top: 48%;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      font-size: 1.1rem;
+      line-height: 1.36;
+      color: rgba(7,52,71,.12);
+      z-index: 1;
+      white-space: pre;
+      user-select: none;
+    }
+
+    .floating-formula {
+      position: absolute;
+      z-index: 2;
+      font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+      color: rgba(7,52,71,.22);
+      font-weight: 800;
+      letter-spacing: -.03em;
+      transform: rotate(-7deg);
+    }
+
+    .f1 { left: 5%; top: 45%; font-size: 2.2rem; }
+    .f2 { right: 8%; top: 35%; font-size: 2.0rem; transform: rotate(8deg); }
+    .f3 { left: 58%; bottom: 10%; font-size: 1.9rem; color: rgba(255,138,101,.38); }
+
+    .page {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 24px 84px;
+    }
+
+    .intro-panel {
+      position: relative;
+      z-index: 4;
+      margin-top: -72px;
+      background: rgba(255, 255, 255, .92);
+      border: 1px solid rgba(14, 116, 144, .14);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .intro-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(34,211,238,.13), transparent 18rem),
+        radial-gradient(circle at 100% 0%, rgba(255,138,101,.09), transparent 18rem);
+      pointer-events: none;
+    }
+
+    .intro-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 28px;
+      padding: 40px;
+    }
+
+    .intro-copy p {
+      margin-top: 0;
+      font-size: 1.11rem;
+    }
+
+    .signature-callout {
+      margin: 28px 0 0;
+      padding: 25px 28px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(220,251,255,.95), rgba(255,240,235,.88));
+      border: 1px solid rgba(14, 116, 144, .15);
+      font-size: 1.18rem;
+      color: var(--deep);
+    }
+
+    .mini-map {
+      display: grid;
+      gap: 14px;
+      align-content: center;
+    }
+
+    .map-row {
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      gap: 16px;
+      align-items: center;
+      background: rgba(255,255,255,.78);
+      border: 1px solid rgba(14, 116, 144, .13);
+      border-radius: 22px;
+      padding: 16px;
+      box-shadow: 0 12px 28px rgba(7,52,71,.06);
+    }
+
+    .map-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #d8ffff, #fff4db);
+      color: var(--deep);
+      font-size: 1.5rem;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-weight: 900;
+    }
+
+    .map-row strong {
+      color: var(--navy);
+      display: block;
+      margin-bottom: 2px;
+      font-size: 1.02rem;
+    }
+
+    .map-row span { color: var(--muted); font-size: .96rem; }
+
+    .section {
+      margin-top: 72px;
+      position: relative;
+    }
+
+    .section-header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: end;
+      margin-bottom: 30px;
+    }
+
+    .section-kicker {
+      display: inline-block;
+      margin-bottom: 9px;
+      color: var(--ocean);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      font-size: .78rem;
+      font-weight: 850;
+    }
+
+    h2 {
+      font-size: clamp(2.15rem, 4vw, 3.5rem);
+      line-height: 1.0;
+      letter-spacing: -.045em;
+      margin: 0;
+      color: var(--deep);
+      text-wrap: balance;
+    }
+
+    .section-lead {
+      margin: 16px 0 0;
+      max-width: 820px;
+      color: var(--muted);
+      font-size: 1.12rem;
+    }
+
+    .section-tag {
+      min-width: 158px;
+      justify-self: end;
+      padding: 12px 15px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.74);
+      border: 1px solid rgba(14, 116, 144, .15);
+      box-shadow: 0 12px 26px rgba(7,52,71,.06);
+      color: var(--ocean);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: .82rem;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .feature-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 245px;
+      border-radius: 28px;
+      padding: 25px;
+      background: rgba(255,255,255,.86);
+      border: 1px solid rgba(14, 116, 144, .14);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .feature-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 7px;
+      background: linear-gradient(90deg, var(--aqua), var(--teal), var(--sand), var(--coral));
+    }
+
+    .feature-card::after {
+      content: attr(data-symbol);
+      position: absolute;
+      right: -8px;
+      bottom: -16px;
+      color: rgba(14, 116, 144, .06);
+      font-size: 6rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .feature-icon {
+      width: 58px;
+      height: 58px;
+      display: grid;
+      place-items: center;
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--aqua-soft), #ffffff);
+      color: var(--ocean);
+      font-size: 1.5rem;
+      margin-bottom: 18px;
+      box-shadow: inset 0 0 0 1px rgba(14, 116, 144, .12);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-weight: 900;
+    }
+
+    .feature-card h3 {
+      margin: 0 0 10px;
+      color: var(--navy);
+      font-size: 1.38rem;
+      line-height: 1.1;
+    }
+
+    .feature-card p { margin: 0; color: var(--muted); }
+
+    .arc-panel {
+      border-radius: 34px;
+      padding: 40px;
+      background:
+        radial-gradient(circle at 15% 15%, rgba(34,211,238,.16), transparent 18rem),
+        radial-gradient(circle at 94% 20%, rgba(255,138,101,.10), transparent 18rem),
+        linear-gradient(135deg, rgba(255,255,255,.88), rgba(239,253,255,.96));
+      border: 1px solid rgba(14, 116, 144, .14);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .arc-river {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 14px;
+      padding: 30px 0 6px;
+    }
+
+    .arc-river::before {
+      content: "";
+      position: absolute;
+      left: 4%;
+      right: 4%;
+      top: 73px;
+      height: 9px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(34,211,238,.28), rgba(20,184,166,.55), rgba(246,213,143,.56), rgba(255,138,101,.38));
+      box-shadow: 0 0 22px rgba(34,211,238,.28);
+      z-index: 0;
+    }
+
+    .arc-step {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      gap: 13px;
+      align-content: start;
+      text-align: center;
+    }
+
+    .arc-dot {
+      width: 70px;
+      height: 70px;
+      margin: 0 auto;
+      border-radius: 24px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #ffffff, var(--aqua-soft));
+      border: 1px solid rgba(14,116,144,.16);
+      box-shadow: 0 16px 32px rgba(7,52,71,.09);
+      color: var(--deep);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-weight: 950;
+      font-size: 1.18rem;
+    }
+
+    .arc-step h3 {
+      margin: 0;
+      color: var(--deep);
+      font-size: 1.06rem;
+      line-height: 1.1;
+    }
+
+    .arc-step p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .92rem;
+      line-height: 1.45;
+    }
+
+    .ideas-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .idea-card {
+      position: relative;
+      min-height: 260px;
+      overflow: hidden;
+      border-radius: 30px;
+      padding: 28px;
+      color: var(--deep);
+      background: rgba(255,255,255,.88);
+      border: 1px solid rgba(14, 116, 144, .14);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .idea-card:nth-child(2n) { background: linear-gradient(135deg, rgba(220,251,255,.86), rgba(255,255,255,.94)); }
+    .idea-card:nth-child(3n) { background: linear-gradient(135deg, rgba(255,240,235,.78), rgba(255,255,255,.95)); }
+
+    .idea-card::after {
+      content: attr(data-watermark);
+      position: absolute;
+      right: -4px;
+      bottom: -22px;
+      font-size: 6.2rem;
+      color: rgba(14, 116, 144, .07);
+      font-weight: 950;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .idea-number {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--aqua), var(--teal));
+      color: white;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-weight: 900;
+      margin-bottom: 18px;
+      box-shadow: 0 10px 22px rgba(20,184,166,.22);
+    }
+
+    .idea-card h3 {
+      margin: 0 0 10px;
+      color: var(--navy);
+      font-size: 1.42rem;
+    }
+
+    .idea-card p { margin: 0; color: var(--muted); }
+
+    .journey {
+      display: grid;
+      gap: 24px;
+    }
+
+    .week {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .week-label {
+      min-height: 100%;
+      border-radius: 28px;
+      padding: 22px;
+      color: var(--deep);
+      background: linear-gradient(145deg, #d8ffff, #fff3da);
+      border: 1px solid rgba(14,116,144,.14);
+      box-shadow: 0 16px 38px rgba(7,52,71,.10);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .week-label::after {
+      content: "";
+      position: absolute;
+      left: -35%;
+      right: -35%;
+      bottom: -28px;
+      height: 72px;
+      background: radial-gradient(ellipse at center, rgba(34,211,238,.34) 0%, rgba(34,211,238,.16) 42%, transparent 43%);
+      background-size: 62px 36px;
+      opacity: .9;
+    }
+
+    .week-label span:first-child {
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-weight: 950;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      font-size: .85rem;
+      color: var(--ocean);
+    }
+
+    .week-label span:last-child {
+      position: relative;
+      z-index: 2;
+      font-size: 3.8rem;
+      line-height: 1;
+      font-weight: 950;
+      letter-spacing: -.08em;
+      color: rgba(7,52,71,.86);
+    }
+
+    .week-body {
+      border-radius: 28px;
+      padding: 28px;
+      background: rgba(255,255,255,.90);
+      border: 1px solid rgba(14,116,144,.14);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .week-body h3 {
+      font-size: 1.65rem;
+      line-height: 1.1;
+      margin: 0 0 12px;
+      color: var(--deep);
+    }
+
+    .week-body p {
+      margin-top: 0;
+      color: var(--muted);
+      font-size: 1.04rem;
+    }
+
+    .week-detail-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .week-detail {
+      padding: 15px;
+      border-radius: 18px;
+      background: var(--foam);
+      border: 1px solid rgba(14,116,144,.12);
+    }
+
+    .week-detail strong {
+      display: block;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: .74rem;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      color: var(--ocean);
+      margin-bottom: 5px;
+    }
+
+    .week-detail span { color: var(--muted); font-size: .94rem; }
+
+    .capstone {
+      margin-top: 78px;
+      border-radius: 38px;
+      overflow: hidden;
+      position: relative;
+      color: var(--deep);
+      background:
+        radial-gradient(circle at 90% 15%, rgba(34,211,238,.28), transparent 21rem),
+        radial-gradient(circle at 10% 85%, rgba(255,138,101,.18), transparent 20rem),
+        linear-gradient(135deg, #e5fcff 0%, #ffffff 46%, #dbfbff 100%);
+      border: 1px solid rgba(14,116,144,.16);
+      box-shadow: var(--shadow);
+    }
+
+    .capstone::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(120deg, transparent 0%, rgba(34,211,238,.12) 45%, transparent 46%),
+        linear-gradient(rgba(7,52,71,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(7,52,71,.035) 1px, transparent 1px);
+      background-size: auto, 42px 42px, 42px 42px;
+    }
+
+    .capstone-inner {
+      position: relative;
+      z-index: 2;
+      padding: 44px;
+      display: grid;
+      grid-template-columns: .95fr 1.05fr;
+      gap: 34px;
+      align-items: center;
+    }
+
+    .capstone h2 { color: var(--deep); }
+    .capstone p { color: rgba(7,52,71,.76); font-size: 1.08rem; }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .project {
+      min-height: 150px;
+      border-radius: 24px;
+      padding: 22px;
+      background: rgba(255,255,255,.76);
+      border: 1px solid rgba(14,116,144,.14);
+      box-shadow: 0 14px 32px rgba(7,52,71,.07);
+    }
+
+    .project strong {
+      display: block;
+      color: var(--navy);
+      font-size: 1.13rem;
+      margin-bottom: 7px;
+    }
+
+    .project span { color: var(--muted); }
+
+    .materials-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .material-card {
+      min-height: 220px;
+      border-radius: 26px;
+      padding: 24px;
+      background: rgba(255,255,255,.88);
+      border: 1px solid rgba(14,116,144,.14);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .material-card h3 {
+      margin: 0 0 10px;
+      color: var(--navy);
+      font-size: 1.24rem;
+    }
+
+    .material-card p { margin: 0; color: var(--muted); }
+    .material-card em { color: var(--deep); }
+
+    .deliverables {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+
+    .deliverable-panel {
+      border-radius: 30px;
+      padding: 30px;
+      background: rgba(255,255,255,.88);
+      border: 1px solid rgba(14,116,144,.14);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .deliverable-panel h3 {
+      margin: 0 0 14px;
+      color: var(--deep);
+      font-size: 1.42rem;
+    }
+
+    .check-list {
+      display: grid;
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .check-list li {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 10px;
+      color: var(--muted);
+    }
+
+    .check-list li::before {
+      content: "✓";
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--aqua-soft);
+      color: var(--ocean);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-weight: 900;
+    }
+
+    .closing {
+      margin-top: 72px;
+      border-radius: 34px;
+      padding: 44px;
+      background:
+        linear-gradient(135deg, rgba(7,52,71,.96), rgba(14,116,144,.91)),
+        radial-gradient(circle at 80% 10%, rgba(34,211,238,.32), transparent 18rem);
+      color: #ecfeff;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .closing::before {
+      content: "keys · codes · groups · algorithms · proof";
+      position: absolute;
+      right: -1rem;
+      bottom: .5rem;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: clamp(2.4rem, 6vw, 5.8rem);
+      font-weight: 950;
+      letter-spacing: -.08em;
+      color: rgba(255,255,255,.07);
+      white-space: nowrap;
+    }
+
+    .closing h2 { color: #ffffff; }
+    .closing p { position: relative; max-width: 820px; color: rgba(236,254,255,.82); font-size: 1.13rem; }
+
+    .footer {
+      margin-top: 54px;
+      text-align: center;
+      color: var(--muted);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: .88rem;
+      letter-spacing: .03em;
+    }
+
+    @media (max-width: 1020px) {
+      .hero-inner,
+      .intro-grid,
+      .capstone-inner {
+        grid-template-columns: 1fr;
+      }
+      .visual-card { min-height: 520px; }
+      .feature-grid,
+      .materials-grid { grid-template-columns: repeat(2, 1fr); }
+      .ideas-grid { grid-template-columns: repeat(2, 1fr); }
+      .arc-river { grid-template-columns: repeat(3, 1fr); }
+      .arc-river::before { display: none; }
+    }
+
+    @media (max-width: 760px) {
+      .navlinks { display: none; }
+      .hero-inner { padding-top: 54px; }
+      .intro-grid,
+      .arc-panel,
+      .capstone-inner,
+      .closing { padding: 28px; }
+      .feature-grid,
+      .materials-grid,
+      .ideas-grid,
+      .deliverables,
+      .project-grid,
+      .week-detail-grid { grid-template-columns: 1fr; }
+      .week { grid-template-columns: 1fr; }
+      .week-label { min-height: 130px; }
+      .section-header { grid-template-columns: 1fr; }
+      .section-tag { justify-self: start; }
+      .visual-card { min-height: 660px; }
+      .plain, .key, .group, .rsa, .code-card { position: relative; left: auto; right: auto; top: auto; bottom: auto; width: auto; margin-bottom: 12px; }
+      .cipher-wheel { left: 50%; top: 33%; transform: translateX(-50%) rotate(-8deg); }
+      .flowline, .floating-formula, .binary-rain { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="topbar">
+    <div class="topbar-inner">
+      <div class="brand"><span class="brand-mark">TM</span> ThoughtMuseum Seminars</div>
+      <div class="navlinks">
+        <a href="#why">Why This Course</a>
+        <a href="#arc">Arc</a>
+        <a href="#ideas">Big Ideas</a>
+        <a href="#weeks">Five Weeks</a>
+        <a href="#capstone">Capstone</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <div class="kicker">Summer Mathematical Exploration Seminar</div>
+        <h1>Cryptography, Python, and Abstract Algebra</h1>
+        <p class="hero-deck">
+          A bright, five-week journey through secret messages, modular worlds,
+          Python algorithms, symmetry, and the algebra behind modern digital trust.
+        </p>
+        <div class="essential">
+          <strong>Essential Question</strong>
+          How can abstract mathematics make communication secure in a world where every message travels through public space?
+        </div>
+        <div class="hero-actions">
+          <span class="pill">🔐 Codebreaking</span>
+          <span class="pill">🐍 Python Labs</span>
+          <span class="pill">ℤ/nℤ Modular Arithmetic</span>
+          <span class="pill">✦ Groups & Symmetry</span>
+          <span class="pill">🗝️ RSA</span>
+        </div>
+      </div>
+
+      <div class="visual-card" aria-label="Cryptography visual diagram">
+        <div class="flowline"></div>
+        <div class="floating-formula f1">x ↦ ax+b</div>
+        <div class="floating-formula f2">e·d ≡ 1</div>
+        <div class="floating-formula f3">φ(n)</div>
+        <div class="binary-rain">101101\n011010\n110001\n010111\n100101\n001011</div>
+
+        <div class="visual-chip plain"><strong>Plaintext</strong> MEET AT DAWN</div>
+        <div class="visual-chip key"><strong>Key</strong> inverse + modulus</div>
+        <div class="cipher-wheel"><span>A → D<br><small>mod 26</small></span></div>
+        <div class="visual-chip group"><strong>Abstract Algebra</strong> groups, rings, permutations</div>
+        <div class="visual-chip rsa"><strong>Public Key</strong> RSA: c = m<sup>e</sup> mod n</div>
+        <div class="code-card">
+          <div class="dots"><span></span><span></span><span></span></div>
+          <div><b>def</b> encrypt(m, e, n):</div>
+          <div>&nbsp;&nbsp;<b>return</b> pow(m, e, n)</div>
+          <div><br><i># algebra becomes code</i></div>
+          <div>cipher = encrypt(message, e, n)</div>
+        </div>
+      </div>
+    </div>
+    <div class="wave-top"></div>
+  </header>
+
+  <main class="page">
+    <section class="intro-panel" id="why">
+      <div class="intro-grid">
+        <div class="intro-copy">
+          <p>
+            Every day, billions of messages move through public networks: texts, bank transactions,
+            passwords, medical records, photographs, and private conversations. The astonishing fact
+            is that these messages can travel through open channels and still remain secure.
+          </p>
+          <p>
+            This seminar introduces students to the mathematical ideas that make that possible.
+            We begin with playful classical ciphers, move into modular arithmetic and codebreaking,
+            and then discover how abstract algebra becomes a practical language for digital security.
+          </p>
+          <div class="signature-callout">
+            Students do not merely learn about cryptography. They build working cryptographic tools,
+            explain the mathematics behind them, and see how beautiful abstraction becomes real-world power.
+          </div>
+        </div>
+        <div class="mini-map">
+          <div class="map-row"><div class="map-icon">1</div><div><strong>Secret writing</strong><span>Classical ciphers, frequency analysis, and mathematical play.</span></div></div>
+          <div class="map-row"><div class="map-icon">2</div><div><strong>Modular arithmetic</strong><span>Clock arithmetic, inverses, congruences, and the Euclidean algorithm.</span></div></div>
+          <div class="map-row"><div class="map-icon">3</div><div><strong>Abstract algebra</strong><span>Groups, rings, permutations, and symmetry as organizing ideas.</span></div></div>
+          <div class="map-row"><div class="map-icon">4</div><div><strong>Modern cryptography</strong><span>Public keys, RSA, signatures, and secure communication.</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <span class="section-kicker">What makes this course special?</span>
+          <h2>It turns abstraction into something students can build.</h2>
+          <p class="section-lead">
+            The course is designed for a mathematically gifted rising high school student who is ready for enrichment beyond a standard curriculum. It combines proof, problem solving, computation, and real-world security in a way that feels both playful and serious.
+          </p>
+        </div>
+        <div class="section-tag">Parent-facing enrichment</div>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature-card" data-symbol="🔐">
+          <div class="feature-icon">🔐</div>
+          <h3>Security as a Mathematical Story</h3>
+          <p>Students see how private communication depends on primes, modular arithmetic, and computational difficulty.</p>
+        </div>
+        <div class="feature-card" data-symbol="🐍">
+          <div class="feature-icon">🐍</div>
+          <h3>Python as a Laboratory</h3>
+          <p>Students write working programs for ciphers, modular inverses, primality testing, and RSA encryption.</p>
+        </div>
+        <div class="feature-card" data-symbol="ℤ">
+          <div class="feature-icon">ℤ</div>
+          <h3>Algebra with Purpose</h3>
+          <p>Abstract algebra appears naturally through groups, units, permutations, inverses, and modular systems.</p>
+        </div>
+        <div class="feature-card" data-symbol="✦">
+          <div class="feature-icon">✦</div>
+          <h3>Portfolio-Ready Work</h3>
+          <p>The final project can become a polished mathematical/computational artifact for the student's portfolio.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="arc">
+      <div class="section-header">
+        <div>
+          <span class="section-kicker">The intellectual arc</span>
+          <h2>From secret alphabets to public-key civilization.</h2>
+          <p class="section-lead">
+            Students follow the historical and mathematical journey from hand ciphers to the algebraic machinery that protects modern communication.
+          </p>
+        </div>
+        <div class="section-tag">Story-driven structure</div>
+      </div>
+
+      <div class="arc-panel">
+        <div class="arc-river">
+          <div class="arc-step"><div class="arc-dot">A→D</div><h3>Classical Ciphers</h3><p>Caesar, substitution, affine ciphers, and the first idea of a key.</p></div>
+          <div class="arc-step"><div class="arc-dot">freq</div><h3>Codebreaking</h3><p>Patterns, language, frequency analysis, and attacks.</p></div>
+          <div class="arc-step"><div class="arc-dot">mod</div><h3>Congruence</h3><p>Arithmetic inside finite worlds where numbers wrap around.</p></div>
+          <div class="arc-step"><div class="arc-dot">G</div><h3>Groups</h3><p>Symmetry, closure, inverses, permutations, and structure.</p></div>
+          <div class="arc-step"><div class="arc-dot">RSA</div><h3>Public Keys</h3><p>Prime numbers, Euler's theorem, encryption, and decryption.</p></div>
+          <div class="arc-step"><div class="arc-dot">✓</div><h3>Digital Trust</h3><p>Signatures, verification, authentication, and secure exchange.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="ideas">
+      <div class="section-header">
+        <div>
+          <span class="section-kicker">Big ideas</span>
+          <h2>Six mathematical ideas anchor the seminar.</h2>
+          <p class="section-lead">
+            Each idea is introduced through concrete puzzles, then developed into a more powerful mathematical or computational tool.
+          </p>
+        </div>
+        <div class="section-tag">Math + code + proof</div>
+      </div>
+
+      <div class="ideas-grid">
+        <div class="idea-card" data-watermark="01"><div class="idea-number">1</div><h3>Secrecy as Structure</h3><p>A cipher is not magic. It is a transformation with rules, weaknesses, and a mathematical shape.</p></div>
+        <div class="idea-card" data-watermark="02"><div class="idea-number">2</div><h3>Modular Worlds</h3><p>Clock arithmetic turns ordinary numbers into finite systems where encryption can be designed and analyzed.</p></div>
+        <div class="idea-card" data-watermark="03"><div class="idea-number">3</div><h3>Inverses and Keys</h3><p>To decrypt a message, we must reverse a transformation. The idea of inverse becomes central.</p></div>
+        <div class="idea-card" data-watermark="04"><div class="idea-number">4</div><h3>Groups and Symmetry</h3><p>Groups organize repeated actions, permutations, rotations, and cryptographic transformations.</p></div>
+        <div class="idea-card" data-watermark="05"><div class="idea-number">5</div><h3>Algorithms as Mathematics</h3><p>Python becomes a laboratory where students test conjectures and turn theorems into working code.</p></div>
+        <div class="idea-card" data-watermark="06"><div class="idea-number">6</div><h3>Trust Without Secrecy</h3><p>Public-key cryptography shows how two people can communicate securely even when the method is public.</p></div>
+      </div>
+    </section>
+
+    <section class="section" id="weeks">
+      <div class="section-header">
+        <div>
+          <span class="section-kicker">Five-week seminar journey</span>
+          <h2>A complete course path from puzzles to RSA.</h2>
+          <p class="section-lead">
+            The weekly structure is rich enough for a gifted student, but accessible enough to be taught as an engaging summer enrichment seminar.
+          </p>
+        </div>
+        <div class="section-tag">5 weeks · 10+ labs</div>
+      </div>
+
+      <div class="journey">
+        <article class="week">
+          <div class="week-label"><span>Week</span><span>01</span></div>
+          <div class="week-body">
+            <h3>The Art of Secret Writing</h3>
+            <p>Students begin with classical cryptography: Caesar ciphers, substitution ciphers, affine ciphers, and the first experience of attacking a system by looking for patterns.</p>
+            <div class="week-detail-grid">
+              <div class="week-detail"><strong>Mathematics</strong><span>Functions, transformations, modular alphabets.</span></div>
+              <div class="week-detail"><strong>Python Lab</strong><span>Build Caesar and affine cipher tools.</span></div>
+              <div class="week-detail"><strong>Challenge</strong><span>Break a mystery message using frequency analysis.</span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="week">
+          <div class="week-label"><span>Week</span><span>02</span></div>
+          <div class="week-body">
+            <h3>The Clockwork Ocean of Modular Arithmetic</h3>
+            <p>Students learn congruences, modular inverses, the Euclidean algorithm, and the arithmetic structure that makes cryptography possible.</p>
+            <div class="week-detail-grid">
+              <div class="week-detail"><strong>Mathematics</strong><span>Congruence, gcd, inverses, units modulo n.</span></div>
+              <div class="week-detail"><strong>Python Lab</strong><span>Implement gcd and modular inverse routines.</span></div>
+              <div class="week-detail"><strong>Challenge</strong><span>Find when an affine cipher can be decrypted.</span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="week">
+          <div class="week-label"><span>Week</span><span>03</span></div>
+          <div class="week-body">
+            <h3>Symmetry, Permutations, and Groups</h3>
+            <p>Students encounter abstract algebra as a language for structure: groups, closure, identity, inverses, Cayley tables, and permutation actions.</p>
+            <div class="week-detail-grid">
+              <div class="week-detail"><strong>Mathematics</strong><span>Groups, permutations, cyclic groups, Cayley tables.</span></div>
+              <div class="week-detail"><strong>Python Lab</strong><span>Generate operation tables and permutation systems.</span></div>
+              <div class="week-detail"><strong>Challenge</strong><span>Design a cipher from permutations and analyze it.</span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="week">
+          <div class="week-label"><span>Week</span><span>04</span></div>
+          <div class="week-body">
+            <h3>Prime Numbers and Public-Key Cryptography</h3>
+            <p>Students study primes, Euler's totient function, Fermat/Euler ideas, and the architecture of RSA encryption and decryption.</p>
+            <div class="week-detail-grid">
+              <div class="week-detail"><strong>Mathematics</strong><span>Primes, φ(n), Euler's theorem, modular exponentiation.</span></div>
+              <div class="week-detail"><strong>Python Lab</strong><span>Build a working toy RSA implementation.</span></div>
+              <div class="week-detail"><strong>Challenge</strong><span>Explain why decryption reverses encryption.</span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="week">
+          <div class="week-label"><span>Week</span><span>05</span></div>
+          <div class="week-body">
+            <h3>Building a Secure Communication System</h3>
+            <p>Students integrate the course by designing, coding, testing, and explaining a small cryptographic system with a final presentation.</p>
+            <div class="week-detail-grid">
+              <div class="week-detail"><strong>Mathematics</strong><span>Security assumptions, signatures, verification.</span></div>
+              <div class="week-detail"><strong>Python Lab</strong><span>Package code into a readable final notebook.</span></div>
+              <div class="week-detail"><strong>Challenge</strong><span>Present the system as a mathematical artifact.</span></div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="capstone" id="capstone">
+      <div class="capstone-inner">
+        <div>
+          <span class="section-kicker">Final exploration project</span>
+          <h2>Build a working cryptographic artifact.</h2>
+          <p>
+            The capstone is designed to feel like a small research-and-build project. Students produce code, mathematical explanation, and a final presentation that shows both technical understanding and creative ownership.
+          </p>
+        </div>
+        <div class="project-grid">
+          <div class="project"><strong>RSA Messenger</strong><span>Build an encoder/decoder for small integer messages using public and private keys.</span></div>
+          <div class="project"><strong>Codebreaker Toolkit</strong><span>Create Python tools for attacking classical ciphers and reporting evidence.</span></div>
+          <div class="project"><strong>Group Explorer</strong><span>Visualize a finite group or permutation system and connect it to encryption.</span></div>
+          <div class="project"><strong>Digital Signature Demo</strong><span>Show how a message can be verified without revealing a private key.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <span class="section-kicker">Texts and prepared study materials</span>
+          <h2>Serious resources, presented accessibly.</h2>
+          <p class="section-lead">
+            The course is supported by instructor-prepared HTML notes, Python notebooks, problem sets, and guided study materials. Texts are selected as possible references rather than rigid prerequisites.
+          </p>
+        </div>
+        <div class="section-tag">Ready to teach</div>
+      </div>
+
+      <div class="materials-grid">
+        <div class="material-card"><h3>Primary Number Theory</h3><p><em>An Illustrated Theory of Numbers</em><br>Martin H. Weissman</p></div>
+        <div class="material-card"><h3>Cryptography Story</h3><p><em>The Code Book</em><br>Simon Singh</p></div>
+        <div class="material-card"><h3>Abstract Algebra</h3><p><em>A Book of Abstract Algebra</em><br>Charles C. Pinter</p></div>
+        <div class="material-card"><h3>Instructor Materials</h3><p>HTML study guides, coding notebooks, guided labs, and challenge problem sets prepared for the seminar.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <span class="section-kicker">Student deliverables</span>
+          <h2>What students produce by the end.</h2>
+          <p class="section-lead">
+            Parents see a coherent enrichment path; students leave with artifacts that demonstrate mathematical sophistication and computational skill.
+          </p>
+        </div>
+        <div class="section-tag">Portfolio growth</div>
+      </div>
+
+      <div class="deliverables">
+        <div class="deliverable-panel">
+          <h3>Mathematical Work</h3>
+          <ul class="check-list">
+            <li>Weekly problem sets on modular arithmetic and finite structures.</li>
+            <li>Written explanations of ciphers, inverses, and RSA.</li>
+            <li>Short proof exercises involving congruences and group properties.</li>
+            <li>A final mathematical reflection on security and abstraction.</li>
+          </ul>
+        </div>
+        <div class="deliverable-panel">
+          <h3>Computational Work</h3>
+          <ul class="check-list">
+            <li>Python notebooks implementing classical ciphers.</li>
+            <li>Code for gcd, modular inverse, and modular exponentiation.</li>
+            <li>A working toy RSA implementation or cryptographic toolkit.</li>
+            <li>A polished capstone notebook suitable for presentation.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing">
+      <span class="section-kicker" style="color:#8ff9ef;">Beyond the seminar</span>
+      <h2>Where this course can lead.</h2>
+      <p>
+        Students who enjoy this seminar may continue toward number theory, abstract algebra, cybersecurity, computer science, algorithm design, finite fields, elliptic curve cryptography, blockchain protocols, or the mathematics of the fast Fourier transform.
+      </p>
+      <p>
+        More importantly, they experience a central ThoughtMuseum principle: abstraction is not escape from reality. At its best, abstraction is how reality becomes intelligible, programmable, and secure.
+      </p>
+    </section>
+
+    <div class="footer">
+      ThoughtMuseum Mathematical Exploration Seminars · Mathematics, Computation, Structure, and Imagination
+    </div>
+  </main>
+</body>
+</html>
