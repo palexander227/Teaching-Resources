@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Operator Sprint | Practical Mastery of AI Tools</title>
+  <meta name="description" content="A marketable short course for becoming a high-leverage AI operator: prompting, research, coding, documents, agents, verification, cost control, and client-ready artifacts." />
+  <style>
+    :root{
+      --navy:#10243f;
+      --deep:#061421;
+      --blue:#1d4f7a;
+      --sky:#73c7e8;
+      --aqua:#53e0c2;
+      --mint:#dffcf5;
+      --cream:#f8f5ec;
+      --paper:#fffdf7;
+      --ink:#1d2733;
+      --muted:#667586;
+      --gold:#c39b44;
+      --coral:#ff8f70;
+      --card:#ffffff;
+      --line:#d8e1ea;
+      --shadow:0 18px 45px rgba(8, 25, 45, .17);
+      --radius:22px;
+      --mono:"SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      --serif: Georgia, "Times New Roman", serif;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    *{box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      color:var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(83,224,194,.18), transparent 30rem),
+        radial-gradient(circle at 80% 8%, rgba(115,199,232,.18), transparent 34rem),
+        linear-gradient(180deg, #f9fbfe 0%, var(--cream) 100%);
+      line-height:1.55;
+    }
+    a{color:#1f6e9e;text-decoration:none;}
+    a:hover{text-decoration:underline;}
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:40;
+      background:rgba(255,253,247,.88);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid rgba(16,36,63,.12);
+    }
+    .topbar-inner{
+      max-width:1180px;
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+      padding:.8rem 1.2rem;
+    }
+    .brand{display:flex;align-items:center;gap:.75rem;font-weight:800;color:var(--navy);letter-spacing:.01em;}
+    .brand-mark{
+      width:38px;height:38px;border-radius:12px;
+      background:linear-gradient(135deg,var(--navy),var(--blue) 45%,var(--aqua));
+      box-shadow:0 10px 24px rgba(16,36,63,.22);
+      display:grid;place-items:center;color:white;font-weight:900;
+    }
+    .navlinks{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;justify-content:flex-end;}
+    .navlinks a,.print-btn{
+      font-size:.84rem;
+      color:#22364e;
+      padding:.45rem .65rem;
+      border-radius:999px;
+      border:1px solid transparent;
+      background:transparent;
+      cursor:pointer;
+      font-family:var(--sans);
+    }
+    .navlinks a:hover,.print-btn:hover{border-color:#c9d8e6;background:#f1f7fb;text-decoration:none;}
+    .hero{
+      color:white;
+      background:
+        linear-gradient(135deg, rgba(6,20,33,.95), rgba(16,36,63,.96) 48%, rgba(29,79,122,.92)),
+        radial-gradient(circle at 15% 22%, rgba(83,224,194,.34), transparent 22rem),
+        radial-gradient(circle at 82% 20%, rgba(255,143,112,.18), transparent 20rem);
+      overflow:hidden;
+      position:relative;
+    }
+    .hero:after{
+      content:"";
+      position:absolute;
+      inset:auto -8% -18% -8%;
+      height:210px;
+      background:radial-gradient(ellipse at center, rgba(83,224,194,.2), transparent 70%);
+      pointer-events:none;
+    }
+    .hero-inner{
+      max-width:1180px;
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      gap:2rem;
+      padding:4.7rem 1.2rem 4.2rem;
+      position:relative;
+      z-index:1;
+    }
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:.5rem;
+      color:#dffcf5;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.16);
+      padding:.45rem .7rem;
+      border-radius:999px;
+      font-size:.82rem;
+      font-weight:700;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+    }
+    h1{
+      font-size:clamp(2.5rem,5vw,5.15rem);
+      line-height:.95;
+      margin:1.2rem 0 1rem;
+      letter-spacing:-.05em;
+    }
+    .hero h1 span{color:var(--aqua);}
+    .hero-lede{
+      max-width:740px;
+      font-size:1.18rem;
+      color:#e8f3fb;
+      margin:0 0 1.5rem;
+    }
+    .hero-actions{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.4rem;}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+      padding:.85rem 1.05rem;border-radius:999px;font-weight:800;
+      box-shadow:0 12px 24px rgba(0,0,0,.15);
+      text-decoration:none;
+    }
+    .btn.primary{background:var(--aqua);color:#06202e;}
+    .btn.secondary{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);color:white;}
+    .btn:hover{text-decoration:none;transform:translateY(-1px);}
+    .hero-panel{
+      background:rgba(255,255,255,.09);
+      border:1px solid rgba(255,255,255,.18);
+      border-radius:28px;
+      padding:1.1rem;
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(12px);
+      align-self:start;
+    }
+    .dashboard-card{
+      background:rgba(255,255,255,.94);
+      color:var(--ink);
+      border-radius:22px;
+      padding:1.25rem;
+    }
+    .dashboard-card h3{margin:.2rem 0 .65rem;color:var(--navy);font-size:1.05rem;}
+    .stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem;margin:1rem 0;}
+    .stat{background:#f3f8fc;border:1px solid #d9e7f1;border-radius:16px;padding:.85rem;}
+    .stat b{font-size:1.45rem;color:var(--blue);display:block;line-height:1;}
+    .stat span{font-size:.78rem;color:var(--muted);}
+    .mini-note{font-size:.84rem;color:#526477;background:#fff9df;border-left:4px solid var(--gold);padding:.75rem;border-radius:10px;}
+    .wrap{max-width:1180px;margin:0 auto;padding:0 1.2rem;}
+    section{padding:3.2rem 0;}
+    .section-title{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;margin-bottom:1.25rem;}
+    .section-title h2{font-size:clamp(1.9rem,3vw,3rem);letter-spacing:-.035em;line-height:1.02;margin:0;color:var(--navy);}
+    .section-kicker{font-size:.82rem;font-weight:900;color:var(--blue);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.5rem;}
+    .section-title p{max-width:520px;color:var(--muted);margin:0;}
+    .grid{display:grid;gap:1rem;}
+    .grid.cols-3{grid-template-columns:repeat(3,1fr);}
+    .grid.cols-2{grid-template-columns:repeat(2,1fr);}
+    .card{
+      background:rgba(255,255,255,.88);
+      border:1px solid rgba(16,36,63,.12);
+      border-radius:var(--radius);
+      padding:1.25rem;
+      box-shadow:0 12px 30px rgba(16,36,63,.08);
+    }
+    .card h3{margin:.1rem 0 .5rem;color:#142b49;font-size:1.15rem;}
+    .card p{margin:.45rem 0;color:#4e6071;}
+    .icon{
+      width:44px;height:44px;border-radius:15px;display:grid;place-items:center;
+      background:linear-gradient(135deg,#eaf8ff,#e8fff9);border:1px solid #d2edf0;font-size:1.2rem;margin-bottom:.75rem;
+    }
+    .pill-row{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.8rem;}
+    .pill{font-size:.74rem;border-radius:999px;padding:.28rem .58rem;background:#eff6fb;color:#2d5977;border:1px solid #d6e7f1;font-weight:700;}
+    .highlight{
+      background:linear-gradient(135deg,#f6fbff,#effffb);
+      border:1px solid #cbede8;
+      border-left:6px solid var(--aqua);
+      border-radius:20px;
+      padding:1.2rem;
+    }
+    .highlight strong{color:var(--navy);}
+    .band{
+      background:linear-gradient(135deg,#0d233b,#173e62);
+      color:white;
+      border-radius:30px;
+      padding:1.6rem;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    .band:before{content:"";position:absolute;inset:-80px auto auto -80px;width:260px;height:260px;border-radius:50%;background:rgba(83,224,194,.2);}
+    .band > *{position:relative;z-index:1;}
+    .band h2,.band h3{color:white;margin-top:0;}
+    .band p{color:#dbeaf4;}
+    .pathway{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1rem;}
+    .pathway .card{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18);color:white;box-shadow:none;}
+    .pathway .card h3{color:white;}
+    .pathway .card p{color:#dbeaf4;}
+    .schedule{display:grid;gap:.8rem;counter-reset:day;}
+    .day{
+      display:grid;
+      grid-template-columns:88px 1fr;
+      gap:1rem;
+      background:white;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:1rem;
+      box-shadow:0 10px 22px rgba(16,36,63,.06);
+    }
+    .day-num{
+      border-radius:15px;
+      background:linear-gradient(135deg,var(--navy),var(--blue));
+      color:white;
+      display:grid;
+      place-items:center;
+      min-height:72px;
+      font-weight:900;
+      text-align:center;
+      line-height:1.1;
+    }
+    .day-num span{font-size:.72rem;display:block;text-transform:uppercase;letter-spacing:.08em;color:#d7f8f1;}
+    .day h3{margin:0;color:var(--navy);font-size:1.05rem;}
+    .day p{margin:.25rem 0 .35rem;color:#4f6170;}
+    .deliverable{font-size:.83rem;color:#325f6f;font-weight:800;}
+    .module-table{width:100%;border-collapse:collapse;background:white;border-radius:18px;overflow:hidden;box-shadow:0 10px 25px rgba(16,36,63,.07);}
+    .module-table th{background:var(--navy);color:white;text-align:left;padding:.85rem;font-size:.85rem;}
+    .module-table td{padding:.85rem;border-bottom:1px solid #edf2f7;vertical-align:top;font-size:.92rem;}
+    .module-table tr:nth-child(even) td{background:#f8fbfd;}
+    .module-table tr:last-child td{border-bottom:none;}
+    .codebox{
+      font-family:var(--mono);
+      background:#081827;color:#dffcf5;
+      border-radius:18px;
+      padding:1rem;
+      overflow:auto;
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);
+      font-size:.86rem;
+    }
+    .prompt-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;}
+    .prompt-card{background:#0c1d31;color:#eaf7ff;border-radius:20px;padding:1rem;border:1px solid rgba(255,255,255,.1);}
+    .prompt-card h4{margin:0 0 .4rem;color:#7ee5d1;}
+    .prompt-card p{margin:.25rem 0;color:#d7e5ef;font-size:.9rem;}
+    .prompt-card code{color:#fff;background:rgba(255,255,255,.09);padding:.12rem .25rem;border-radius:5px;}
+    details{
+      background:white;border:1px solid var(--line);border-radius:16px;margin:.75rem 0;box-shadow:0 8px 18px rgba(16,36,63,.05);overflow:hidden;
+    }
+    summary{cursor:pointer;padding:1rem;font-weight:850;color:var(--navy);list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;}
+    summary:after{content:"+";font-weight:900;color:var(--blue);font-size:1.3rem;}
+    details[open] summary:after{content:"–";}
+    .details-body{padding:0 1rem 1rem;color:#4d6071;}
+    .rubric{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;}
+    .level{background:white;border:1px solid var(--line);border-radius:18px;padding:1rem;position:relative;overflow:hidden;}
+    .level:before{content:"";position:absolute;top:0;left:0;right:0;height:6px;background:linear-gradient(90deg,var(--blue),var(--aqua));}
+    .level h3{margin:.3rem 0;color:var(--navy);}
+    .level ul{padding-left:1.1rem;color:#4f6170;font-size:.9rem;}
+    .callout{border-radius:20px;padding:1.15rem;background:#fff7e4;border:1px solid #f2dc9d;border-left:6px solid var(--gold);}
+    .warning{border-radius:20px;padding:1.15rem;background:#fff2ee;border:1px solid #ffd3c7;border-left:6px solid var(--coral);}
+    .source-list{font-size:.86rem;color:#516172;}
+    .source-list li{margin:.4rem 0;}
+    footer{background:#071420;color:#c9d7e1;padding:2.2rem 0;margin-top:2rem;}
+    footer .wrap{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+    footer h3{color:#fff;margin:0 0 .6rem;}
+    .watermark{font-family:var(--serif);font-style:italic;color:#7ee5d1;}
+    .print-only{display:none;}
+    @media(max-width:900px){
+      .hero-inner,.grid.cols-3,.grid.cols-2,.pathway,.prompt-grid,.rubric{grid-template-columns:1fr;}
+      .navlinks{display:none;}
+      .day{grid-template-columns:1fr;}
+      .day-num{min-height:auto;padding:.75rem;}
+      footer .wrap{grid-template-columns:1fr;}
+      .module-table{font-size:.85rem;}
+      .module-table th:nth-child(4),.module-table td:nth-child(4){display:none;}
+    }
+    @media print{
+      .topbar,.hero-actions,.print-btn{display:none!important;}
+      body{background:white;color:#111;}
+      .hero{background:white;color:#111;border-bottom:2px solid #111;}
+      .hero h1 span,.hero .eyebrow{color:#111;background:none;border:none;}
+      .hero-lede,.hero .dashboard-card p,.hero p{color:#111;}
+      .hero-inner{display:block;padding:1rem 0;}
+      .hero-panel{box-shadow:none;border:1px solid #ccc;background:white;}
+      section{padding:1rem 0;break-inside:avoid;}
+      .card,.day,.level,details,.module-table{box-shadow:none;}
+      .band{background:white;color:#111;border:1px solid #aaa;box-shadow:none;}
+      .band h2,.band h3,.band p{color:#111;}
+      .prompt-card,.codebox{background:#f5f5f5;color:#111;border:1px solid #ccc;}
+      a{color:#111;text-decoration:none;}
+      .print-only{display:block;}
+    }
+  </style>
+</head>
+<body>
+  <nav class="topbar">
+    <div class="topbar-inner">
+      <div class="brand"><div class="brand-mark">AI</div><div>AI Operator Sprint</div></div>
+      <div class="navlinks">
+        <a href="#overview">Overview</a>
+        <a href="#sprint">14-Day Sprint</a>
+        <a href="#modules">Marketable Course</a>
+        <a href="#prompting">Prompt Library</a>
+        <a href="#agents">Agents</a>
+        <a href="#marketing">Market It</a>
+        <button class="print-btn" onclick="window.print()">Print / PDF</button>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="eyebrow">Practical AI Mastery • Short Course Framework</div>
+        <h1>Become an <span>AI Operator</span>, not just an AI user.</h1>
+        <p class="hero-lede">A fast, rigorous, marketable course for learning how to delegate knowledge work to modern AI tools: prompting, research, coding, documents, data analysis, agent workflows, verification, privacy, and cost control.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#sprint">Start the 14-Day Sprint</a>
+          <a class="btn secondary" href="#modules">View Teaching Version</a>
+        </div>
+      </div>
+      <aside class="hero-panel">
+        <div class="dashboard-card">
+          <h3>Course at a glance</h3>
+          <p>A dual-purpose design: first, Peter takes it as a self-study mastery sprint; second, it becomes a polished short course for educators, consultants, parents, students, and professionals.</p>
+          <div class="stat-grid">
+            <div class="stat"><b>14</b><span>day personal sprint</span></div>
+            <div class="stat"><b>6</b><span>marketable class sessions</span></div>
+            <div class="stat"><b>12</b><span>core prompt patterns</span></div>
+            <div class="stat"><b>5</b><span>portfolio artifacts</span></div>
+          </div>
+          <div class="mini-note"><strong>Course promise:</strong> learners finish with a personal AI operating system: prompt library, verification checklist, workflow map, agent brief, cost guardrails, and one polished AI-assisted deliverable.</div>
+        </div>
+      </aside>
+    </div>
+  </header>
+
+  <main>
+    <section id="overview">
+      <div class="wrap">
+        <div class="section-title">
+          <div>
+            <div class="section-kicker">Orientation</div>
+            <h2>The course is built around one idea.</h2>
+          </div>
+          <p>Expert AI use is not “better prompting” alone. It is disciplined delegation: deciding what to ask, what context to provide, which tool to use, how to verify output, and when to stop.</p>
+        </div>
+
+        <div class="grid cols-3">
+          <div class="card">
+            <div class="icon">🧭</div>
+            <h3>Task Framing</h3>
+            <p>Turn vague intentions into precise work orders: objective, audience, constraints, evidence standard, output format, and review criteria.</p>
+            <div class="pill-row"><span class="pill">Prompt architecture</span><span class="pill">rubrics</span><span class="pill">scopes</span></div>
+          </div>
+          <div class="card">
+            <div class="icon">🛠️</div>
+            <h3>Tool Orchestration</h3>
+            <p>Choose between chat, research, code, documents, spreadsheets, slides, images, APIs, and long-running agents instead of using one model for everything.</p>
+            <div class="pill-row"><span class="pill">ChatGPT</span><span class="pill">Claude</span><span class="pill">code tools</span></div>
+          </div>
+          <div class="card">
+            <div class="icon">🛡️</div>
+            <h3>Verification Discipline</h3>
+            <p>Build habits that prevent hallucinations and expensive mistakes: source logs, adversarial review, reproducibility checks, privacy boundaries, and cost estimates.</p>
+            <div class="pill-row"><span class="pill">audit</span><span class="pill">citations</span><span class="pill">cost control</span></div>
+          </div>
+        </div>
+
+        <div class="highlight" style="margin-top:1rem;">
+          <strong>The working definition of AI expertise for this course:</strong> an expert AI operator can produce reliable, client-ready artifacts faster than a non-AI worker by combining human judgment, structured delegation, multi-tool workflows, and systematic verification.
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="band">
+          <h2>Two versions of the same course</h2>
+          <p>The personal sprint gives Peter a rapid path to mastery. The marketable course turns the same material into a teachable, repeatable product.</p>
+          <div class="pathway">
+            <div class="card">
+              <h3>Self-Study Sprint</h3>
+              <p>14 days, 60–120 minutes per day. Designed for Peter to build real skill quickly using live projects, not toy examples.</p>
+            </div>
+            <div class="card">
+              <h3>Short Course</h3>
+              <p>6 sessions of 90 minutes. Designed for professionals, educators, consultants, and ambitious students.</p>
+            </div>
+            <div class="card">
+              <h3>Premium Workshop</h3>
+              <p>One-day intensive plus two optional clinics. Best for schools, tutoring centers, and small businesses.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="sprint">
+      <div class="wrap">
+        <div class="section-title">
+          <div>
+            <div class="section-kicker">Peter's mastery plan</div>
+            <h2>The 14-day AI Operator Sprint</h2>
+          </div>
+          <p>Each day produces a concrete artifact. The course should be taken with a real project open: admissions analytics, SAT materials, course design, report writing, or consulting operations.</p>
+        </div>
+
+        <div class="schedule">
+          <div class="day"><div class="day-num"><span>Day</span>1</div><div><h3>AI Operating System Setup</h3><p>Choose your core tool stack, create a prompt notebook, define privacy rules, and create a running “AI work log.”</p><div class="deliverable">Deliverable: personal AI tool map + work-log template.</div></div></div>
+          <div class="day"><div class="day-num"><span>Day</span>2</div><div><h3>Prompting as Specification</h3><p>Learn the five-part prompt: role, task, context, constraints, output. Practice converting rough requests into professional work orders.</p><div class="deliverable">Deliverable: 10 reusable prompt templates.</div></div></div>
+          <div class="day"><div class="day-num"><span>Day</span>3</div><div><h3>Draft → Critique → Revise Loops</h3><p>Stop accepting first drafts. Train the model to produce, critique, rewrite, and justify changes against a rubric.</p><div class="deliverable">Deliverable: polished memo from a rough note.</div></div></div>
+          <div class="day"><div class="day-num"><span>Day</span>4</div><div><h3>Research With Source Discipline</h3><p>Use AI for web research without losing factual control: primary sources, citations, quote limits, uncertainty flags, and source-quality ranking.</p><div class="deliverable">Deliverable: one-page sourced research brief.</div></div></div>
+          <div class="day"><div class="day-num"><span>Day</span>5</div><div><h3>Documents, PDFs, and Knowledge Extraction</h3><p>Extract useful structure from long PDFs and reports: summaries, tables, definitions, risk lists, meeting notes, and follow-up tasks.</p><div class="deliverable">Deliverable: PDF-to-client-summary workflow.</div></div></div>
+          <div class="day"><div class="day-num"><span>Day</span>6</div><div><h3>Data, Tables, and Spreadsheets</h3><p>Use AI to inspect, clean, summarize, and explain tabular data while guarding against column-mapping errors and false precision.</p><div class="deliverable">Deliverable: data audit checklist + small table analysis.</div></div></div>
+          <div class="day"><div class="day-num"><span>Day</span>7</div><div><h3>HTML, LaTeX, and Client-Ready Artifacts</h3><p>Build polished artifacts rather than chat transcripts: standalone HTML pages, LaTeX reports, rubrics, handouts, and presentations.</p><div class="deliverable">Deliverable: one branded HTML or LaTeX artifact.</div></div></div>
+          <div class="day"><div class="day-num"><span>Day</span>8</div><div><h3>Code and Repository Workflows</h3><p>Learn to ask AI to inspect a codebase, identify stale scripts, write commands, find reproducibility holes, and propose next steps.</p><div class="deliverable">Deliverable: mini repository audit prompt + report.</div></div></div>
+          <div class="day"><div class="day-num"><span>Day</span>9</div><div><h3>Agentic Delegation</h3><p>Move from one-shot tasks to long-running work briefs: objective, files, constraints, permissions, checkpoints, acceptance criteria, and kill conditions.</p><div class="deliverable">Deliverable: agent work-order template.</div></div></div>
+          <div class="day"><div class="day-num"><span>Day</span>10</div><div><h3>Verification, Red-Team, and Quality Assurance</h3><p>Practice adversarial review: ask a second model or a new prompt to attack assumptions, inspect evidence, and find likely failure modes.</p><div class="deliverable">Deliverable: QA rubric for AI outputs.</div></div></div>
+          <div class="day"><div class="day-num"><span>Day</span>11</div><div><h3>Privacy, Confidentiality, and Cost Control</h3><p>Learn what not to upload, when API data-retention terms matter, how token costs scale, and how to estimate the cost of autonomous runs.</p><div class="deliverable">Deliverable: AI safety and budget preflight checklist.</div></div></div>
+          <div class="day"><div class="day-num"><span>Day</span>12</div><div><h3>Teaching AI to Others</h3><p>Convert your own workflows into teachable exercises: before/after demos, guided labs, checklists, and capstone assignments.</p><div class="deliverable">Deliverable: one classroom-ready AI exercise.</div></div></div>
+          <div class="day"><div class="day-num"><span>Day</span>13</div><div><h3>Capstone Build</h3><p>Use AI to complete a real professional product: course page, client report, data audit, research brief, or sales deck.</p><div class="deliverable">Deliverable: polished capstone artifact.</div></div></div>
+          <div class="day"><div class="day-num"><span>Day</span>14</div><div><h3>Marketable Course Packaging</h3><p>Write the landing-page promise, audience definition, module list, capstone rubric, and follow-up consulting offer.</p><div class="deliverable">Deliverable: complete short-course sales outline.</div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="modules">
+      <div class="wrap">
+        <div class="section-title">
+          <div>
+            <div class="section-kicker">Teachable version</div>
+            <h2>Six-session short course</h2>
+          </div>
+          <p>This is the version to market. It is compact enough to sell, deep enough to matter, and practical enough for professionals who need immediate results.</p>
+        </div>
+        <table class="module-table">
+          <thead>
+            <tr><th>Session</th><th>Title</th><th>Core Skill</th><th>Student Artifact</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>From User to Operator</td><td>AI task framing, model selection, and workflow discipline.</td><td>Personal AI operating map.</td></tr>
+            <tr><td>2</td><td>Prompting That Produces Work</td><td>Reusable prompt patterns, constraints, examples, rubrics, and revision loops.</td><td>Prompt library with 8 templates.</td></tr>
+            <tr><td>3</td><td>Research, Reading, and Verification</td><td>Source discipline, PDF extraction, citations, uncertainty management, hallucination control.</td><td>Sourced research brief.</td></tr>
+            <tr><td>4</td><td>Documents, Data, and Artifacts</td><td>Converting AI outputs into polished reports, tables, HTML pages, LaTeX documents, and spreadsheets.</td><td>Client-ready mini artifact.</td></tr>
+            <tr><td>5</td><td>Agentic Workflows and Automation</td><td>Delegating multi-step work, writing agent briefs, using checkpoints, preventing runaway cost.</td><td>Agent work-order + QA checklist.</td></tr>
+            <tr><td>6</td><td>Capstone: AI in Your Real Work</td><td>Apply the complete AI operator system to a real professional or academic task.</td><td>Final portfolio artifact + presentation.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="prompting">
+      <div class="wrap">
+        <div class="section-title">
+          <div>
+            <div class="section-kicker">Core prompt library</div>
+            <h2>The 12 patterns every AI operator needs</h2>
+          </div>
+          <p>Prompt patterns should be taught as reusable work structures, not magic phrases.</p>
+        </div>
+        <div class="prompt-grid">
+          <div class="prompt-card"><h4>1. The Work Order</h4><p><code>Objective → context → constraints → output → quality standard</code></p></div>
+          <div class="prompt-card"><h4>2. Rubric First</h4><p>Ask the model to define the evaluation rubric before producing the artifact.</p></div>
+          <div class="prompt-card"><h4>3. Draft-Critique-Revise</h4><p>Generate a first draft, critique against a rubric, then produce a revised version.</p></div>
+          <div class="prompt-card"><h4>4. Socratic Tutor</h4><p>Teach through questions, diagnose misconceptions, and avoid simply giving answers.</p></div>
+          <div class="prompt-card"><h4>5. Source-Grounded Research</h4><p>Require source ranking, citation discipline, uncertainty flags, and separation of facts from inference.</p></div>
+          <div class="prompt-card"><h4>6. Extraction Schema</h4><p>Convert messy documents into structured fields, with missing-value and confidence labels.</p></div>
+          <div class="prompt-card"><h4>7. Red-Team Review</h4><p>Ask the model to find errors, hidden assumptions, weak evidence, and client objections.</p></div>
+          <div class="prompt-card"><h4>8. Workflow Decomposition</h4><p>Break a large project into phases, dependencies, commands, risks, and artifacts.</p></div>
+          <div class="prompt-card"><h4>9. Agent Brief</h4><p>Specify mission, scope, files, permissions, checkpoints, stop conditions, and acceptance criteria.</p></div>
+          <div class="prompt-card"><h4>10. Style Transfer With Constraints</h4><p>Rewrite content in a target voice while preserving factual claims and technical precision.</p></div>
+          <div class="prompt-card"><h4>11. Cost/Risk Preflight</h4><p>Estimate token cost, data sensitivity, tool permissions, and verification burden before a run.</p></div>
+          <div class="prompt-card"><h4>12. Teach-Back</h4><p>Have the model explain what it did, what it assumed, and what a human should check next.</p></div>
+        </div>
+        <details>
+          <summary>Reusable master prompt template</summary>
+          <div class="details-body">
+            <div class="codebox">You are helping me complete a real professional task.
+
+Objective: [state the concrete outcome]
+Audience: [who will read/use this]
+Context: [project background, files, prior decisions]
+Constraints: [tone, format, length, tools, confidentiality]
+Output: [exact artifact type and structure]
+Quality standard: [what would make this excellent]
+Verification: identify assumptions, uncertainty, missing information, and what I should check manually before using the result.</div>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-title">
+          <div>
+            <div class="section-kicker">Operating stack</div>
+            <h2>What students should learn to use</h2>
+          </div>
+          <p>The course is vendor-aware but vendor-neutral. Tools change; the operating habits should survive model churn.</p>
+        </div>
+        <div class="grid cols-2">
+          <div class="card">
+            <div class="icon">💬</div>
+            <h3>Conversational AI</h3>
+            <p>ChatGPT, Claude, Gemini, and similar assistants for reasoning, drafting, tutoring, planning, rewriting, and structured review.</p>
+            <p><strong>Skill:</strong> knowing when a conversation is enough and when a tool-based workflow is required.</p>
+          </div>
+          <div class="card">
+            <div class="icon">🔎</div>
+            <h3>Research Systems</h3>
+            <p>Deep research tools, web search, file search, and source-grounded synthesis for current information and complex reports.</p>
+            <p><strong>Skill:</strong> insisting on primary sources and separating sourced facts from inference.</p>
+          </div>
+          <div class="card">
+            <div class="icon">💻</div>
+            <h3>Coding and Artifact Tools</h3>
+            <p>AI-assisted HTML, LaTeX, Python, data analysis, repository audits, and reproducible workflows.</p>
+            <p><strong>Skill:</strong> reviewing generated code and preserving the command trail.</p>
+          </div>
+          <div class="card">
+            <div class="icon">🤖</div>
+            <h3>Agents and APIs</h3>
+            <p>Long-running systems that plan, call tools, inspect files, use state, and complete multi-step work with checkpoints.</p>
+            <p><strong>Skill:</strong> defining boundaries, cost limits, permissions, and acceptance criteria.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="agents">
+      <div class="wrap">
+        <div class="section-title">
+          <div>
+            <div class="section-kicker">Long-running work</div>
+            <h2>Agentic delegation without losing control</h2>
+          </div>
+          <p>Autonomous AI work can save hours, but it can also drift, spend tokens, overwrite files, or solve the wrong problem. The course teaches controlled delegation.</p>
+        </div>
+        <div class="grid cols-2">
+          <div class="card">
+            <h3>Agent Brief Checklist</h3>
+            <ul>
+              <li>Mission: the exact outcome.</li>
+              <li>Repository or file scope.</li>
+              <li>Allowed tools and forbidden actions.</li>
+              <li>Checkpoints and progress reports.</li>
+              <li>Budget and time ceiling.</li>
+              <li>Acceptance criteria and tests.</li>
+              <li>Rollback plan.</li>
+            </ul>
+          </div>
+          <div class="warning">
+            <h3>Cost and privacy rule</h3>
+            <p>Long-running agentic work should be treated like a paid contractor with access to sensitive materials. Estimate token cost, check retention terms, restrict file access, and require summaries before major changes.</p>
+          </div>
+        </div>
+        <details>
+          <summary>Cost-estimation formula for API or agentic work</summary>
+          <div class="details-body">
+            <p>Use this before launching large repository audits, document-ingestion tasks, or long-running coding agents.</p>
+            <div class="codebox">Estimated cost =
+  (input_tokens / 1,000,000 × input_rate)
++ (output_tokens / 1,000,000 × output_rate)
++ tool charges
++ runtime/session charges
++ rerun buffer
+
+Recommended rerun buffer: 25% to 100%, depending on task uncertainty.</div>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-title">
+          <div>
+            <div class="section-kicker">Quality control</div>
+            <h2>The verification ladder</h2>
+          </div>
+          <p>Students learn that AI output has different assurance levels. Not every answer deserves the same trust.</p>
+        </div>
+        <div class="rubric">
+          <div class="level"><h3>Level 1<br/>Draft</h3><ul><li>Useful for brainstorming.</li><li>No external verification.</li><li>Not client-ready.</li></ul></div>
+          <div class="level"><h3>Level 2<br/>Structured</h3><ul><li>Clear format.</li><li>Assumptions listed.</li><li>Human review required.</li></ul></div>
+          <div class="level"><h3>Level 3<br/>Sourced</h3><ul><li>Sources cited.</li><li>Claims traceable.</li><li>Factual risk reduced.</li></ul></div>
+          <div class="level"><h3>Level 4<br/>Audited</h3><ul><li>Red-team pass.</li><li>Reproducible steps.</li><li>Ready for professional use.</li></ul></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="marketing">
+      <div class="wrap">
+        <div class="section-title">
+          <div>
+            <div class="section-kicker">Marketable product</div>
+            <h2>How to sell the course</h2>
+          </div>
+          <p>The course should not be marketed as “learn prompts.” It should be marketed as professional leverage.</p>
+        </div>
+        <div class="grid cols-3">
+          <div class="card">
+            <div class="icon">🎓</div>
+            <h3>For Students</h3>
+            <p><strong>Promise:</strong> learn to study, write, research, code, and organize projects with AI without becoming dependent or careless.</p>
+          </div>
+          <div class="card">
+            <div class="icon">🏫</div>
+            <h3>For Educators</h3>
+            <p><strong>Promise:</strong> build responsible AI workflows for lesson planning, assessment design, feedback, and student support.</p>
+          </div>
+          <div class="card">
+            <div class="icon">💼</div>
+            <h3>For Professionals</h3>
+            <p><strong>Promise:</strong> save hours per week by turning AI into a reliable research, writing, analysis, and operations assistant.</p>
+          </div>
+        </div>
+        <div class="callout" style="margin-top:1rem;">
+          <h3>Landing-page headline</h3>
+          <p><strong>AI Operator Sprint:</strong> A practical short course for turning AI from a chatbot into a disciplined professional workflow.</p>
+          <p>By the end, every student has a prompt library, verification checklist, tool map, agent work-order template, and a finished AI-assisted project they can actually use.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-title">
+          <div>
+            <div class="section-kicker">Assessment</div>
+            <h2>Capstone and certification rubric</h2>
+          </div>
+          <p>This course should certify capability through artifacts, not multiple-choice recall.</p>
+        </div>
+        <table class="module-table">
+          <thead><tr><th>Criterion</th><th>Emerging</th><th>Competent</th><th>Advanced</th></tr></thead>
+          <tbody>
+            <tr><td>Task Framing</td><td>Gives vague prompts.</td><td>Specifies objective, audience, and output.</td><td>Defines constraints, acceptance criteria, and review process.</td></tr>
+            <tr><td>Tool Selection</td><td>Uses one chatbot for all tasks.</td><td>Selects appropriate tools for research, documents, coding, or data.</td><td>Routes tasks across models/tools and explains tradeoffs.</td></tr>
+            <tr><td>Verification</td><td>Trusts output by default.</td><td>Checks important claims and asks for uncertainty.</td><td>Uses source logs, red-team review, and reproducibility checks.</td></tr>
+            <tr><td>Artifact Quality</td><td>Produces chat-like output.</td><td>Produces usable documents or pages.</td><td>Produces polished, audience-ready professional artifacts.</td></tr>
+            <tr><td>Cost and Privacy</td><td>Ignores data and usage risk.</td><td>Applies basic safety rules.</td><td>Preflights sensitivity, retention, token cost, and permissions.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-title">
+          <div>
+            <div class="section-kicker">First workshop exercise</div>
+            <h2>The 30-minute demonstration</h2>
+          </div>
+          <p>This is the live demo to open the course. It immediately shows why disciplined AI use beats casual prompting.</p>
+        </div>
+        <div class="grid cols-2">
+          <div class="card">
+            <h3>Bad prompt</h3>
+            <div class="codebox">Make me a report about AI tools.</div>
+            <p>Students observe the weaknesses: vague scope, no audience, no quality standard, no sources, no output structure.</p>
+          </div>
+          <div class="card">
+            <h3>Operator prompt</h3>
+            <div class="codebox">Prepare a two-page executive brief for school administrators deciding whether to offer an AI literacy workshop. Include: the practical opportunity, the academic integrity risk, three recommended policies, a teacher training plan, and a one-paragraph implementation timeline. Use calm professional language. Flag assumptions and identify what should be verified before sending.</div>
+            <p>Students see the difference: objective, audience, structure, constraints, verification, and professional output.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-title">
+          <div>
+            <div class="section-kicker">Instructor notes</div>
+            <h2>What makes this different from generic AI courses</h2>
+          </div>
+        </div>
+        <div class="grid cols-3">
+          <div class="card"><h3>It is artifact-centered.</h3><p>Every session produces a professional object: report, checklist, prompt library, workflow, or capstone.</p></div>
+          <div class="card"><h3>It is verification-centered.</h3><p>The course teaches students to mistrust raw output and build review systems.</p></div>
+          <div class="card"><h3>It is economically literate.</h3><p>Students learn that agents and API calls have real marginal costs and data-retention implications.</p></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div>
+        <h3>AI Operator Sprint</h3>
+        <p class="watermark">Designed for Peter Alexander / ThoughtMuseum Solutions</p>
+        <p>This page is a working course framework. It can be adapted into a landing page, student guide, instructor manual, or workshop deck.</p>
+      </div>
+      <div>
+        <h3>Source notes for current tool landscape</h3>
+        <ul class="source-list">
+          <li>OpenAI documentation on prompt engineering, agents, tools, deep research, projects, and API pricing.</li>
+          <li>Anthropic documentation on Claude prompt engineering, Claude Fable 5 / Mythos 5, Managed Agents, token counting, pricing, and model-specific data retention.</li>
+          <li>Course content is intentionally model-agnostic: the durable skill is disciplined delegation, not memorizing one vendor interface.</li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
