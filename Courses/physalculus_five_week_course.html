@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Physalculus — a five-week AP Physics 1 and AP Calculus preview for inquisitive and curious students." />
+  <title>Physalculus | A Five-Week AP Physics + Calculus Preview</title>
+  <style>
+    :root {
+      --ink: #f4f7fb;
+      --muted: #aab8ca;
+      --deep: #050a12;
+      --panel: #0b1422;
+      --panel-2: #101c2d;
+      --line: rgba(169, 202, 231, 0.16);
+      --cyan: #67e8f9;
+      --cyan-2: #22d3ee;
+      --gold: #f5c46b;
+      --orange: #fb923c;
+      --violet: #b8a1ff;
+      --green: #7ee2b8;
+      --danger: #ff8a9d;
+      --paper: #f5f1e8;
+      --shadow: 0 24px 80px rgba(0, 0, 0, .35);
+      --radius: 24px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 8%, rgba(34, 211, 238, .12), transparent 31rem),
+        radial-gradient(circle at 86% 20%, rgba(184, 161, 255, .10), transparent 29rem),
+        linear-gradient(180deg, #07101c 0%, var(--deep) 42%, #07101a 100%);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; }
+    button, input { font: inherit; }
+    ::selection { background: rgba(103, 232, 249, .25); color: white; }
+
+    .noise {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .025;
+      z-index: 20;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.9'/%3E%3C/svg%3E");
+    }
+
+    .wrap { width: min(var(--max), calc(100% - 40px)); margin: 0 auto; }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 15;
+      backdrop-filter: blur(18px);
+      background: rgba(5, 10, 18, .78);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-inner {
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      letter-spacing: .02em;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      width: 33px;
+      height: 33px;
+      display: grid;
+      place-items: center;
+      border-radius: 11px;
+      background: linear-gradient(135deg, rgba(103, 232, 249, .18), rgba(245, 196, 107, .18));
+      border: 1px solid rgba(103, 232, 249, .28);
+      color: var(--cyan);
+      font-family: Georgia, serif;
+      font-size: 20px;
+    }
+
+    .brand small {
+      color: var(--muted);
+      font-size: .72rem;
+      font-weight: 650;
+      display: block;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .nav-links { display: flex; align-items: center; gap: 20px; }
+    .nav-links a {
+      text-decoration: none;
+      color: #c7d3e1;
+      font-size: .88rem;
+      font-weight: 700;
+    }
+    .nav-links a:hover { color: white; }
+
+    .print-btn {
+      border: 1px solid rgba(245, 196, 107, .4);
+      background: rgba(245, 196, 107, .08);
+      color: var(--gold);
+      padding: 9px 13px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 780px;
+      display: grid;
+      align-items: center;
+      overflow: hidden;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(103, 232, 249, .055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(103, 232, 249, .055) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: linear-gradient(to bottom, black, transparent 88%);
+      opacity: .55;
+    }
+
+    .hero::after {
+      content: "∫  d/dt  ΣF  Δx  v(t)  ∂";
+      position: absolute;
+      left: -3vw;
+      bottom: 18px;
+      font-family: Georgia, serif;
+      font-size: clamp(3rem, 8vw, 8rem);
+      color: rgba(255, 255, 255, .018);
+      white-space: nowrap;
+      letter-spacing: .17em;
+      transform: rotate(-2deg);
+    }
+
+    .hero-grid {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1.08fr .92fr;
+      gap: 48px;
+      align-items: center;
+      padding: 92px 0 68px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      font-size: .77rem;
+      font-weight: 900;
+      margin-bottom: 22px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 34px;
+      height: 1px;
+      background: linear-gradient(90deg, var(--cyan), transparent);
+    }
+
+    h1, h2, h3 { line-height: 1.08; margin-top: 0; }
+    h1 {
+      font-size: clamp(4.1rem, 9.2vw, 8.9rem);
+      letter-spacing: -.07em;
+      margin-bottom: 10px;
+      font-weight: 900;
+    }
+
+    .phys { color: var(--cyan); text-shadow: 0 0 42px rgba(34, 211, 238, .17); }
+    .alculus { color: var(--gold); text-shadow: 0 0 42px rgba(245, 196, 107, .12); }
+
+    .subtitle {
+      margin: 0 0 26px;
+      max-width: 760px;
+      color: #dce6f1;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.35rem, 2.5vw, 2.15rem);
+      font-style: italic;
+    }
+
+    .hero-lead {
+      max-width: 690px;
+      color: var(--muted);
+      font-size: 1.08rem;
+      margin: 0 0 32px;
+    }
+
+    .hero-lead strong { color: white; }
+
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 34px; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      border-radius: 999px;
+      padding: 13px 18px;
+      text-decoration: none;
+      font-weight: 850;
+      border: 1px solid transparent;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--cyan), #8bf5d5);
+      color: #031019;
+      box-shadow: 0 10px 35px rgba(34, 211, 238, .2);
+    }
+    .btn-secondary {
+      border-color: rgba(255, 255, 255, .15);
+      background: rgba(255, 255, 255, .04);
+      color: #e9f0f8;
+    }
+
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      max-width: 700px;
+      border-top: 1px solid var(--line);
+      padding-top: 22px;
+    }
+
+    .metric { padding-right: 18px; }
+    .metric + .metric { border-left: 1px solid var(--line); padding-left: 18px; }
+    .metric b { display: block; font-size: 1.55rem; color: white; }
+    .metric span { display: block; color: var(--muted); font-size: .83rem; }
+
+    .hero-visual {
+      position: relative;
+      min-height: 520px;
+      display: grid;
+      place-items: center;
+    }
+
+    .visual-shell {
+      width: min(100%, 510px);
+      aspect-ratio: 1 / 1.04;
+      position: relative;
+      border-radius: 34px;
+      background:
+        radial-gradient(circle at 50% 45%, rgba(103, 232, 249, .09), transparent 47%),
+        linear-gradient(155deg, rgba(255,255,255,.07), rgba(255,255,255,.018));
+      border: 1px solid rgba(184, 211, 234, .18);
+      box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, .06);
+      overflow: hidden;
+    }
+
+    .visual-shell::before {
+      content: "MOTION / CHANGE / CAUSE";
+      position: absolute;
+      top: 22px;
+      left: 26px;
+      color: rgba(255,255,255,.42);
+      letter-spacing: .19em;
+      font-size: .63rem;
+      font-weight: 900;
+      z-index: 2;
+    }
+
+    .equation-chip {
+      position: absolute;
+      z-index: 3;
+      padding: 8px 11px;
+      border-radius: 11px;
+      background: rgba(5, 10, 18, .76);
+      border: 1px solid var(--line);
+      color: #e8f4ff;
+      font-family: Georgia, serif;
+      font-size: .92rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,.18);
+      backdrop-filter: blur(10px);
+    }
+    .chip-a { left: 18px; bottom: 92px; color: var(--cyan); }
+    .chip-b { right: 18px; top: 82px; color: var(--gold); }
+    .chip-c { right: 26px; bottom: 24px; color: var(--violet); }
+
+    .visual-shell svg { width: 100%; height: 100%; display: block; }
+
+    section { position: relative; padding: 96px 0; }
+    .section-kicker {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: .17em;
+      font-size: .74rem;
+      font-weight: 900;
+      margin-bottom: 13px;
+    }
+    .section-title {
+      font-size: clamp(2.35rem, 5vw, 4.7rem);
+      letter-spacing: -.045em;
+      margin-bottom: 22px;
+      max-width: 930px;
+    }
+    .section-intro {
+      color: var(--muted);
+      font-size: 1.08rem;
+      max-width: 790px;
+      margin-bottom: 46px;
+    }
+    .section-intro strong { color: white; }
+
+    .declaration {
+      padding: 82px 0;
+      background:
+        linear-gradient(90deg, rgba(103, 232, 249, .055), transparent 34%, rgba(245, 196, 107, .045)),
+        #08111e;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .declaration-grid {
+      display: grid;
+      grid-template-columns: .86fr 1.14fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .big-quote {
+      margin: 0;
+      font-family: Georgia, serif;
+      font-size: clamp(2rem, 4.4vw, 4rem);
+      line-height: 1.16;
+      letter-spacing: -.03em;
+    }
+    .big-quote em { color: var(--cyan); font-style: normal; }
+
+    .truth-card {
+      border-radius: var(--radius);
+      padding: 30px;
+      background: linear-gradient(145deg, rgba(255,255,255,.065), rgba(255,255,255,.025));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+    .truth-card p { color: #c2cfdd; margin: 0 0 16px; }
+    .truth-card p:last-child { margin-bottom: 0; }
+    .truth-card strong { color: var(--gold); }
+
+    .chain {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 44px;
+    }
+    .chain-card {
+      min-height: 184px;
+      padding: 24px;
+      border-radius: 20px;
+      background: rgba(255,255,255,.035);
+      border: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
+    }
+    .chain-card::after {
+      content: "→";
+      position: absolute;
+      right: -19px;
+      top: 68px;
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #0a1422;
+      border: 1px solid var(--line);
+      color: var(--cyan);
+      z-index: 3;
+    }
+    .chain-card:last-child::after { display: none; }
+    .chain-card .symbol { font-family: Georgia, serif; color: var(--cyan); font-size: 2.2rem; }
+    .chain-card h3 { margin: 10px 0 8px; font-size: 1.12rem; }
+    .chain-card p { margin: 0; color: var(--muted); font-size: .91rem; }
+
+    .representations {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .rep {
+      min-height: 262px;
+      padding: 25px;
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      background: linear-gradient(160deg, rgba(255,255,255,.055), rgba(255,255,255,.02));
+      transition: transform .25s ease, border-color .25s ease;
+    }
+    .rep:hover { transform: translateY(-6px); border-color: rgba(103, 232, 249, .35); }
+    .rep-icon {
+      height: 86px;
+      display: grid;
+      align-items: center;
+      margin-bottom: 18px;
+      color: var(--cyan);
+      font-family: Georgia, serif;
+      font-size: 2.5rem;
+    }
+    .rep h3 { margin: 0 0 10px; font-size: 1.25rem; }
+    .rep p { color: var(--muted); margin: 0; font-size: .94rem; }
+
+    .arc { background: #07101b; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .weeks { display: grid; gap: 22px; }
+    .week {
+      display: grid;
+      grid-template-columns: 128px 1fr 260px;
+      gap: 28px;
+      align-items: stretch;
+      border: 1px solid var(--line);
+      background: linear-gradient(145deg, rgba(255,255,255,.048), rgba(255,255,255,.018));
+      border-radius: 26px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .week::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 4px;
+      background: linear-gradient(var(--cyan), var(--gold));
+      opacity: .8;
+    }
+    .week-no {
+      min-height: 168px;
+      border-radius: 20px;
+      display: grid;
+      place-items: center;
+      background: rgba(103, 232, 249, .055);
+      border: 1px solid rgba(103, 232, 249, .14);
+      color: var(--cyan);
+      font-size: 3.1rem;
+      font-weight: 900;
+      letter-spacing: -.05em;
+    }
+    .week-body h3 { font-size: 1.8rem; margin: 2px 0 8px; }
+    .week-theme { color: var(--gold); font-family: Georgia, serif; font-style: italic; margin-bottom: 16px; }
+    .week-body p { color: var(--muted); margin: 0 0 14px; }
+    .week-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag {
+      padding: 6px 9px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: #c9d6e3;
+      font-size: .76rem;
+      font-weight: 750;
+      background: rgba(255,255,255,.025);
+    }
+    .week-output {
+      border-left: 1px solid var(--line);
+      padding-left: 25px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .week-output small { color: var(--cyan); text-transform: uppercase; letter-spacing: .14em; font-weight: 900; }
+    .week-output b { display: block; margin-top: 7px; font-size: 1.05rem; }
+    .week-output p { color: var(--muted); font-size: .88rem; margin: 8px 0 0; }
+
+    .lab-grid {
+      display: grid;
+      grid-template-columns: .78fr 1.22fr;
+      gap: 28px;
+      align-items: stretch;
+    }
+    .lab-copy, .lab-panel {
+      border-radius: 28px;
+      border: 1px solid var(--line);
+      background: linear-gradient(145deg, rgba(255,255,255,.052), rgba(255,255,255,.018));
+      padding: 30px;
+    }
+    .lab-copy h3 { font-size: 1.8rem; margin-bottom: 14px; }
+    .lab-copy p { color: var(--muted); }
+    .lab-equation {
+      margin: 26px 0;
+      padding: 20px;
+      border-radius: 16px;
+      background: #07111d;
+      border: 1px solid rgba(103,232,249,.17);
+      font-family: Georgia, serif;
+      color: var(--cyan);
+      font-size: 1.18rem;
+      text-align: center;
+    }
+    .mini-list { display: grid; gap: 10px; margin-top: 24px; }
+    .mini-list div { display: flex; gap: 10px; color: #c9d5e3; font-size: .93rem; }
+    .mini-list div::before { content: "◇"; color: var(--gold); }
+
+    .controls {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .control {
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(5, 10, 18, .55);
+      border: 1px solid var(--line);
+    }
+    .control label { display: flex; justify-content: space-between; color: #ced9e4; font-size: .82rem; font-weight: 800; }
+    .control output { color: var(--gold); font-family: Georgia, serif; }
+    input[type="range"] { width: 100%; accent-color: var(--cyan-2); margin-top: 8px; }
+    .canvas-shell {
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: #06101b;
+    }
+    canvas { display: block; width: 100%; height: 430px; }
+    .readouts {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 13px;
+    }
+    .readout {
+      padding: 12px;
+      border-radius: 13px;
+      background: rgba(255,255,255,.033);
+      border: 1px solid var(--line);
+    }
+    .readout small { color: var(--muted); display: block; }
+    .readout b { color: white; font-family: Georgia, serif; font-size: 1.1rem; }
+    .play-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 14px; }
+    .play-btn {
+      border: 1px solid rgba(103,232,249,.3);
+      background: rgba(103,232,249,.08);
+      color: var(--cyan);
+      border-radius: 999px;
+      padding: 9px 14px;
+      cursor: pointer;
+      font-weight: 850;
+    }
+    .play-row span { color: var(--muted); font-size: .82rem; }
+
+    .habits-grid {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 30px;
+      align-items: start;
+    }
+    .habit-stack { display: grid; gap: 12px; }
+    .habit {
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      gap: 16px;
+      align-items: center;
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.033);
+      border: 1px solid var(--line);
+    }
+    .habit-n {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      border-radius: 15px;
+      background: rgba(184,161,255,.09);
+      color: var(--violet);
+      font-weight: 900;
+    }
+    .habit h3 { margin: 0 0 4px; font-size: 1rem; }
+    .habit p { margin: 0; color: var(--muted); font-size: .88rem; }
+
+    .ap-card {
+      border-radius: 28px;
+      padding: 31px;
+      background:
+        radial-gradient(circle at top right, rgba(245,196,107,.12), transparent 16rem),
+        linear-gradient(145deg, rgba(255,255,255,.055), rgba(255,255,255,.018));
+      border: 1px solid var(--line);
+      position: sticky;
+      top: 96px;
+    }
+    .ap-card .formula {
+      font-family: Georgia, serif;
+      font-size: clamp(1.65rem, 4vw, 3rem);
+      line-height: 1.4;
+      color: var(--gold);
+      margin: 22px 0;
+    }
+    .ap-card p { color: var(--muted); }
+    .ap-card strong { color: white; }
+
+    .capstone {
+      background:
+        radial-gradient(circle at 65% 50%, rgba(184,161,255,.11), transparent 26rem),
+        #09121f;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .case-file {
+      border-radius: 32px;
+      overflow: hidden;
+      border: 1px solid rgba(184,161,255,.24);
+      background: rgba(255,255,255,.034);
+      box-shadow: var(--shadow);
+    }
+    .case-head {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      padding: 34px;
+      background: linear-gradient(90deg, rgba(184,161,255,.11), rgba(103,232,249,.045));
+      border-bottom: 1px solid var(--line);
+    }
+    .case-head h3 { font-size: 2rem; margin: 0 0 8px; }
+    .case-head p { color: var(--muted); margin: 0; max-width: 720px; }
+    .stamp {
+      align-self: center;
+      border: 2px solid rgba(245,196,107,.48);
+      color: var(--gold);
+      border-radius: 10px;
+      padding: 10px 13px;
+      transform: rotate(-4deg);
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-size: .78rem;
+    }
+    .case-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0;
+    }
+    .case-step { padding: 28px; min-height: 220px; }
+    .case-step + .case-step { border-left: 1px solid var(--line); }
+    .case-step span { color: var(--cyan); font-family: Georgia, serif; font-size: 2rem; }
+    .case-step h4 { margin: 13px 0 8px; font-size: 1.08rem; }
+    .case-step p { margin: 0; color: var(--muted); font-size: .9rem; }
+
+    .systems {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 24px;
+    }
+    .system {
+      border-radius: 18px;
+      padding: 18px;
+      background: rgba(255,255,255,.027);
+      border: 1px solid var(--line);
+      color: #cfdae6;
+      text-align: center;
+      font-weight: 800;
+    }
+
+    .source-map {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+    .source-card {
+      border-radius: 24px;
+      padding: 27px;
+      background: rgba(255,255,255,.035);
+      border: 1px solid var(--line);
+    }
+    .source-card h3 { margin-bottom: 6px; }
+    .source-card .book { color: var(--gold); font-family: Georgia, serif; font-style: italic; margin-bottom: 20px; }
+    .source-card ul { margin: 0; padding-left: 20px; color: var(--muted); }
+    .source-card li + li { margin-top: 8px; }
+    .source-note { color: var(--muted); font-size: .86rem; margin-top: 22px; }
+
+    .outcomes-grid {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 28px;
+    }
+    .outcome-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .outcome {
+      padding: 17px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid var(--line);
+      color: #d2deea;
+      font-size: .92rem;
+    }
+    .outcome::before { content: "✓"; color: var(--green); font-weight: 900; margin-right: 9px; }
+    .fit-card {
+      border-radius: 24px;
+      padding: 28px;
+      background: linear-gradient(145deg, rgba(103,232,249,.06), rgba(245,196,107,.04));
+      border: 1px solid var(--line);
+    }
+    .fit-card h3 { margin-bottom: 15px; }
+    .fit-card p { color: var(--muted); }
+    .fit-card strong { color: white; }
+
+    footer {
+      padding: 38px 0 50px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .84rem;
+    }
+    .footer-inner { display: flex; justify-content: space-between; gap: 20px; align-items: center; }
+    .footer-title { color: white; font-weight: 900; }
+
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 980px) {
+      .nav-links a:not(.print-btn) { display: none; }
+      .hero-grid, .declaration-grid, .lab-grid, .habits-grid, .outcomes-grid { grid-template-columns: 1fr; }
+      .hero { min-height: auto; }
+      .hero-visual { min-height: 460px; }
+      .chain, .representations, .systems { grid-template-columns: 1fr 1fr; }
+      .week { grid-template-columns: 94px 1fr; }
+      .week-output { grid-column: 2; border-left: 0; border-top: 1px solid var(--line); padding: 18px 0 0; }
+      .case-grid { grid-template-columns: 1fr 1fr; }
+      .case-step:nth-child(3) { border-left: 0; border-top: 1px solid var(--line); }
+      .case-step:nth-child(4) { border-top: 1px solid var(--line); }
+      .ap-card { position: static; }
+    }
+
+    @media (max-width: 680px) {
+      .wrap { width: min(100% - 24px, var(--max)); }
+      .nav-inner { min-height: 62px; }
+      .brand small { display: none; }
+      .hero-grid { padding-top: 72px; gap: 20px; }
+      h1 { font-size: clamp(3rem, 15.5vw, 5.2rem); letter-spacing: -.085em; }
+      .hero-visual { min-height: 390px; }
+      .visual-shell { border-radius: 24px; }
+      .hero-metrics { grid-template-columns: 1fr; gap: 14px; }
+      .metric + .metric { border-left: 0; border-top: 1px solid var(--line); padding: 12px 0 0; }
+      section { padding: 72px 0; }
+      .chain, .representations, .source-map, .outcome-list, .systems { grid-template-columns: 1fr; }
+      .chain-card::after { display: none; }
+      .week { grid-template-columns: 1fr; padding: 18px; }
+      .week-no { min-height: 74px; font-size: 2rem; }
+      .week-output { grid-column: auto; }
+      .controls, .readouts { grid-template-columns: 1fr 1fr; }
+      canvas { height: 520px; }
+      .case-head { grid-template-columns: 1fr; }
+      .stamp { justify-self: start; }
+      .case-grid { grid-template-columns: 1fr; }
+      .case-step + .case-step { border-left: 0; border-top: 1px solid var(--line); }
+      .footer-inner { display: block; }
+      .footer-inner div + div { margin-top: 8px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+
+    @media print {
+      :root { --ink: #111827; --muted: #374151; --line: rgba(17,24,39,.18); }
+      body { background: white; color: #111827; }
+      .noise, .nav, .hero::before, .hero::after, .hero-visual, .lab-panel, .actions { display: none !important; }
+      .hero { min-height: auto; border: 0; }
+      .hero-grid, .declaration-grid, .lab-grid, .habits-grid, .outcomes-grid { display: block; }
+      .hero-grid { padding: 40px 0 25px; }
+      .hero-lead, .section-intro, .week-body p, .week-output p, .truth-card p, .rep p, .fit-card p, .source-card ul { color: #374151; }
+      h1 { font-size: 58px; }
+      section, .declaration { padding: 34px 0; background: white !important; border-color: #d1d5db; }
+      .chain, .representations, .weeks, .case-grid, .source-map, .outcomes-grid { break-inside: avoid; }
+      .week, .rep, .chain-card, .source-card, .truth-card, .case-file, .fit-card, .habit { background: white; box-shadow: none; border-color: #cbd5e1; }
+      .week { grid-template-columns: 80px 1fr 220px; break-inside: avoid; margin-bottom: 12px; }
+      .week-no { color: #0e7490; background: #ecfeff; }
+      .week-output { border-color: #d1d5db; }
+      .case-head { background: #f8fafc; }
+      footer { color: #4b5563; }
+    }
+  </style>
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+
+  <nav class="nav" aria-label="Course page navigation">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#top">
+        <span class="brand-mark">∴</span>
+        <span>ThoughtMuseum <small>STEM Seminars</small></span>
+      </a>
+      <div class="nav-links">
+        <a href="#idea">Core Idea</a>
+        <a href="#weeks">Five Weeks</a>
+        <a href="#lab">Motion Lab</a>
+        <a href="#capstone">Capstone</a>
+        <a href="#outcomes">Outcomes</a>
+        <button class="print-btn" type="button" onclick="window.print()">Print / PDF</button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="top">
+    <header class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">Five-Week AP Preview Studio</div>
+          <h1><span class="phys">Phys</span><span class="alculus">alculus</span></h1>
+          <p class="subtitle">A comprehensible guide for the inquisitive and curious.</p>
+          <p class="hero-lead">
+            Physics asks <strong>what the world does</strong>. Calculus asks <strong>how change itself can be measured</strong>.
+            This course places them side by side—so motion, force, energy, slope, derivative, and accumulation begin to read like parts of one intelligible story.
+          </p>
+          <div class="actions">
+            <a class="btn btn-primary" href="#weeks">Explore the five-week arc <span aria-hidden="true">→</span></a>
+            <a class="btn btn-secondary" href="#lab">Open the motion microscope</a>
+          </div>
+          <div class="hero-metrics" aria-label="Course highlights">
+            <div class="metric"><b>5 weeks</b><span>of guided mathematical physics</span></div>
+            <div class="metric"><b>2 AP pathways</b><span>previewed through shared ideas</span></div>
+            <div class="metric"><b>1 case file</b><span>built from graphs, laws, and evidence</span></div>
+          </div>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <div class="visual-shell">
+            <span class="equation-chip chip-a">v(t) = dx/dt</span>
+            <span class="equation-chip chip-b">ΣF = ma</span>
+            <span class="equation-chip chip-c">Δx = ∫v(t)dt</span>
+            <svg viewBox="0 0 520 540" role="img" aria-label="Animated motion curve with tangent and vectors">
+              <defs>
+                <linearGradient id="curveGlow" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stop-color="#67e8f9" stop-opacity=".25" />
+                  <stop offset=".55" stop-color="#67e8f9" />
+                  <stop offset="1" stop-color="#f5c46b" />
+                </linearGradient>
+                <filter id="glow">
+                  <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+                  <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+                <marker id="arrowC" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+                  <path d="M0,0 L8,4 L0,8 Z" fill="#67e8f9"/>
+                </marker>
+                <marker id="arrowG" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+                  <path d="M0,0 L8,4 L0,8 Z" fill="#f5c46b"/>
+                </marker>
+              </defs>
+              <g opacity=".24" stroke="#b9d8ef" stroke-width="1">
+                <path d="M55 90V470M105 90V470M155 90V470M205 90V470M255 90V470M305 90V470M355 90V470M405 90V470M455 90V470"/>
+                <path d="M55 120H465M55 170H465M55 220H465M55 270H465M55 320H465M55 370H465M55 420H465M55 470H465"/>
+              </g>
+              <path d="M54 470H470" stroke="#d9e8f4" stroke-opacity=".55" stroke-width="1.5" marker-end="url(#arrowC)"/>
+              <path d="M55 474V82" stroke="#d9e8f4" stroke-opacity=".55" stroke-width="1.5" marker-end="url(#arrowC)"/>
+              <text x="470" y="494" fill="#9fb1c4" font-size="13">time</text>
+              <text x="25" y="90" fill="#9fb1c4" font-size="13" transform="rotate(-90 25 90)">position</text>
+              <path id="motionPath" d="M72 414 C142 401, 203 348, 251 285 C310 208, 356 132, 451 112" fill="none" stroke="url(#curveGlow)" stroke-width="5" filter="url(#glow)"/>
+              <path d="M201 366 L372 177" stroke="#f5c46b" stroke-opacity=".7" stroke-width="2.5" stroke-dasharray="7 7"/>
+              <text x="300" y="253" fill="#f5c46b" font-family="Georgia, serif" font-size="16">tangent = instantaneous velocity</text>
+              <line x1="279" y1="254" x2="349" y2="177" stroke="#67e8f9" stroke-width="3" marker-end="url(#arrowC)"/>
+              <line x1="279" y1="254" x2="279" y2="175" stroke="#f5c46b" stroke-width="3" marker-end="url(#arrowG)"/>
+              <text x="353" y="178" fill="#67e8f9" font-size="14">v</text>
+              <text x="287" y="172" fill="#f5c46b" font-size="14">a</text>
+              <circle r="9" fill="#f7fbff" stroke="#67e8f9" stroke-width="4" filter="url(#glow)">
+                <animateMotion dur="7s" repeatCount="indefinite" rotate="auto">
+                  <mpath href="#motionPath" />
+                </animateMotion>
+              </circle>
+              <g transform="translate(74 116)">
+                <rect width="158" height="58" rx="12" fill="#06101b" fill-opacity=".78" stroke="#67e8f9" stroke-opacity=".25"/>
+                <text x="14" y="23" fill="#9fb1c4" font-size="11" letter-spacing="1.5">THE CENTRAL QUESTION</text>
+                <text x="14" y="43" fill="#f4f7fb" font-size="15" font-family="Georgia, serif">What changes—and why?</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="declaration" id="idea">
+      <div class="wrap declaration-grid reveal">
+        <blockquote class="big-quote">Physics gives the world its <em>story</em>.<br />Calculus gives the story its <em>verbs</em>.</blockquote>
+        <div class="truth-card">
+          <p>Students often meet these subjects as separate collections of procedures. In <strong>Physalculus</strong>, velocity is not merely a formula—it is the slope of a position graph. Acceleration is the change in that slope. Work and impulse are not isolated rules—they are accumulated effects.</p>
+          <p>This is <strong>a preview with strategic review</strong>, not an attempt to compress two yearlong AP courses into five weeks. AP Physics 1 remains algebra-based; calculus enters here as an illuminating lens that reveals where the familiar equations come from and how their graphs fit together.</p>
+        </div>
+      </div>
+      <div class="wrap chain reveal" aria-label="Concept chain">
+        <article class="chain-card"><div class="symbol">x(t)</div><h3>State</h3><p>Where is the object now? Position is the beginning of the motion story.</p></article>
+        <article class="chain-card"><div class="symbol">dx/dt</div><h3>Change</h3><p>Velocity tells how position changes; acceleration tells how velocity changes.</p></article>
+        <article class="chain-card"><div class="symbol">ΣF</div><h3>Cause</h3><p>Forces explain why motion bends, speeds up, slows down, or turns.</p></article>
+        <article class="chain-card"><div class="symbol">∫</div><h3>Accumulation</h3><p>Areas under graphs become displacement, impulse, work, and net change.</p></article>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-kicker reveal">The shared language</div>
+        <h2 class="section-title reveal">One phenomenon. Four representations. No hiding behind a formula.</h2>
+        <p class="section-intro reveal">Both AP Physics and AP Calculus reward students who can move among <strong>pictures, graphs, numbers, equations, and words</strong>. Every major investigation in this course is viewed through all four lenses.</p>
+        <div class="representations">
+          <article class="rep reveal">
+            <div class="rep-icon">
+              <svg viewBox="0 0 160 70" width="150" height="70" aria-hidden="true">
+                <path d="M8 58H151M22 65V8" stroke="currentColor" stroke-opacity=".45"/>
+                <path d="M25 56 C52 53, 63 48, 81 35 C100 21, 116 9, 146 14" fill="none" stroke="currentColor" stroke-width="3"/>
+                <circle cx="96" cy="25" r="5" fill="#f5c46b"/>
+              </svg>
+            </div>
+            <h3>Graphical</h3>
+            <p>Read slope, curvature, signed area, turning points, and the physical story encoded in a curve.</p>
+          </article>
+          <article class="rep reveal">
+            <div class="rep-icon">1.2, 1.9, 3.4…</div>
+            <h3>Numerical</h3>
+            <p>Use tables, measured data, finite differences, estimates, and units to infer what a system is doing.</p>
+          </article>
+          <article class="rep reveal">
+            <div class="rep-icon">F = ma</div>
+            <h3>Symbolic</h3>
+            <p>Build equations from physical laws, manipulate them carefully, and interpret every symbol.</p>
+          </article>
+          <article class="rep reveal">
+            <div class="rep-icon">“why?”</div>
+            <h3>Verbal</h3>
+            <p>Make a claim, support it with evidence, and explain what the mathematics means in the actual system.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="arc" id="weeks">
+      <div class="wrap">
+        <div class="section-kicker reveal">Five-week journey</div>
+        <h2 class="section-title reveal">From “the graph goes up” to a defensible model of motion.</h2>
+        <p class="section-intro reveal">Each week begins with a curiosity question, supplies just enough mathematical review, develops the physics, and ends with a visible artifact. The course deliberately alternates between intuition and precision.</p>
+
+        <div class="weeks">
+          <article class="week reveal">
+            <div class="week-no">W1</div>
+            <div class="week-body">
+              <h3>The World as a Graph</h3>
+              <div class="week-theme">How can a curve tell a physical story?</div>
+              <p>Students review functions, units, dimensional reasoning, slope, trigonometry, and vectors while learning to distinguish position, displacement, speed, velocity, and acceleration. Motion diagrams and x–t, v–t, and a–t graphs become translations of the same event.</p>
+              <div class="week-tags"><span class="tag">functions</span><span class="tag">units</span><span class="tag">vectors</span><span class="tag">average rate</span><span class="tag">motion graphs</span></div>
+            </div>
+            <div class="week-output"><small>Visible artifact</small><b>The Motion Storyboard</b><p>A matched set of diagrams, tables, and graphs that narrates one journey without using a memorized kinematics formula.</p></div>
+          </article>
+
+          <article class="week reveal">
+            <div class="week-no">W2</div>
+            <div class="week-body">
+              <h3>The Instant</h3>
+              <div class="week-theme">How can motion have a rate at one exact moment?</div>
+              <p>Average velocity tightens into instantaneous velocity through numerical zooming, secant slopes, tangent lines, and limit intuition. Students connect the first derivative to velocity and the second derivative to acceleration, then apply the ideas to free fall and projectile motion.</p>
+              <div class="week-tags"><span class="tag">limits</span><span class="tag">derivative</span><span class="tag">free fall</span><span class="tag">projectiles</span><span class="tag">x′ and x″</span></div>
+            </div>
+            <div class="week-output"><small>Visible artifact</small><b>The Derivative Detective File</b><p>Students reconstruct velocity and acceleration from data, then defend the signs and shapes of all three motion graphs.</p></div>
+          </article>
+
+          <article class="week reveal">
+            <div class="week-no">W3</div>
+            <div class="week-body">
+              <h3>Forces Write the Curve</h3>
+              <div class="week-theme">What invisible interaction produced the acceleration?</div>
+              <p>Newton’s laws, free-body diagrams, friction, tension, equilibrium, and circular motion are linked to the changing slope of velocity. Students learn to move in both directions: force → acceleration → motion, and observed motion → inferred net force.</p>
+              <div class="week-tags"><span class="tag">Newton’s laws</span><span class="tag">free-body diagrams</span><span class="tag">local linearity</span><span class="tag">sensitivity</span><span class="tag">circular motion</span></div>
+            </div>
+            <div class="week-output"><small>Visible artifact</small><b>The Force-to-Motion Model</b><p>A diagram-and-equation model that predicts how changing mass, friction, or applied force changes the graph.</p></div>
+          </article>
+
+          <article class="week reveal">
+            <div class="week-no">W4</div>
+            <div class="week-body">
+              <h3>Accumulation, Work, and Energy</h3>
+              <div class="week-theme">When does area become a physical quantity?</div>
+              <p>Rectangular sums become definite integrals; areas under velocity, force–time, and force–position graphs become displacement, impulse, and work. The work–energy theorem, gravitational potential energy, spring energy, power, and conservation are organized as an energy ledger.</p>
+              <div class="week-tags"><span class="tag">Riemann sums</span><span class="tag">definite integral</span><span class="tag">work</span><span class="tag">energy</span><span class="tag">power</span></div>
+            </div>
+            <div class="week-output"><small>Visible artifact</small><b>The Energy Ledger</b><p>A visual account of where energy begins, how it transfers, what is dissipated, and how the graph verifies the calculation.</p></div>
+          </article>
+
+          <article class="week reveal">
+            <div class="week-no">W5</div>
+            <div class="week-body">
+              <h3>Momentum, Rotation, and the Hidden Force</h3>
+              <div class="week-theme">Can the cause be recovered from the evidence?</div>
+              <p>Impulse and momentum provide a second language for interaction. Rotational motion and oscillation preview how familiar ideas reappear in new forms. Students then assemble the course into a capstone case: infer the governing physics from motion data and communicate the model across representations.</p>
+              <div class="week-tags"><span class="tag">impulse</span><span class="tag">momentum</span><span class="tag">rotation preview</span><span class="tag">oscillation</span><span class="tag">model defense</span></div>
+            </div>
+            <div class="week-output"><small>Visible artifact</small><b>The Hidden Force Case File</b><p>A portfolio-ready investigation combining evidence, graph analysis, calculus interpretation, physical law, and a written defense.</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="lab">
+      <div class="wrap">
+        <div class="section-kicker reveal">Interactive concept preview</div>
+        <h2 class="section-title reveal">The motion microscope</h2>
+        <p class="section-intro reveal">Change the initial velocity, acceleration, and observation time. Watch one motion appear simultaneously as position, velocity, and acceleration. The point is not button-pushing; it is learning to predict the graphs before the computer draws them.</p>
+
+        <div class="lab-grid">
+          <div class="lab-copy reveal">
+            <h3>One model, three views</h3>
+            <p>For constant acceleration, the familiar kinematics equations are not unrelated formulas. They are a derivative-and-accumulation family.</p>
+            <div class="lab-equation">x(t) = x₀ + v₀t + ½at²<br />v(t) = dx/dt = v₀ + at<br />a(t) = dv/dt = a</div>
+            <p>The graph shapes reveal the mathematics: constant acceleration gives a horizontal a–t graph, a linear v–t graph, and a quadratic x–t graph.</p>
+            <div class="mini-list">
+              <div>Predict the sign before moving the slider.</div>
+              <div>Compare slope on x(t) with height on v(t).</div>
+              <div>Compare area under v(t) with displacement.</div>
+              <div>Use units as an automatic error detector.</div>
+            </div>
+          </div>
+
+          <div class="lab-panel reveal">
+            <div class="controls">
+              <div class="control"><label for="v0">Initial velocity v₀ <output id="v0Out">4.0</output></label><input id="v0" type="range" min="-8" max="14" value="4" step="0.5" /></div>
+              <div class="control"><label for="acc">Acceleration a <output id="accOut">1.2</output></label><input id="acc" type="range" min="-5" max="5" value="1.2" step="0.2" /></div>
+              <div class="control"><label for="time">Observation time t <output id="timeOut">3.0</output></label><input id="time" type="range" min="0" max="8" value="3" step="0.05" /></div>
+            </div>
+            <div class="canvas-shell"><canvas id="motionCanvas" aria-label="Position, velocity, and acceleration graphs"></canvas></div>
+            <div class="readouts" aria-live="polite">
+              <div class="readout"><small>position x(t)</small><b id="xRead">17.4 m</b></div>
+              <div class="readout"><small>velocity v(t)</small><b id="vRead">7.6 m/s</b></div>
+              <div class="readout"><small>acceleration a(t)</small><b id="aRead">1.2 m/s²</b></div>
+              <div class="readout"><small>slope of x(t)</small><b id="slopeRead">7.6 m/s</b></div>
+            </div>
+            <div class="play-row"><button class="play-btn" id="playBtn" type="button">▶ Animate time</button><span>Model assumes x₀ = 0 and constant acceleration.</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="arc">
+      <div class="wrap habits-grid">
+        <div>
+          <div class="section-kicker reveal">AP habits of mind</div>
+          <h2 class="section-title reveal">The course trains the moves that make advanced work manageable.</h2>
+          <div class="habit-stack">
+            <article class="habit reveal"><div class="habit-n">01</div><div><h3>Translate, do not merely calculate.</h3><p>Move among verbal descriptions, diagrams, tables, graphs, and equations without losing the physical meaning.</p></div></article>
+            <article class="habit reveal"><div class="habit-n">02</div><div><h3>Reason symbolically before substituting numbers.</h3><p>Identify knowns, unknowns, signs, units, and governing principles before reaching for a calculator.</p></div></article>
+            <article class="habit reveal"><div class="habit-n">03</div><div><h3>Justify the graph.</h3><p>Explain why a graph rises, falls, bends, crosses zero, or encloses a physically meaningful area.</p></div></article>
+            <article class="habit reveal"><div class="habit-n">04</div><div><h3>Interrogate the answer.</h3><p>Check dimensions, limiting cases, direction, magnitude, and whether the result makes sense in the real system.</p></div></article>
+            <article class="habit reveal"><div class="habit-n">05</div><div><h3>Write the final sentence.</h3><p>An answer is not complete until the student states what the result means in context.</p></div></article>
+          </div>
+        </div>
+        <aside class="ap-card reveal">
+          <div class="section-kicker">The unifying map</div>
+          <div class="formula">x(t) ⟶ v(t) ⟶ a(t) ⟶ F(t)<br /><span style="color:var(--cyan)">∫ vdt</span> &nbsp; <span style="color:var(--violet)">∫ Fdt</span> &nbsp; <span style="color:var(--gold)">∫ Fdx</span></div>
+          <p><strong>Differentiation</strong> moves from a quantity to its rate of change. <strong>Integration</strong> recovers accumulated change. <strong>Physics</strong> tells us which relationship matters and why.</p>
+          <p>The result is not “calculus pasted onto physics.” It is a coherent map of motion, cause, and accumulation.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="capstone" id="capstone">
+      <div class="wrap">
+        <div class="section-kicker reveal">Final investigation</div>
+        <h2 class="section-title reveal">The Hidden Force Case File</h2>
+        <p class="section-intro reveal">A mysterious system leaves evidence: a video, a position table, a noisy graph, or a force trace. The student must determine what happened, identify the governing relationships, test a model, and defend the conclusion.</p>
+
+        <div class="case-file reveal">
+          <div class="case-head">
+            <div><h3>One motion becomes an argument.</h3><p>The finished portfolio is compact but serious: it must connect observation to law and mathematical representation without pretending that a graph or equation explains itself.</p></div>
+            <div class="stamp">Case 05 · Open</div>
+          </div>
+          <div class="case-grid">
+            <div class="case-step"><span>01</span><h4>Observe</h4><p>Extract measurements, identify system boundaries, record units, and separate evidence from assumptions.</p></div>
+            <div class="case-step"><span>02</span><h4>Represent</h4><p>Construct the diagram, table, graph family, and symbolic model. Make each representation agree with the others.</p></div>
+            <div class="case-step"><span>03</span><h4>Infer</h4><p>Use derivatives, areas, conservation laws, and Newtonian reasoning to recover the hidden interaction.</p></div>
+            <div class="case-step"><span>04</span><h4>Defend</h4><p>State the claim, show the evidence, acknowledge limitations, and propose the next physical test.</p></div>
+          </div>
+        </div>
+        <div class="systems reveal" aria-label="Possible capstone systems">
+          <div class="system">Projectile launch</div>
+          <div class="system">Spring–mass oscillator</div>
+          <div class="system">Cart and collision</div>
+          <div class="system">Ramp or loop system</div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-kicker reveal">Selected course spine</div>
+        <h2 class="section-title reveal">The texts are used as laboratories of ideas—not as page-count obligations.</h2>
+        <p class="section-intro reveal">Selections are drawn from the uploaded physics and calculus texts. Reading is targeted, and the course emphasizes conceptual examples, graphs, reasoning strategies, and carefully chosen problems.</p>
+        <div class="source-map">
+          <article class="source-card reveal">
+            <h3>Physics spine</h3>
+            <div class="book">Cutnell &amp; Johnson, Physics, 9th ed.</div>
+            <ul>
+              <li>Mathematical concepts, units, trigonometry, scalars, vectors, and components</li>
+              <li>One- and two-dimensional kinematics, free fall, and projectile motion</li>
+              <li>Forces, Newton’s laws, equilibrium, friction, tension, and circular motion</li>
+              <li>Work, energy, power, impulse, momentum, rotation, and oscillation previews</li>
+            </ul>
+          </article>
+          <article class="source-card reveal">
+            <h3>Calculus spine</h3>
+            <div class="book">Finney et al., Calculus: Graphical, Numerical, Algebraic, 5th ed.</div>
+            <ul>
+              <li>Functions, graphs, increments, slope, domain, and multiple representations</li>
+              <li>Average and instantaneous rates of change, limits, and tangent lines</li>
+              <li>Derivatives, velocity, acceleration, local linearity, and sensitivity</li>
+              <li>Finite sums, definite integrals, accumulation, and the Fundamental Theorem</li>
+            </ul>
+          </article>
+        </div>
+        <p class="source-note reveal">Course scope is intentionally selective. It previews central AP Physics 1 and AP Calculus AB ideas while preserving time for experiment, interpretation, and genuine understanding.</p>
+      </div>
+    </section>
+
+    <section class="arc" id="outcomes">
+      <div class="wrap outcomes-grid">
+        <div>
+          <div class="section-kicker reveal">What the student gains</div>
+          <h2 class="section-title reveal">A head start measured in understanding—not in rushed chapter coverage.</h2>
+          <div class="outcome-list">
+            <div class="outcome reveal">Read motion graphs as physical narratives.</div>
+            <div class="outcome reveal">Connect slope to velocity and curvature to acceleration.</div>
+            <div class="outcome reveal">Construct and interpret free-body diagrams.</div>
+            <div class="outcome reveal">Use units and limiting cases to catch errors.</div>
+            <div class="outcome reveal">Interpret area as accumulated physical change.</div>
+            <div class="outcome reveal">Move among graphical, numerical, symbolic, and verbal forms.</div>
+            <div class="outcome reveal">Approach AP-style prompts with a repeatable reasoning process.</div>
+            <div class="outcome reveal">Complete a polished, portfolio-ready investigation.</div>
+          </div>
+        </div>
+        <aside class="fit-card reveal">
+          <h3>Readiness and fit</h3>
+          <p>Best for inquisitive students entering or considering <strong>AP Physics 1, AP Calculus AB, advanced precalculus, or an engineering pathway</strong>.</p>
+          <p>Strong Algebra 2 skills are helpful. Familiarity with functions, graphs, basic trigonometry, and scientific notation is useful—but the most important prerequisite is a willingness to ask why.</p>
+          <p><strong>No prior calculus course is required.</strong> The mathematical depth can be adjusted upward for students who already know derivative rules or downward for students who need a more visual introduction.</p>
+          <p>This is a preview, bridge, and conceptual launchpad. It is not presented as a substitute for either full AP course.</p>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <div><span class="footer-title">Physalculus</span> · A comprehensible guide for the inquisitive and curious</div>
+      <div>ThoughtMuseum STEM Seminars · Five-Week AP Preview Studio</div>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const revealItems = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.08 });
+        revealItems.forEach(el => observer.observe(el));
+      } else {
+        revealItems.forEach(el => el.classList.add('visible'));
+      }
+
+      const canvas = document.getElementById('motionCanvas');
+      const ctx = canvas.getContext('2d');
+      const v0Input = document.getElementById('v0');
+      const accInput = document.getElementById('acc');
+      const timeInput = document.getElementById('time');
+      const v0Out = document.getElementById('v0Out');
+      const accOut = document.getElementById('accOut');
+      const timeOut = document.getElementById('timeOut');
+      const xRead = document.getElementById('xRead');
+      const vRead = document.getElementById('vRead');
+      const aRead = document.getElementById('aRead');
+      const slopeRead = document.getElementById('slopeRead');
+      const playBtn = document.getElementById('playBtn');
+      let playing = false;
+      let raf = null;
+      let last = null;
+
+      const css = getComputedStyle(document.documentElement);
+      const COLORS = {
+        grid: 'rgba(169, 202, 231, .12)',
+        axis: 'rgba(220, 235, 247, .45)',
+        text: '#9fb1c4',
+        x: css.getPropertyValue('--cyan').trim() || '#67e8f9',
+        v: css.getPropertyValue('--gold').trim() || '#f5c46b',
+        a: css.getPropertyValue('--violet').trim() || '#b8a1ff',
+        marker: '#f7fbff'
+      };
+
+      function niceBounds(values) {
+        let min = Math.min(...values, 0);
+        let max = Math.max(...values, 0);
+        if (Math.abs(max - min) < 1e-9) { min -= 1; max += 1; }
+        const pad = (max - min) * .16;
+        return [min - pad, max + pad];
+      }
+
+      function sizeCanvas() {
+        const rect = canvas.getBoundingClientRect();
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.round(rect.width * dpr);
+        canvas.height = Math.round(rect.height * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        draw();
+      }
+
+      function drawPanel(panel, label, unit, color, fn, tNow) {
+        const { x, y, w, h } = panel;
+        const left = x + 52, right = x + w - 16, top = y + 20, bottom = y + h - 28;
+        const samples = 100;
+        const vals = [];
+        for (let i = 0; i <= samples; i++) vals.push(fn(8 * i / samples));
+        const [minY, maxY] = niceBounds(vals);
+        const mapX = t => left + (t / 8) * (right - left);
+        const mapY = val => bottom - ((val - minY) / (maxY - minY)) * (bottom - top);
+
+        ctx.save();
+        ctx.strokeStyle = COLORS.grid;
+        ctx.lineWidth = 1;
+        for (let i = 0; i <= 8; i++) {
+          const px = mapX(i);
+          ctx.beginPath(); ctx.moveTo(px, top); ctx.lineTo(px, bottom); ctx.stroke();
+        }
+        for (let i = 0; i <= 4; i++) {
+          const py = top + (i / 4) * (bottom - top);
+          ctx.beginPath(); ctx.moveTo(left, py); ctx.lineTo(right, py); ctx.stroke();
+        }
+
+        ctx.strokeStyle = COLORS.axis;
+        const zeroY = mapY(0);
+        if (zeroY >= top && zeroY <= bottom) {
+          ctx.beginPath(); ctx.moveTo(left, zeroY); ctx.lineTo(right, zeroY); ctx.stroke();
+        }
+        ctx.beginPath(); ctx.moveTo(left, top); ctx.lineTo(left, bottom); ctx.stroke();
+
+        ctx.fillStyle = COLORS.text;
+        ctx.font = '12px system-ui, sans-serif';
+        ctx.fillText('0', left - 5, bottom + 17);
+        ctx.fillText('8 s', right - 18, bottom + 17);
+        ctx.fillText(maxY.toFixed(Math.abs(maxY) < 10 ? 1 : 0), x + 5, top + 4);
+        ctx.fillText(minY.toFixed(Math.abs(minY) < 10 ? 1 : 0), x + 5, bottom + 4);
+        ctx.fillStyle = color;
+        ctx.font = '700 13px system-ui, sans-serif';
+        ctx.fillText(label + '  (' + unit + ')', left, y + 14);
+
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        vals.forEach((val, i) => {
+          const px = mapX(8 * i / samples), py = mapY(val);
+          if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+        });
+        ctx.stroke();
+
+        const px = mapX(tNow), py = mapY(fn(tNow));
+        ctx.strokeStyle = 'rgba(255,255,255,.18)';
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath(); ctx.moveTo(px, top); ctx.lineTo(px, bottom); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = COLORS.marker;
+        ctx.beginPath(); ctx.arc(px, py, 5.5, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = color; ctx.lineWidth = 3; ctx.stroke();
+        ctx.restore();
+      }
+
+      function draw() {
+        const rect = canvas.getBoundingClientRect();
+        const W = rect.width, H = rect.height;
+        ctx.clearRect(0, 0, W, H);
+        ctx.fillStyle = '#06101b';
+        ctx.fillRect(0, 0, W, H);
+
+        const v0 = parseFloat(v0Input.value);
+        const a = parseFloat(accInput.value);
+        const t = parseFloat(timeInput.value);
+        const xFn = q => v0 * q + .5 * a * q * q;
+        const vFn = q => v0 + a * q;
+        const aFn = () => a;
+        const gap = 10;
+        const panelH = (H - gap * 2) / 3;
+        drawPanel({x:0, y:0, w:W, h:panelH}, 'position x(t)', 'm', COLORS.x, xFn, t);
+        drawPanel({x:0, y:panelH+gap, w:W, h:panelH}, 'velocity v(t)', 'm/s', COLORS.v, vFn, t);
+        drawPanel({x:0, y:(panelH+gap)*2, w:W, h:panelH}, 'acceleration a(t)', 'm/s²', COLORS.a, aFn, t);
+
+        const x = xFn(t), v = vFn(t);
+        v0Out.textContent = v0.toFixed(1);
+        accOut.textContent = a.toFixed(1);
+        timeOut.textContent = t.toFixed(2);
+        xRead.textContent = x.toFixed(2) + ' m';
+        vRead.textContent = v.toFixed(2) + ' m/s';
+        aRead.textContent = a.toFixed(2) + ' m/s²';
+        slopeRead.textContent = v.toFixed(2) + ' m/s';
+      }
+
+      function togglePlay() {
+        playing = !playing;
+        playBtn.textContent = playing ? '❚❚ Pause time' : '▶ Animate time';
+        if (playing) {
+          if (parseFloat(timeInput.value) >= 7.98) timeInput.value = 0;
+          last = performance.now();
+          raf = requestAnimationFrame(step);
+        } else if (raf) {
+          cancelAnimationFrame(raf);
+          raf = null;
+        }
+      }
+
+      function step(now) {
+        if (!playing) return;
+        const dt = (now - last) / 1000;
+        last = now;
+        let t = parseFloat(timeInput.value) + dt * 1.2;
+        if (t > 8) t = 0;
+        timeInput.value = t.toFixed(2);
+        draw();
+        raf = requestAnimationFrame(step);
+      }
+
+      [v0Input, accInput, timeInput].forEach(el => el.addEventListener('input', draw));
+      playBtn.addEventListener('click', togglePlay);
+      window.addEventListener('resize', sizeCanvas, { passive: true });
+      sizeCanvas();
+    })();
+  </script>
+</body>
+</html>
