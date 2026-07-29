@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ilumin Consultant Tool Portfolio v0.1</title>
+<style>
+:root{--navy:#17304f;--navy2:#0e2036;--teal:#42b7ad;--gold:#c99b3d;--ink:#1f2a36;--muted:#667586;--paper:#f5f7fa;--line:#dce3ea;--white:#fff}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);background:var(--paper)}
+header{background:linear-gradient(135deg,var(--navy2),var(--navy));color:white;padding:48px 6vw 38px;border-bottom:6px solid var(--teal)}
+header .kicker{color:#88ddd5;font-size:.78rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+header h1{max-width:1000px;margin:10px 0 8px;font-family:Georgia,serif;font-size:clamp(2.1rem,4vw,4.2rem);line-height:1.02}
+header p{max-width:850px;color:#d8e4ee;font-size:1.08rem;line-height:1.65}
+nav{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:10px 6vw;display:flex;gap:18px;overflow:auto}
+nav a{color:var(--navy);text-decoration:none;font-weight:750;white-space:nowrap}
+main{width:min(1280px,92vw);margin:0 auto 80px}section{scroll-margin-top:70px}.summary{padding:42px 0 24px}
+h2{font-family:Georgia,serif;color:var(--navy);font-size:2rem}h3{margin-top:0;color:var(--navy)}
+.note{background:#e9f6f4;border-left:5px solid var(--teal);padding:16px 18px;border-radius:8px;line-height:1.6}
+.table-wrap{overflow:auto;background:white;border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 34px rgba(14,32,54,.06)}
+table{border-collapse:collapse;width:100%;min-width:1180px}th{background:#eef2f6;color:var(--navy);text-align:left;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em}
+th,td{padding:14px 12px;border-bottom:1px solid var(--line);vertical-align:top}td.rank{font-size:1.3rem;font-weight:900;color:var(--teal);width:60px}.sub{color:var(--muted);font-size:.84rem;margin-top:4px}
+.badge{display:inline-flex;align-items:center;border-radius:999px;padding:5px 9px;font-size:.76rem;font-weight:800}.b-high{background:#dff4e7;color:#1f7047}.b-med{background:#fff2cf;color:#7a5812}.b-low{background:#fde4e4;color:#8f2f32}.blank{color:#8a96a4;border-bottom:1px dashed #8a96a4}
+.tool-profile{margin:48px 0;padding:34px;background:white;border:1px solid var(--line);border-radius:18px;box-shadow:0 18px 50px rgba(14,32,54,.075)}
+.profile-head{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;padding-bottom:22px;border-bottom:1px solid var(--line)}.eyebrow{color:var(--teal);font-size:.75rem;font-weight:900;letter-spacing:.12em;text-transform:uppercase}
+.profile-head h2{margin:8px 0;font-size:2.15rem}.lead{font-size:1.08rem;line-height:1.6;color:#425162;max-width:850px}.rank-orb{min-width:58px;height:58px;display:grid;place-items:center;border-radius:50%;background:var(--navy);color:white;font-size:1.55rem;font-weight:900;border:5px solid #c8efeb}
+.grid{display:grid;gap:18px;margin-top:18px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.panel{border:1px solid var(--line);border-radius:13px;padding:20px;background:#fbfcfd}.panel p,li{line-height:1.6}.workflow{padding-left:22px;display:grid;gap:8px}
+.assessment{background:#f3f8fb}.assessment-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.assessment-grid div{background:white;padding:12px;border-radius:10px;border:1px solid var(--line);display:flex;flex-direction:column;gap:8px}.assessment-grid span:first-child{color:var(--muted);font-size:.78rem;font-weight:800;text-transform:uppercase}
+.recommendation{margin-bottom:0}.leadership{border:2px solid #d6e8e5;background:#f7fbfa}.leadership-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}label{display:flex;flex-direction:column;gap:7px;font-size:.82rem;font-weight:800;color:var(--navy)}label.wide{grid-column:1/-1}
+input,select,textarea{width:100%;padding:11px 12px;border:1px solid #bfcbd6;border-radius:8px;background:white;font:inherit}textarea{min-height:88px;resize:vertical}footer{background:var(--navy2);color:#cbd9e5;padding:30px 6vw;line-height:1.6}
+@media(max-width:820px){.grid.two,.assessment-grid,.leadership-grid{grid-template-columns:1fr}.profile-head{flex-direction:column-reverse}.tool-profile{padding:22px}}
+@media print{nav{display:none}body{background:white}.tool-profile{break-before:page;box-shadow:none}.leadership input,.leadership select,.leadership textarea{border:1px solid #777}}
+</style>
+</head>
+<body>
+<header><div class="kicker">Ilumin Education · Product Definition</div><h1>Consultant Intelligence Tool Portfolio</h1><p>Survey-derived candidate tools for leadership review. The consultant ranking is preserved separately from marketability, feasibility, and implementation considerations so Ilumin leadership can make an informed final selection.</p></header>
+<nav><a href="#summary">Summary matrix</a><a href="#tool-1">1. Institution &amp; Program Evaluation</a><a href="#tool-2">2. Comparable Applicant &amp; Profile Benchmarking</a><a href="#tool-3">3. Essay Concept Strategy Studio</a><a href="#tool-4">4. Near-Term Action Prioritizer</a><a href="#tool-5">5. Academic &amp; Career Direction Explorer</a><a href="#tool-6">6. Major Strategy Analyzer</a><a href="#tool-7">7. Student Evidence &amp; Readiness Profile</a><a href="#tool-8">8. College-List Builder</a><a href="#tool-9">9. Application Positioning Planner</a><a href="#tool-10">10. Early-Application Strategy Planner</a></nav>
+<main>
+<section id="summary" class="summary">
+<h2>Executive summary matrix</h2>
+<p class="note"><strong>Decision rule:</strong> the survey rank reflects consultant evidence. The qualitative delivery ratings are provisional product assessments. Leadership may reorder, hold, or defer any candidate based on marketability, customer demonstration value, data readiness, and September feasibility.</p>
+<div class="table-wrap"><table><thead><tr><th>Rank</th><th>Candidate</th><th>Primary consultant job</th><th>Marketability</th><th>Demo value</th><th>Data</th><th>Complexity</th><th>September</th><th>Leadership rank</th></tr></thead><tbody>
+    <tr>
+      <td class="rank">1</td>
+      <td><strong>Institution &amp; Program Evaluation</strong><div class="sub">Whole-student admissions</div></td>
+      <td>Evaluate one student–institution–program pairing through separate competitiveness and fit lenses.</td>
+      <td><span class="badge b-high">High</span></td>
+      <td><span class="badge b-high">High</span></td>
+      <td><span class="badge b-med">Partial</span></td>
+      <td><span class="badge b-high">High</span></td>
+      <td><span class="badge b-med">Conditional</span></td>
+      <td><span class="blank">Leadership</span></td>
+    </tr>
+
+
+    <tr>
+      <td class="rank">2</td>
+      <td><strong>Comparable Applicant &amp; Profile Benchmarking</strong><div class="sub">Whole-student admissions</div></td>
+      <td>Find relevant historical applicants and show how the current student is similar, stronger, weaker, or simply different.</td>
+      <td><span class="badge b-high">High</span></td>
+      <td><span class="badge b-high">High</span></td>
+      <td><span class="badge b-med">Partial</span></td>
+      <td><span class="badge b-high">High</span></td>
+      <td><span class="badge b-med">Conditional</span></td>
+      <td><span class="blank">Leadership</span></td>
+    </tr>
+
+
+    <tr>
+      <td class="rank">3</td>
+      <td><strong>Essay Concept Strategy Studio</strong><div class="sub">Essay development</div></td>
+      <td>Help consultants establish an essay concept through topic evidence, topic selection, and meaning or reframing.</td>
+      <td><span class="badge b-high">High</span></td>
+      <td><span class="badge b-high">High</span></td>
+      <td><span class="badge b-med">Partial</span></td>
+      <td><span class="badge b-med">Medium</span></td>
+      <td><span class="badge b-med">Conditional</span></td>
+      <td><span class="blank">Leadership</span></td>
+    </tr>
+
+
+    <tr>
+      <td class="rank">4</td>
+      <td><strong>Near-Term Action Prioritizer</strong><div class="sub">Whole-student admissions</div></td>
+      <td>Identify the highest-value improvements that remain realistically achievable before deadlines.</td>
+      <td><span class="badge b-high">High</span></td>
+      <td><span class="badge b-high">High</span></td>
+      <td><span class="badge b-med">Partial</span></td>
+      <td><span class="badge b-med">Medium</span></td>
+      <td><span class="badge b-med">Conditional</span></td>
+      <td><span class="blank">Leadership</span></td>
+    </tr>
+
+
+    <tr>
+      <td class="rank">5</td>
+      <td><strong>Academic &amp; Career Direction Explorer</strong><div class="sub">Whole-student admissions</div></td>
+      <td>Explore academic fields and career pathways that fit the student, using separate major-direction and career-direction modes.</td>
+      <td><span class="badge b-high">High</span></td>
+      <td><span class="badge b-high">High</span></td>
+      <td><span class="badge b-med">Partial</span></td>
+      <td><span class="badge b-high">High</span></td>
+      <td><span class="badge b-med">Conditional</span></td>
+      <td><span class="blank">Leadership</span></td>
+    </tr>
+
+
+    <tr>
+      <td class="rank">6</td>
+      <td><strong>Major Strategy Analyzer</strong><div class="sub">Whole-student admissions</div></td>
+      <td>Evaluate how intended or alternate-major choices change competitiveness, school options, and application positioning.</td>
+      <td><span class="badge b-high">High</span></td>
+      <td><span class="badge b-high">High</span></td>
+      <td><span class="badge b-med">Partial</span></td>
+      <td><span class="badge b-high">High</span></td>
+      <td><span class="badge b-med">Conditional</span></td>
+      <td><span class="blank">Leadership</span></td>
+    </tr>
+
+
+    <tr>
+      <td class="rank">7</td>
+      <td><strong>Student Evidence &amp; Readiness Profile</strong><div class="sub">Whole-student admissions</div></td>
+      <td>Orient the consultant to the complete case and distinguish missing information from weak evidence.</td>
+      <td><span class="badge b-med">Medium</span></td>
+      <td><span class="badge b-high">High</span></td>
+      <td><span class="badge b-med">Partial</span></td>
+      <td><span class="badge b-med">Medium</span></td>
+      <td><span class="badge b-high">Strong</span></td>
+      <td><span class="blank">Leadership</span></td>
+    </tr>
+
+
+    <tr>
+      <td class="rank">8</td>
+      <td><strong>College-List Builder</strong><div class="sub">Whole-student admissions</div></td>
+      <td>Construct a balanced school portfolio using competitiveness, fit, major strategy, and family preferences.</td>
+      <td><span class="badge b-high">High</span></td>
+      <td><span class="badge b-high">High</span></td>
+      <td><span class="badge b-med">Partial</span></td>
+      <td><span class="badge b-high">High</span></td>
+      <td><span class="badge b-med">Conditional</span></td>
+      <td><span class="blank">Leadership</span></td>
+    </tr>
+
+
+    <tr>
+      <td class="rank">9</td>
+      <td><strong>Application Positioning Planner</strong><div class="sub">Whole-student admissions</div></td>
+      <td>Decide what the application should emphasize for a particular institution, program, or major.</td>
+      <td><span class="badge b-high">High</span></td>
+      <td><span class="badge b-high">High</span></td>
+      <td><span class="badge b-med">Partial</span></td>
+      <td><span class="badge b-med">Medium</span></td>
+      <td><span class="badge b-med">Conditional</span></td>
+      <td><span class="blank">Leadership</span></td>
+    </tr>
+
+
+    <tr>
+      <td class="rank">10</td>
+      <td><strong>Early-Application Strategy Planner</strong><div class="sub">Whole-student admissions</div></td>
+      <td>Evaluate where, whether, and how the student should use ED, EA, or other early-round opportunities.</td>
+      <td><span class="badge b-med">Medium</span></td>
+      <td><span class="badge b-high">High</span></td>
+      <td><span class="badge b-med">Partial</span></td>
+      <td><span class="badge b-med">Medium</span></td>
+      <td><span class="badge b-med">Conditional</span></td>
+      <td><span class="blank">Leadership</span></td>
+    </tr>
+    </tbody></table></div>
+</section>
+
+    <section class="tool-profile" id="tool-1">
+      <div class="profile-head">
+        <div>
+          <div class="eyebrow">Survey rank 1 · Whole-student admissions</div>
+          <h2>Institution &amp; Program Evaluation</h2>
+          <p class="lead">Evaluate one student–institution–program pairing through separate competitiveness and fit lenses.</p>
+        </div>
+        <div class="rank-orb">1</div>
+      </div>
+      <div class="grid two">
+        <article class="panel"><h3>Survey-derived case</h3><p>The strongest general-survey priority: contextual competitiveness was selected by 8 of 10 respondents and ranked first by 6; college/program fit was among the highest-rated profile dimensions.</p></article>
+        <article class="panel"><h3>Primary boundary</h3><p>No admit/reject verdict; no single-point probability; evaluates one pairing rather than constructing the full college list.</p></article>
+      </div>
+      <article class="panel"><h3>Consultant workflow</h3><ol class="workflow"><li>Select student, institution, program or major, and application round.</li><li>Check profile completeness and identify missing or weak evidence.</li><li>Define and inspect the comparison cohort.</li><li>Review competitiveness and fit through separate lenses.</li><li>Inspect comparable cases, source evidence, sample size, and uncertainty.</li><li>Record the consultant’s interpretation and recommended next steps.</li></ol></article>
+      <div class="grid two">
+        <article class="panel"><h3>Inputs</h3><p>Transcript, course rigor, testing, activities, intended major, essays, school context, historical cases and outcomes.</p></article>
+        <article class="panel"><h3>Outputs</h3><p>Competitiveness range, fit assessment, strengths and risks, comparable cases, evidence lineage, confidence and consultant notes.</p></article>
+      </div>
+      <article class="panel assessment">
+        <h3>Provisional delivery assessment</h3>
+        <div class="assessment-grid">
+          <div><span>Marketability</span><span class="badge b-high">High</span></div>
+          <div><span>Demonstration value</span><span class="badge b-high">High</span></div>
+          <div><span>Data readiness</span><span class="badge b-med">Partial</span></div>
+          <div><span>Complexity</span><span class="badge b-high">High</span></div>
+          <div><span>September feasibility</span><span class="badge b-med">Conditional</span></div>
+        </div>
+        <p class="recommendation"><strong>Working recommendation:</strong> Advance as a bounded pilot for selected institutions and programs.</p>
+      </article>
+      <article class="panel leadership">
+        <h3>Leadership evaluation</h3>
+        <div class="leadership-grid">
+          <label>Revised priority<input type="text" placeholder="1–10 or Defer"></label>
+          <label>Decision<select><option>Undecided</option><option>Build pilot</option><option>Hold</option><option>Defer</option></select></label>
+          <label class="wide">Comments<textarea placeholder="Leadership rationale, marketability considerations, pilot scope, and required commitments"></textarea></label>
+        </div>
+      </article>
+    </section>
+
+    <section class="tool-profile" id="tool-2">
+      <div class="profile-head">
+        <div>
+          <div class="eyebrow">Survey rank 2 · Whole-student admissions</div>
+          <h2>Comparable Applicant &amp; Profile Benchmarking</h2>
+          <p class="lead">Find relevant historical applicants and show how the current student is similar, stronger, weaker, or simply different.</p>
+        </div>
+        <div class="rank-orb">2</div>
+      </div>
+      <div class="grid two">
+        <article class="panel"><h3>Survey-derived case</h3><p>Two of the three strongest general-survey needs concerned comparative strengths/weaknesses and prior Ilumin applicant patterns; each was selected by 8 of 10 respondents.</p></article>
+        <article class="panel"><h3>Primary boundary</h3><p>No opaque universal similarity score; historical outcomes inform but do not determine the present case.</p></article>
+      </div>
+      <article class="panel"><h3>Consultant workflow</h3><ol class="workflow"><li>Choose the comparison purpose and relevant dimensions.</li><li>Retrieve candidate historical comparables.</li><li>Show why each case was selected.</li><li>Compare the student dimension by dimension.</li><li>Let the consultant retain, remove, or qualify cases.</li><li>Save a consultant-approved benchmark set.</li></ol></article>
+      <div class="grid two">
+        <article class="panel"><h3>Inputs</h3><p>Normalized historical profiles, outcomes, intended majors, institution/program context, academic and activity features.</p></article>
+        <article class="panel"><h3>Outputs</h3><p>Comparable-case set, similarity rationale, relative strengths and risks, historical outcome context and consultant qualifications.</p></article>
+      </div>
+      <article class="panel assessment">
+        <h3>Provisional delivery assessment</h3>
+        <div class="assessment-grid">
+          <div><span>Marketability</span><span class="badge b-high">High</span></div>
+          <div><span>Demonstration value</span><span class="badge b-high">High</span></div>
+          <div><span>Data readiness</span><span class="badge b-med">Partial</span></div>
+          <div><span>Complexity</span><span class="badge b-high">High</span></div>
+          <div><span>September feasibility</span><span class="badge b-med">Conditional</span></div>
+        </div>
+        <p class="recommendation"><strong>Working recommendation:</strong> Strong pilot candidate using an audited institutional subset.</p>
+      </article>
+      <article class="panel leadership">
+        <h3>Leadership evaluation</h3>
+        <div class="leadership-grid">
+          <label>Revised priority<input type="text" placeholder="1–10 or Defer"></label>
+          <label>Decision<select><option>Undecided</option><option>Build pilot</option><option>Hold</option><option>Defer</option></select></label>
+          <label class="wide">Comments<textarea placeholder="Leadership rationale, marketability considerations, pilot scope, and required commitments"></textarea></label>
+        </div>
+      </article>
+    </section>
+
+    <section class="tool-profile" id="tool-3">
+      <div class="profile-head">
+        <div>
+          <div class="eyebrow">Survey rank 3 · Essay development</div>
+          <h2>Essay Concept Strategy Studio</h2>
+          <p class="lead">Help consultants establish an essay concept through topic evidence, topic selection, and meaning or reframing.</p>
+        </div>
+        <div class="rank-orb">3</div>
+      </div>
+      <div class="grid two">
+        <article class="panel"><h3>Survey-derived case</h3><p>Historical topic distribution with outcome context ranked first by 7 of 10 essay respondents; topic recommendation ranked second. Qualitative responses repeatedly described the movement from event to meaning.</p></article>
+        <article class="panel"><h3>Primary boundary</h3><p>Evidence and suggestions do not replace student agency or consultant judgment; no school recommendation from essay text alone.</p></article>
+      </div>
+      <article class="panel"><h3>Consultant workflow</h3><ol class="workflow"><li>Identify prompt and essay genre.</li><li>Review historical topic patterns and outcome context.</li><li>Elicit candidate experiences from the student.</li><li>Compare topic options without reducing them to a score.</li><li>Clarify what the chosen experience is truly about.</li><li>Record the consultant-approved concept and cautions.</li></ol></article>
+      <div class="grid two">
+        <article class="panel"><h3>Inputs</h3><p>Prompt, genre, whole-student context, prior essay topics, anonymized exemplars and validated outcomes.</p></article>
+        <article class="panel"><h3>Outputs</h3><p>Topic landscape, candidate concepts, distinctiveness context, meaning/reframing map and consultant-selected direction.</p></article>
+      </div>
+      <article class="panel assessment">
+        <h3>Provisional delivery assessment</h3>
+        <div class="assessment-grid">
+          <div><span>Marketability</span><span class="badge b-high">High</span></div>
+          <div><span>Demonstration value</span><span class="badge b-high">High</span></div>
+          <div><span>Data readiness</span><span class="badge b-med">Partial</span></div>
+          <div><span>Complexity</span><span class="badge b-med">Medium</span></div>
+          <div><span>September feasibility</span><span class="badge b-med">Conditional</span></div>
+        </div>
+        <p class="recommendation"><strong>Working recommendation:</strong> Highly demonstrable bounded prototype with a curated essay corpus.</p>
+      </article>
+      <article class="panel leadership">
+        <h3>Leadership evaluation</h3>
+        <div class="leadership-grid">
+          <label>Revised priority<input type="text" placeholder="1–10 or Defer"></label>
+          <label>Decision<select><option>Undecided</option><option>Build pilot</option><option>Hold</option><option>Defer</option></select></label>
+          <label class="wide">Comments<textarea placeholder="Leadership rationale, marketability considerations, pilot scope, and required commitments"></textarea></label>
+        </div>
+      </article>
+    </section>
+
+    <section class="tool-profile" id="tool-4">
+      <div class="profile-head">
+        <div>
+          <div class="eyebrow">Survey rank 4 · Whole-student admissions</div>
+          <h2>Near-Term Action Prioritizer</h2>
+          <p class="lead">Identify the highest-value improvements that remain realistically achievable before deadlines.</p>
+        </div>
+        <div class="rank-orb">4</div>
+      </div>
+      <div class="grid two">
+        <article class="panel"><h3>Survey-derived case</h3><p>Actionable improvements before deadlines ranked fourth overall and were selected by 6 of 10 respondents.</p></article>
+        <article class="panel"><h3>Primary boundary</h3><p>Recommendations are options, not unilateral prescriptions; only realistic actions enter the final plan.</p></article>
+      </div>
+      <article class="panel"><h3>Consultant workflow</h3><ol class="workflow"><li>Confirm deadlines and remaining time.</li><li>Review strengths, risks, and evidence gaps.</li><li>Estimate effort, feasibility, and likely strategic value.</li><li>Generate an ordered set of options.</li><li>Let the consultant accept, modify, or reject recommendations.</li><li>Convert approved actions into a timeline.</li></ol></article>
+      <div class="grid two">
+        <article class="panel"><h3>Inputs</h3><p>Student profile, application calendar, evidence gaps, target institutions, major strategy and available resources.</p></article>
+        <article class="panel"><h3>Outputs</h3><p>Prioritized actions, effort/value tradeoffs, deadlines, dependencies and consultant-approved plan.</p></article>
+      </div>
+      <article class="panel assessment">
+        <h3>Provisional delivery assessment</h3>
+        <div class="assessment-grid">
+          <div><span>Marketability</span><span class="badge b-high">High</span></div>
+          <div><span>Demonstration value</span><span class="badge b-high">High</span></div>
+          <div><span>Data readiness</span><span class="badge b-med">Partial</span></div>
+          <div><span>Complexity</span><span class="badge b-med">Medium</span></div>
+          <div><span>September feasibility</span><span class="badge b-med">Conditional</span></div>
+        </div>
+        <p class="recommendation"><strong>Working recommendation:</strong> Strong pilot candidate once the student profile and deadline model are available.</p>
+      </article>
+      <article class="panel leadership">
+        <h3>Leadership evaluation</h3>
+        <div class="leadership-grid">
+          <label>Revised priority<input type="text" placeholder="1–10 or Defer"></label>
+          <label>Decision<select><option>Undecided</option><option>Build pilot</option><option>Hold</option><option>Defer</option></select></label>
+          <label class="wide">Comments<textarea placeholder="Leadership rationale, marketability considerations, pilot scope, and required commitments"></textarea></label>
+        </div>
+      </article>
+    </section>
+
+    <section class="tool-profile" id="tool-5">
+      <div class="profile-head">
+        <div>
+          <div class="eyebrow">Survey rank 5 · Whole-student admissions</div>
+          <h2>Academic &amp; Career Direction Explorer</h2>
+          <p class="lead">Explore academic fields and career pathways that fit the student, using separate major-direction and career-direction modes.</p>
+        </div>
+        <div class="rank-orb">5</div>
+      </div>
+      <div class="grid two">
+        <article class="panel"><h3>Survey-derived case</h3><p>Major and career direction was selected by 9 of 10 respondents as an area where analytics would help.</p></article>
+        <article class="panel"><h3>Primary boundary</h3><p>Exploration does not decide the student’s future; career direction remains a secondary mode with lower direct survey support.</p></article>
+      </div>
+      <article class="panel"><h3>Consultant workflow</h3><ol class="workflow"><li>Review interests, preparation, activities, values, and opportunity context.</li><li>Generate plausible academic directions.</li><li>Inspect major alignment and gaps.</li><li>Explore related career pathways separately.</li><li>Compare alternatives and tradeoffs.</li><li>Record the consultant’s directional judgment.</li></ol></article>
+      <div class="grid two">
+        <article class="panel"><h3>Inputs</h3><p>Academic record, activities, student interests, reflective materials, intended fields and program information.</p></article>
+        <article class="panel"><h3>Outputs</h3><p>Academic-direction options, career-pathway options, alignment evidence, gaps and consultant conclusion.</p></article>
+      </div>
+      <article class="panel assessment">
+        <h3>Provisional delivery assessment</h3>
+        <div class="assessment-grid">
+          <div><span>Marketability</span><span class="badge b-high">High</span></div>
+          <div><span>Demonstration value</span><span class="badge b-high">High</span></div>
+          <div><span>Data readiness</span><span class="badge b-med">Partial</span></div>
+          <div><span>Complexity</span><span class="badge b-high">High</span></div>
+          <div><span>September feasibility</span><span class="badge b-med">Conditional</span></div>
+        </div>
+        <p class="recommendation"><strong>Working recommendation:</strong> Prototype as a guided exploration rather than an autonomous recommender.</p>
+      </article>
+      <article class="panel leadership">
+        <h3>Leadership evaluation</h3>
+        <div class="leadership-grid">
+          <label>Revised priority<input type="text" placeholder="1–10 or Defer"></label>
+          <label>Decision<select><option>Undecided</option><option>Build pilot</option><option>Hold</option><option>Defer</option></select></label>
+          <label class="wide">Comments<textarea placeholder="Leadership rationale, marketability considerations, pilot scope, and required commitments"></textarea></label>
+        </div>
+      </article>
+    </section>
+
+    <section class="tool-profile" id="tool-6">
+      <div class="profile-head">
+        <div>
+          <div class="eyebrow">Survey rank 6 · Whole-student admissions</div>
+          <h2>Major Strategy Analyzer</h2>
+          <p class="lead">Evaluate how intended or alternate-major choices change competitiveness, school options, and application positioning.</p>
+        </div>
+        <div class="rank-orb">6</div>
+      </div>
+      <div class="grid two">
+        <article class="panel"><h3>Survey-derived case</h3><p>The effect of intended major on competitiveness and strategy was selected by 6 of 10 respondents and recurred strongly in open-response examples.</p></article>
+        <article class="panel"><h3>Primary boundary</h3><p>Does not determine what the student should study; that belongs to the Direction Explorer.</p></article>
+      </div>
+      <article class="panel"><h3>Consultant workflow</h3><ol class="workflow"><li>Select intended and alternate majors.</li><li>Compare program structures and selectivity context.</li><li>Evaluate profile alignment for each option.</li><li>Inspect historical comparable cases.</li><li>Surface strategic tradeoffs across schools.</li><li>Record the consultant’s major-strategy judgment.</li></ol></article>
+      <div class="grid two">
+        <article class="panel"><h3>Inputs</h3><p>Student profile, intended majors, program-level historical data, institution rules and application options.</p></article>
+        <article class="panel"><h3>Outputs</h3><p>Major-option comparison, competitiveness shifts, alignment evidence, alternate-major considerations and consultant notes.</p></article>
+      </div>
+      <article class="panel assessment">
+        <h3>Provisional delivery assessment</h3>
+        <div class="assessment-grid">
+          <div><span>Marketability</span><span class="badge b-high">High</span></div>
+          <div><span>Demonstration value</span><span class="badge b-high">High</span></div>
+          <div><span>Data readiness</span><span class="badge b-med">Partial</span></div>
+          <div><span>Complexity</span><span class="badge b-high">High</span></div>
+          <div><span>September feasibility</span><span class="badge b-med">Conditional</span></div>
+        </div>
+        <p class="recommendation"><strong>Working recommendation:</strong> Pilot only where program- and major-level data are sufficiently complete.</p>
+      </article>
+      <article class="panel leadership">
+        <h3>Leadership evaluation</h3>
+        <div class="leadership-grid">
+          <label>Revised priority<input type="text" placeholder="1–10 or Defer"></label>
+          <label>Decision<select><option>Undecided</option><option>Build pilot</option><option>Hold</option><option>Defer</option></select></label>
+          <label class="wide">Comments<textarea placeholder="Leadership rationale, marketability considerations, pilot scope, and required commitments"></textarea></label>
+        </div>
+      </article>
+    </section>
+
+    <section class="tool-profile" id="tool-7">
+      <div class="profile-head">
+        <div>
+          <div class="eyebrow">Survey rank 7 · Whole-student admissions</div>
+          <h2>Student Evidence &amp; Readiness Profile</h2>
+          <p class="lead">Orient the consultant to the complete case and distinguish missing information from weak evidence.</p>
+        </div>
+        <div class="rank-orb">7</div>
+      </div>
+      <div class="grid two">
+        <article class="panel"><h3>Survey-derived case</h3><p>A concise student profile and evidence supporting assessments were each selected by 6 of 10 respondents; missing or weak-evidence flags by 5 of 10.</p></article>
+        <article class="panel"><h3>Primary boundary</h3><p>The profile is not a verdict or a generic dashboard; it is an evidence-oriented case review.</p></article>
+      </div>
+      <article class="panel"><h3>Consultant workflow</h3><ol class="workflow"><li>Assemble the canonical student record.</li><li>Show source documents and provenance.</li><li>Summarize profile dimensions without hiding missingness.</li><li>Flag absent information and weakly supported claims separately.</li><li>Invite consultant corrections and annotations.</li><li>Publish an approved case snapshot for downstream tools.</li></ol></article>
+      <div class="grid two">
+        <article class="panel"><h3>Inputs</h3><p>CouncilMore fields, Google Drive documents, transcripts, essays, activities, notes and source metadata.</p></article>
+        <article class="panel"><h3>Outputs</h3><p>Student overview, evidence map, completeness status, weak-evidence flags, provenance and consultant annotations.</p></article>
+      </div>
+      <article class="panel assessment">
+        <h3>Provisional delivery assessment</h3>
+        <div class="assessment-grid">
+          <div><span>Marketability</span><span class="badge b-med">Medium</span></div>
+          <div><span>Demonstration value</span><span class="badge b-high">High</span></div>
+          <div><span>Data readiness</span><span class="badge b-med">Partial</span></div>
+          <div><span>Complexity</span><span class="badge b-med">Medium</span></div>
+          <div><span>September feasibility</span><span class="badge b-high">Strong</span></div>
+        </div>
+        <p class="recommendation"><strong>Working recommendation:</strong> Best foundational vertical slice and likely prerequisite for several other tools.</p>
+      </article>
+      <article class="panel leadership">
+        <h3>Leadership evaluation</h3>
+        <div class="leadership-grid">
+          <label>Revised priority<input type="text" placeholder="1–10 or Defer"></label>
+          <label>Decision<select><option>Undecided</option><option>Build pilot</option><option>Hold</option><option>Defer</option></select></label>
+          <label class="wide">Comments<textarea placeholder="Leadership rationale, marketability considerations, pilot scope, and required commitments"></textarea></label>
+        </div>
+      </article>
+    </section>
+
+    <section class="tool-profile" id="tool-8">
+      <div class="profile-head">
+        <div>
+          <div class="eyebrow">Survey rank 8 · Whole-student admissions</div>
+          <h2>College-List Builder</h2>
+          <p class="lead">Construct a balanced school portfolio using competitiveness, fit, major strategy, and family preferences.</p>
+        </div>
+        <div class="rank-orb">8</div>
+      </div>
+      <div class="grid two">
+        <article class="panel"><h3>Survey-derived case</h3><p>College-list construction was selected as useful by 6 of 10 respondents and appeared in concrete family and sales scenarios.</p></article>
+        <article class="panel"><h3>Primary boundary</h3><p>Reach/target/likely labels are outputs, not the tool’s governing logic; the tool never removes options automatically.</p></article>
+      </div>
+      <article class="panel"><h3>Consultant workflow</h3><ol class="workflow"><li>Capture family preferences and constraints.</li><li>Evaluate candidate institutions through fit and competitiveness lenses.</li><li>Balance the portfolio across strategic categories.</li><li>Explain why each school is included.</li><li>Identify list gaps or concentration risks.</li><li>Record the consultant-approved list.</li></ol></article>
+      <div class="grid two">
+        <article class="panel"><h3>Inputs</h3><p>Student profile, institution evaluations, family preferences, financial and geographic constraints, major strategy.</p></article>
+        <article class="panel"><h3>Outputs</h3><p>Balanced college list, inclusion rationales, portfolio balance, cautions and consultant-approved categories.</p></article>
+      </div>
+      <article class="panel assessment">
+        <h3>Provisional delivery assessment</h3>
+        <div class="assessment-grid">
+          <div><span>Marketability</span><span class="badge b-high">High</span></div>
+          <div><span>Demonstration value</span><span class="badge b-high">High</span></div>
+          <div><span>Data readiness</span><span class="badge b-med">Partial</span></div>
+          <div><span>Complexity</span><span class="badge b-high">High</span></div>
+          <div><span>September feasibility</span><span class="badge b-med">Conditional</span></div>
+        </div>
+        <p class="recommendation"><strong>Working recommendation:</strong> Strong market-facing candidate after the evaluation engine is available.</p>
+      </article>
+      <article class="panel leadership">
+        <h3>Leadership evaluation</h3>
+        <div class="leadership-grid">
+          <label>Revised priority<input type="text" placeholder="1–10 or Defer"></label>
+          <label>Decision<select><option>Undecided</option><option>Build pilot</option><option>Hold</option><option>Defer</option></select></label>
+          <label class="wide">Comments<textarea placeholder="Leadership rationale, marketability considerations, pilot scope, and required commitments"></textarea></label>
+        </div>
+      </article>
+    </section>
+
+    <section class="tool-profile" id="tool-9">
+      <div class="profile-head">
+        <div>
+          <div class="eyebrow">Survey rank 9 · Whole-student admissions</div>
+          <h2>Application Positioning Planner</h2>
+          <p class="lead">Decide what the application should emphasize for a particular institution, program, or major.</p>
+        </div>
+        <div class="rank-orb">9</div>
+      </div>
+      <div class="grid two">
+        <article class="panel"><h3>Survey-derived case</h3><p>Application positioning was selected by 6 of 10 respondents and remained distinct from major strategy and profile coherence during adjudication.</p></article>
+        <article class="panel"><h3>Primary boundary</h3><p>Does not manufacture a story or overwrite authenticity; diagnosis and strategy remain inspectable.</p></article>
+      </div>
+      <article class="panel"><h3>Consultant workflow</h3><ol class="workflow"><li>Review the whole student profile and intended destination.</li><li>Assess coherence, major alignment, and program fit.</li><li>Identify differentiating evidence.</li><li>Select themes to emphasize and material to de-emphasize.</li><li>Check activities and essays for alignment.</li><li>Record the consultant’s positioning brief.</li></ol></article>
+      <div class="grid two">
+        <article class="panel"><h3>Inputs</h3><p>Student evidence profile, institution/program evaluation, activities, essays, major strategy and family context.</p></article>
+        <article class="panel"><h3>Outputs</h3><p>Positioning thesis, supporting evidence, alignment review, risks and consultant-approved emphasis.</p></article>
+      </div>
+      <article class="panel assessment">
+        <h3>Provisional delivery assessment</h3>
+        <div class="assessment-grid">
+          <div><span>Marketability</span><span class="badge b-high">High</span></div>
+          <div><span>Demonstration value</span><span class="badge b-high">High</span></div>
+          <div><span>Data readiness</span><span class="badge b-med">Partial</span></div>
+          <div><span>Complexity</span><span class="badge b-med">Medium</span></div>
+          <div><span>September feasibility</span><span class="badge b-med">Conditional</span></div>
+        </div>
+        <p class="recommendation"><strong>Working recommendation:</strong> Develop after the profile and institution-evaluation foundations.</p>
+      </article>
+      <article class="panel leadership">
+        <h3>Leadership evaluation</h3>
+        <div class="leadership-grid">
+          <label>Revised priority<input type="text" placeholder="1–10 or Defer"></label>
+          <label>Decision<select><option>Undecided</option><option>Build pilot</option><option>Hold</option><option>Defer</option></select></label>
+          <label class="wide">Comments<textarea placeholder="Leadership rationale, marketability considerations, pilot scope, and required commitments"></textarea></label>
+        </div>
+      </article>
+    </section>
+
+    <section class="tool-profile" id="tool-10">
+      <div class="profile-head">
+        <div>
+          <div class="eyebrow">Survey rank 10 · Whole-student admissions</div>
+          <h2>Early-Application Strategy Planner</h2>
+          <p class="lead">Evaluate where, whether, and how the student should use ED, EA, or other early-round opportunities.</p>
+        </div>
+        <div class="rank-orb">10</div>
+      </div>
+      <div class="grid two">
+        <article class="panel"><h3>Survey-derived case</h3><p>ED/EA/RD strategy was selected by 5 of 10 respondents, with concrete examples where early-round choices materially affected advice.</p></article>
+        <article class="panel"><h3>Primary boundary</h3><p>The system supports rather than makes the binding decision; missing round-specific data must be visible.</p></article>
+      </div>
+      <article class="panel"><h3>Consultant workflow</h3><ol class="workflow"><li>Select candidate early-round institutions.</li><li>Review binding rules, fit, competitiveness, and family constraints.</li><li>Compare early and regular-round tradeoffs.</li><li>Inspect relevant historical cases where available.</li><li>Surface strategic risks and opportunity costs.</li><li>Record the consultant-supported family decision.</li></ol></article>
+      <div class="grid two">
+        <article class="panel"><h3>Inputs</h3><p>College list, institution/program evaluations, round-specific data, family preferences, financial constraints and deadlines.</p></article>
+        <article class="panel"><h3>Outputs</h3><p>Early-round comparison, strategic tradeoffs, cautions, deadline plan and consultant recommendation.</p></article>
+      </div>
+      <article class="panel assessment">
+        <h3>Provisional delivery assessment</h3>
+        <div class="assessment-grid">
+          <div><span>Marketability</span><span class="badge b-med">Medium</span></div>
+          <div><span>Demonstration value</span><span class="badge b-high">High</span></div>
+          <div><span>Data readiness</span><span class="badge b-med">Partial</span></div>
+          <div><span>Complexity</span><span class="badge b-med">Medium</span></div>
+          <div><span>September feasibility</span><span class="badge b-med">Conditional</span></div>
+        </div>
+        <p class="recommendation"><strong>Working recommendation:</strong> Pilot after the college-list and institution-evaluation workflows are connected.</p>
+      </article>
+      <article class="panel leadership">
+        <h3>Leadership evaluation</h3>
+        <div class="leadership-grid">
+          <label>Revised priority<input type="text" placeholder="1–10 or Defer"></label>
+          <label>Decision<select><option>Undecided</option><option>Build pilot</option><option>Hold</option><option>Defer</option></select></label>
+          <label class="wide">Comments<textarea placeholder="Leadership rationale, marketability considerations, pilot scope, and required commitments"></textarea></label>
+        </div>
+      </article>
+    </section>
+
+</main>
+<footer><strong>Working draft v0.1.</strong> Designed for leadership prioritization of three to five interactive September candidates. All analytical outputs should expose evidence, cohort definitions, sample size, missingness, and the limits of what the system is entitled to decide.</footer>
+</body>
+</html>
