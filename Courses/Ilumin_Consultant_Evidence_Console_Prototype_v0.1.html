@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ilumin Consultant Evidence Console Prototype</title>
+<style>
+:root{--navy:#122944;--navy2:#0b1b2e;--teal:#42b7ad;--teal2:#bfece7;--gold:#c99b3d;--paper:#f3f6f9;--white:#fff;--ink:#223142;--muted:#6b7887;--line:#dce4eb;--good:#2d8a5e;--warn:#ad741f;--risk:#b64d51}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;background:var(--paper);color:var(--ink)}button,input,select,textarea{font:inherit}button{cursor:pointer}
+.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}.sidebar{background:linear-gradient(180deg,var(--navy2),var(--navy));color:white;padding:24px 18px;position:sticky;top:0;height:100vh;overflow:auto}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:30px}.logo{width:42px;height:42px;border-radius:12px;background:var(--teal);display:grid;place-items:center;font-weight:950;color:var(--navy2)}.brand strong{display:block;font-family:Georgia,serif;font-size:1.25rem}.brand small{color:#9ec1ce}
+.nav-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.13em;color:#79a0b1;font-weight:900;margin:23px 10px 8px}.nav-item{display:flex;align-items:center;gap:10px;color:#d8e5ed;text-decoration:none;padding:11px 12px;border-radius:9px;margin:3px 0}.nav-item.active,.nav-item:hover{background:rgba(66,183,173,.17);color:white}
+.sidebar-note{margin-top:28px;padding:14px;border:1px solid rgba(255,255,255,.13);border-radius:10px;color:#bcd0dc;font-size:.78rem;line-height:1.55}.content{min-width:0}
+.topbar{height:72px;background:white;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:5}.search{display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;width:min(480px,55vw);color:var(--muted)}.search input{border:0;outline:0;width:100%}
+.user{display:flex;align-items:center;gap:10px}.avatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#d7f1ee;color:var(--navy);font-weight:900}
+.workspace{padding:28px;max-width:1480px;margin:auto}.banner{background:linear-gradient(120deg,#f7fffe,#eef7fb);border:1px solid #cfe7e4;border-radius:16px;padding:22px;display:flex;justify-content:space-between;gap:20px;align-items:flex-start}
+.student h1{margin:3px 0 8px;font-family:Georgia,serif;color:var(--navy)}.student p{margin:0;color:var(--muted)}.eyebrow{font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;color:#26877e;font-weight:900}
+.completeness{min-width:220px;background:white;border:1px solid var(--line);border-radius:12px;padding:14px}.meter{height:8px;background:#e9eef2;border-radius:99px;overflow:hidden;margin:10px 0}.meter span{display:block;height:100%;width:84%;background:var(--teal)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0}.stat{background:white;border:1px solid var(--line);border-radius:13px;padding:16px}.stat small{color:var(--muted);text-transform:uppercase;font-size:.68rem;font-weight:900;letter-spacing:.08em}.stat strong{display:block;font-size:1.4rem;margin-top:6px;color:var(--navy)}
+.layout{display:grid;grid-template-columns:340px minmax(0,1fr);gap:18px}.panel{background:white;border:1px solid var(--line);border-radius:15px;box-shadow:0 10px 30px rgba(18,41,68,.045)}.panel-head{padding:17px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}.panel-head h2{margin:0;font-family:Georgia,serif;font-size:1.22rem;color:var(--navy)}
+.tool-list{padding:10px;display:grid;gap:7px;max-height:715px;overflow:auto}.tool-card{border:1px solid transparent;background:white;border-radius:11px;padding:11px;text-align:left;display:grid;grid-template-columns:30px 1fr auto;gap:10px;align-items:center;color:var(--ink)}.tool-card:hover{background:#f7fafc;border-color:var(--line)}.tool-card.active{background:#eaf7f5;border-color:#98d8d1}
+.tool-rank{width:28px;height:28px;border-radius:8px;background:#eef2f6;display:grid;place-items:center;font-weight:900;color:var(--navy)}.tool-card.active .tool-rank{background:var(--teal);color:white}.tool-card small{display:block;color:var(--muted);margin-top:3px}.tool-card em{font-style:normal;font-size:.67rem;color:#537182;background:#edf3f6;padding:5px 7px;border-radius:99px;white-space:nowrap}.tool-card.active em{background:white;color:#1f786f}
+.tool-body{padding:20px}.tool-title{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}.tool-title h2{margin:0;font-family:Georgia,serif;color:var(--navy);font-size:1.65rem}.tool-title p{color:var(--muted);line-height:1.5;margin:7px 0 0}.status{background:#ddf3e7;color:#226e4a;border-radius:99px;padding:6px 9px;font-size:.72rem;font-weight:900;white-space:nowrap}
+.form-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}label{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;font-weight:900;color:#587080}select{width:100%;margin-top:6px;padding:10px;border:1px solid #c9d5df;border-radius:8px;background:white;color:var(--ink)}
+.primary{border:0;background:var(--navy);color:white;padding:11px 16px;border-radius:9px;font-weight:850}.primary:hover{background:#1c3b61}.notice{padding:11px 13px;background:#fff7df;border:1px solid #eed59b;color:#74531a;border-radius:9px;font-size:.78rem;line-height:1.5}
+.result-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:14px;margin-top:16px}.result-card{border:1px solid var(--line);border-radius:12px;padding:16px;background:#fbfcfd}.result-card h3{margin:0 0 12px;color:var(--navy);font-size:1rem}
+.range{display:flex;align-items:center;gap:12px}.range strong{font-size:1.55rem;color:var(--warn)}.range-bar{height:12px;background:linear-gradient(90deg,#d55 0 30%,#e2b34f 30% 68%,#59a878 68%);border-radius:99px;position:relative;flex:1}.marker{position:absolute;left:36%;top:-5px;width:4px;height:22px;background:var(--navy);border-radius:4px}
+.lens-list{display:grid;gap:9px}.lens{display:flex;justify-content:space-between;gap:12px;padding:9px;border-radius:8px;background:white;border:1px solid var(--line)}.lens b{color:var(--navy)}.pill{font-size:.7rem;font-weight:900;padding:4px 7px;border-radius:99px}.p-good{background:#dff3e7;color:#246b49}.p-med{background:#fff0c9;color:#805a13}.p-risk{background:#f8dfe0;color:#8b3337}
+.tabs{display:flex;gap:6px;margin-top:18px;border-bottom:1px solid var(--line)}.tab{border:0;background:transparent;padding:10px 13px;color:var(--muted);font-weight:800;border-bottom:3px solid transparent}.tab.active{color:var(--navy);border-color:var(--teal)}.tab-panel{display:none;padding:15px 0}.tab-panel.active{display:block}
+.evidence-row{display:grid;grid-template-columns:1fr auto;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}.evidence-row small{display:block;color:var(--muted);margin-top:3px}.chat{margin-top:18px;border-top:1px solid var(--line);padding-top:18px}.chat-box{display:grid;grid-template-columns:1fr auto;gap:10px}textarea{resize:vertical;min-height:70px;border:1px solid #c9d5df;border-radius:9px;padding:10px}.interpret{margin-top:10px;background:#eef6fb;border-radius:9px;padding:12px;font-size:.8rem;color:#466273;display:none}
+.roadmap-placeholder{padding:30px;border:1px dashed #b8c5d0;border-radius:12px;background:#fafcfd;text-align:center;margin-top:18px}.roadmap-placeholder h3{color:var(--navy)}.roadmap-placeholder p{color:var(--muted);max-width:650px;margin:auto;line-height:1.6}
+@media(max-width:1050px){.app{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.layout,.result-grid{grid-template-columns:1fr}.form-grid,.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:650px){.workspace{padding:15px}.topbar{padding:0 15px}.stats,.form-grid{grid-template-columns:1fr}.banner{flex-direction:column}.layout{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+<div class="brand"><div class="logo">IL</div><div><strong>Ilumin</strong><small>Admissions Intelligence</small></div></div>
+<div class="nav-label">Workspace</div><a class="nav-item" href="#">⌂ &nbsp; Student overview</a><a class="nav-item active" href="#">◫ &nbsp; Evidence console</a><a class="nav-item" href="#">⌕ &nbsp; Historical corpus</a><a class="nav-item" href="#">✓ &nbsp; Data quality</a>
+<div class="nav-label">Organization</div><a class="nav-item" href="#">◎ &nbsp; Team learning</a><a class="nav-item" href="#">⚙ &nbsp; Administration</a>
+<div class="sidebar-note"><strong>Prototype v0.1</strong><br>This interface uses fictional student and analytical data. No production admissions model is connected.</div>
+</aside>
+<div class="content">
+<header class="topbar"><div class="search">⌕ <input placeholder="Search students, institutions, or evidence"></div><div class="user"><div><strong>Peter Alexander</strong><br><small>Product / Consultant</small></div><div class="avatar">PA</div></div></header>
+<main class="workspace">
+<section class="banner"><div class="student"><div class="eyebrow">Active student case · fictional demonstration</div><h1>Maya Chen</h1><p>Grade 11 · Bay Area public high school · Intended field: Bioengineering</p></div><div class="completeness"><strong>Evidence completeness</strong><div class="meter"><span></span></div><small>84% · Transcript and activities verified; recommendation evidence pending.</small></div></section>
+<section class="stats"><div class="stat"><small>Target institutions</small><strong>12</strong></div><div class="stat"><small>Historical comparables</small><strong>47</strong></div><div class="stat"><small>Open evidence gaps</small><strong>4</strong></div><div class="stat"><small>Next deadline</small><strong>38 days</strong></div></section>
+<section class="layout">
+<aside class="panel"><div class="panel-head"><h2>Consultant tools</h2><span class="status">10 candidates</span></div><div class="tool-list">
+    <button class="tool-card active" data-tool="1">
+      <span class="tool-rank">1</span>
+      <span><strong>Institution &amp; Program Evaluation</strong><small>Whole-student admissions</small></span>
+      <em>Interactive pilot</em>
+    </button>
+
+    <button class="tool-card " data-tool="2">
+      <span class="tool-rank">2</span>
+      <span><strong>Comparable Applicant &amp; Profile Benchmarking</strong><small>Whole-student admissions</small></span>
+      <em>Prototype</em>
+    </button>
+
+    <button class="tool-card " data-tool="3">
+      <span class="tool-rank">3</span>
+      <span><strong>Essay Concept Strategy Studio</strong><small>Essay development</small></span>
+      <em>Prototype</em>
+    </button>
+
+    <button class="tool-card " data-tool="4">
+      <span class="tool-rank">4</span>
+      <span><strong>Near-Term Action Prioritizer</strong><small>Whole-student admissions</small></span>
+      <em>Roadmap</em>
+    </button>
+
+    <button class="tool-card " data-tool="5">
+      <span class="tool-rank">5</span>
+      <span><strong>Academic &amp; Career Direction Explorer</strong><small>Whole-student admissions</small></span>
+      <em>Roadmap</em>
+    </button>
+
+    <button class="tool-card " data-tool="6">
+      <span class="tool-rank">6</span>
+      <span><strong>Major Strategy Analyzer</strong><small>Whole-student admissions</small></span>
+      <em>Roadmap</em>
+    </button>
+
+    <button class="tool-card " data-tool="7">
+      <span class="tool-rank">7</span>
+      <span><strong>Student Evidence &amp; Readiness Profile</strong><small>Whole-student admissions</small></span>
+      <em>Prototype</em>
+    </button>
+
+    <button class="tool-card " data-tool="8">
+      <span class="tool-rank">8</span>
+      <span><strong>College-List Builder</strong><small>Whole-student admissions</small></span>
+      <em>Roadmap</em>
+    </button>
+
+    <button class="tool-card " data-tool="9">
+      <span class="tool-rank">9</span>
+      <span><strong>Application Positioning Planner</strong><small>Whole-student admissions</small></span>
+      <em>Roadmap</em>
+    </button>
+
+    <button class="tool-card " data-tool="10">
+      <span class="tool-rank">10</span>
+      <span><strong>Early-Application Strategy Planner</strong><small>Whole-student admissions</small></span>
+      <em>Roadmap</em>
+    </button>
+    </div></aside>
+<section class="panel"><div class="tool-body">
+<div id="active-tool">
+<div class="tool-title"><div><div class="eyebrow">Survey rank 1 · Interactive pilot</div><h2>Institution & Program Evaluation</h2><p>Evaluate one student–institution–program pairing through separate competitiveness and fit lenses.</p></div><span class="status">Evidence-linked</span></div>
+<div class="form-grid">
+<label>Institution<select id="institution"><option>UC San Diego</option><option>UC Berkeley</option><option>Purdue University</option><option>Carnegie Mellon University</option></select></label>
+<label>Program<select id="program"><option>Bioengineering</option><option>Biomedical Engineering</option><option>Biological Sciences</option><option>Computer Science</option></select></label>
+<label>Application round<select id="round"><option>Regular Decision</option><option>Early Action</option><option>Early Decision</option></select></label>
+<label>Comparison context<select id="context"><option>Ilumin historical cases</option><option>Same-region applicants</option><option>Similar academic profile</option></select></label>
+</div>
+<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><button id="run" class="primary">Run evidence review</button><span class="notice">Demo output only. It illustrates interaction and evidence display—not a validated admission prediction.</span></div>
+<div class="result-grid">
+<article class="result-card"><h3>Competitiveness lens</h3><div class="range"><strong id="band">Reach–Competitive</strong><div class="range-bar"><span id="marker" class="marker"></span></div></div><p id="summary" style="color:var(--muted);line-height:1.55">The student is academically plausible for the selected context, but the historical comparison set shows elevated program selectivity and incomplete research evidence.</p><div class="lens-list"><div class="lens"><span><b>Academic preparation</b><br><small>Rigor and grades against cohort</small></span><span class="pill p-good">Strong</span></div><div class="lens"><span><b>Major alignment</b><br><small>Coursework, activities, and direction</small></span><span class="pill p-med">Developing</span></div><div class="lens"><span><b>Distinctive evidence</b><br><small>Research, initiative, contribution</small></span><span class="pill p-risk">Limited</span></div></div></article>
+<article class="result-card"><h3>Fit lens</h3><div class="lens-list"><div class="lens"><span><b>Academic fit</b><br><small>Program structure and preparation</small></span><span class="pill p-good">High</span></div><div class="lens"><span><b>Learning environment</b><br><small>Research-oriented, collaborative</small></span><span class="pill p-good">High</span></div><div class="lens"><span><b>Geographic / family fit</b><br><small>Preference data incomplete</small></span><span class="pill p-med">Review</span></div></div><p style="color:var(--muted);line-height:1.55">Fit remains a consultant judgment. This panel summarizes evidence but does not collapse preferences and program characteristics into one score.</p></article>
+</div>
+<div class="tabs"><button class="tab active" data-tab="evidence">Evidence</button><button class="tab" data-tab="comparables">Comparable cases</button><button class="tab" data-tab="notes">Consultant notes</button></div>
+<div id="evidence" class="tab-panel active"><div class="evidence-row"><span><strong>Transcript and course rigor</strong><small>Verified source · 11 AP/advanced courses projected by graduation</small></span><span class="pill p-good">Complete</span></div><div class="evidence-row"><span><strong>Activities profile</strong><small>Robotics, hospital volunteering, independent biology project</small></span><span class="pill p-good">Complete</span></div><div class="evidence-row"><span><strong>Research depth</strong><small>No externally reviewed or mentored research evidence attached</small></span><span class="pill p-risk">Weak</span></div><div class="evidence-row"><span><strong>Comparison cohort</strong><small id="cohort">n=24 audited Ilumin cases · 2022–2025 · selected program context</small></span><span class="pill p-med">Moderate</span></div></div>
+<div id="comparables" class="tab-panel"><div class="evidence-row"><span><strong>Comparable A</strong><small>Similar rigor and intended field; stronger research artifact; admitted</small></span><span class="pill p-good">High relevance</span></div><div class="evidence-row"><span><strong>Comparable B</strong><small>Similar activities and region; lower testing; waitlisted</small></span><span class="pill p-med">Medium relevance</span></div><div class="evidence-row"><span><strong>Comparable C</strong><small>Stronger awards but different school opportunity context; rejected</small></span><span class="pill p-med">Qualified</span></div></div>
+<div id="notes" class="tab-panel"><textarea style="width:100%;min-height:130px" placeholder="Record the consultant’s interpretation, exceptions, and recommended next steps."></textarea></div>
+<div class="chat"><div class="eyebrow">Guided natural-language inquiry</div><h3 style="color:var(--navy);margin:5px 0 10px">Ask a case question</h3><div class="chat-box"><textarea id="question" placeholder="Example: What is the strongest evidence gap for Maya’s bioengineering application?"></textarea><button id="interpret" class="primary">Interpret question</button></div><div id="interpretation" class="interpret"></div></div>
+</div>
+<div id="roadmap-tool" style="display:none"></div>
+</div></section>
+</section>
+</main>
+</div>
+</div>
+<script>
+const tools = {"1": {"name": "Institution & Program Evaluation", "job": "Evaluate one student–institution–program pairing through separate competitiveness and fit lenses.", "status": "Interactive pilot"}, "2": {"name": "Comparable Applicant & Profile Benchmarking", "job": "Find relevant historical applicants and show how the current student is similar, stronger, weaker, or simply different.", "status": "Prototype"}, "3": {"name": "Essay Concept Strategy Studio", "job": "Help consultants establish an essay concept through topic evidence, topic selection, and meaning or reframing.", "status": "Prototype"}, "4": {"name": "Near-Term Action Prioritizer", "job": "Identify the highest-value improvements that remain realistically achievable before deadlines.", "status": "Roadmap"}, "5": {"name": "Academic & Career Direction Explorer", "job": "Explore academic fields and career pathways that fit the student, using separate major-direction and career-direction modes.", "status": "Roadmap"}, "6": {"name": "Major Strategy Analyzer", "job": "Evaluate how intended or alternate-major choices change competitiveness, school options, and application positioning.", "status": "Roadmap"}, "7": {"name": "Student Evidence & Readiness Profile", "job": "Orient the consultant to the complete case and distinguish missing information from weak evidence.", "status": "Prototype"}, "8": {"name": "College-List Builder", "job": "Construct a balanced school portfolio using competitiveness, fit, major strategy, and family preferences.", "status": "Roadmap"}, "9": {"name": "Application Positioning Planner", "job": "Decide what the application should emphasize for a particular institution, program, or major.", "status": "Roadmap"}, "10": {"name": "Early-Application Strategy Planner", "job": "Evaluate where, whether, and how the student should use ED, EA, or other early-round opportunities.", "status": "Roadmap"}};
+const cards = document.querySelectorAll('.tool-card');
+const active = document.getElementById('active-tool');
+const roadmap = document.getElementById('roadmap-tool');
+cards.forEach(card => card.addEventListener('click', () => {
+  cards.forEach(c => c.classList.remove('active'));
+  card.classList.add('active');
+  const n = Number(card.dataset.tool);
+  if(n === 1) {
+    active.style.display = 'block';
+    roadmap.style.display = 'none';
+  } else {
+    active.style.display = 'none';
+    roadmap.style.display = 'block';
+    const t = tools[n];
+    roadmap.innerHTML = `<div class="tool-title"><div><div class="eyebrow">Survey rank ${n} · ${t.status}</div><h2>${t.name}</h2><p>${t.job}</p></div><span class="status">${t.status}</span></div><div class="roadmap-placeholder"><h3>Product workflow defined; interactive connection pending</h3><p>This card demonstrates the complete ten-tool navigation and product hierarchy. The first vertical slice is Institution & Program Evaluation; subsequent tools will reuse the same evidence, provenance, confidence, and consultant-control patterns.</p></div>`;
+  }
+}));
+document.querySelectorAll('.tab').forEach(tab => tab.addEventListener('click', () => {
+  document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(x => x.classList.remove('active'));
+  tab.classList.add('active');
+  document.getElementById(tab.dataset.tab).classList.add('active');
+}));
+const demo = {
+  "UC San Diego": ["Reach–Competitive", 36, "n=24 audited Ilumin cases · 2022–2025 · selected program context", "The student is academically plausible for the selected context, but program selectivity and incomplete research evidence create meaningful risk."],
+  "UC Berkeley": ["High Reach", 23, "n=18 audited Ilumin cases · 2022–2025 · related major context", "The academic foundation is credible, but the comparison set shows unusually strong research, distinction, and contextual evidence among successful cases."],
+  "Purdue University": ["Competitive", 56, "n=31 audited Ilumin cases · 2021–2025 · engineering context", "The student compares favorably on preparation and commitment; the main open question is the depth and external validation of technical work."],
+  "Carnegie Mellon University": ["High Reach", 18, "n=16 audited Ilumin cases · 2021–2025 · adjacent program context", "The program fit is plausible, but the audited comparison set is small and the strongest prior cases show deeper technical specialization."]
+};
+document.getElementById('run').addEventListener('click', () => {
+  const inst = document.getElementById('institution').value;
+  const d = demo[inst];
+  document.getElementById('band').textContent = d[0];
+  document.getElementById('marker').style.left = d[1] + '%';
+  document.getElementById('cohort').textContent = d[2];
+  document.getElementById('summary').textContent = d[3];
+});
+document.getElementById('interpret').addEventListener('click', () => {
+  const q = document.getElementById('question').value.trim();
+  const box = document.getElementById('interpretation');
+  box.style.display = 'block';
+  if(!q) {
+    box.innerHTML = '<strong>No question entered.</strong> Add a consultant question and the interface will show how it would be routed to a governed workflow.';
+  } else {
+    const clean = q.replace(/[<>]/g,'');
+    box.innerHTML = `<strong>Interpreted intent:</strong> Evidence-gap and positioning review.<br><strong>Proposed workflow:</strong> Student Evidence Profile → Institution & Program Evaluation → Near-Term Action Prioritizer.<br><strong>Question preserved:</strong> “${clean}”`;
+  }
+});
+</script>
+</body>
+</html>
